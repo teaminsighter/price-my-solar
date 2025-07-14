@@ -17,7 +17,7 @@ export function Hero() {
   return (
     <section
       id="get-quotes"
-      className="w-full bg-gradient-to-br from-accent/10 via-background to-primary/10 py-12 md:py-24 lg:py-32"
+      className="relative w-full overflow-hidden bg-gradient-to-br from-accent/10 via-background to-primary/10 py-12 md:py-24 lg:py-32"
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
@@ -42,48 +42,46 @@ export function Hero() {
                 SEANZ Approved Installers
               </span>
             </div>
+            <div className="relative mt-8 hidden h-[450px] w-full max-w-sm lg:block">
+              <Image
+                src="https://storage.googleapis.com/project-spark-341200.appspot.com/users%2F5gD0P2F33vR1rDfaJbpkMrVpM1v1%2Fuploads%2Fimages%2Fhand-holding-phone.png"
+                alt="Hand holding phone with solar quote"
+                fill
+                className="object-contain"
+              />
+            </div>
           </div>
           <div className="flex flex-col justify-center space-y-6">
-            <div className="flex items-start gap-4">
-              <Image
-                src="https://placehold.co/150x200.png"
-                alt="Example solar quote"
-                width={150}
-                height={200}
-                className="hidden rounded-lg shadow-md sm:block"
-                data-ai-hint="document contract"
-              />
-              <Card className="flex-1 bg-accent/20">
-                <CardHeader>
-                  <CardTitle className="text-accent-foreground">
-                    Compare Solar Quotes
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <ul className="space-y-2 text-sm text-accent-foreground/80">
-                    <li className="flex items-start gap-2">
-                      <ArrowRight className="mt-1 h-4 w-4 flex-shrink-0" />
-                      <span>Receive multiple quotes to find the best deal.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <ArrowRight className="mt-1 h-4 w-4 flex-shrink-0" />
-                      <span>We only work with trusted, vetted installers.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <ArrowRight className="mt-1 h-4 w-4 flex-shrink-0" />
-                      <span>Save thousands on your installation and energy bills.</span>
-                    </li>
-                  </ul>
-                  <Button
-                    variant="secondary"
-                    className="w-full rounded-full bg-white text-accent hover:bg-white/90"
-                    asChild
-                  >
-                    <Link href="#costs">Compare & Save</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
+            <Card className="flex-1 bg-accent/20">
+              <CardHeader>
+                <CardTitle className="text-accent-foreground">
+                  Compare Solar Quotes
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <ul className="space-y-2 text-sm text-accent-foreground/80">
+                  <li className="flex items-start gap-2">
+                    <ArrowRight className="mt-1 h-4 w-4 flex-shrink-0" />
+                    <span>Receive multiple quotes to find the best deal.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <ArrowRight className="mt-1 h-4 w-4 flex-shrink-0" />
+                    <span>We only work with trusted, vetted installers.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <ArrowRight className="mt-1 h-4 w-4 flex-shrink-0" />
+                    <span>Save thousands on your installation and energy bills.</span>
+                  </li>
+                </ul>
+                <Button
+                  variant="secondary"
+                  className="w-full rounded-full bg-white text-accent hover:bg-white/90"
+                  asChild
+                >
+                  <Link href="#costs">Compare & Save</Link>
+                </Button>
+              </CardContent>
+            </Card>
             <Card className="shadow-lg">
               <CardContent className="p-6">
                 <form className="space-y-4">
