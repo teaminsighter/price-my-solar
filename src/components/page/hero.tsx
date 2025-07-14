@@ -42,8 +42,8 @@ export function Hero() {
                 SEANZ Approved Installers
               </span>
             </div>
-            <div className="relative mt-8 hidden h-[450px] w-full max-w-sm lg:block">
-              <Image
+             <div className="relative mt-8 hidden h-[450px] w-full max-w-sm lg:block">
+               <Image
                 src="https://storage.googleapis.com/project-spark-341200.appspot.com/users%2F5gD0P2F33vR1rDfaJbpkMrVpM1v1%2Fuploads%2Fimages%2Fhand-holding-phone.png"
                 alt="Hand holding phone with solar quote"
                 fill
