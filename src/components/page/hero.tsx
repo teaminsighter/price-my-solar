@@ -21,44 +21,14 @@ export function Hero() {
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
-          <div className="space-y-6">
+          <div className="flex flex-col justify-center space-y-6">
             <h1 className="text-4xl font-bold tracking-tighter text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
               COMPARE SOLAR QUOTES
             </h1>
             <p className="text-lg text-muted-foreground md:text-xl">
               Quotes from NZ qualified installers for your home or business.
             </p>
-            <Card className="shadow-lg">
-              <CardContent className="p-6">
-                <form className="space-y-4">
-                  <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                    <Input
-                      id="address"
-                      placeholder="Enter your address to start"
-                      className="h-12 pl-10 text-lg"
-                    />
-                  </div>
-                  <RadioGroup defaultValue="residential" className="flex gap-4">
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="residential" id="residential" />
-                      <Label htmlFor="residential">Residential</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="commercial" id="commercial" />
-                      <Label htmlFor="commercial">Commercial</Label>
-                    </div>
-                  </RadioGroup>
-                  <Button type="submit" size="lg" className="w-full rounded-full text-lg">
-                    GET SOLAR QUOTES
-                  </Button>
-                </form>
-                <p className="mt-2 text-center text-xs text-muted-foreground">
-                  We respect your privacy. No spam, ever.
-                </p>
-              </CardContent>
-            </Card>
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground lg:justify-start">
               <span className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-green-500" />
                 100% Free
@@ -114,6 +84,36 @@ export function Hero() {
                 </CardContent>
               </Card>
             </div>
+            <Card className="shadow-lg">
+              <CardContent className="p-6">
+                <form className="space-y-4">
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Input
+                      id="address"
+                      placeholder="Enter your address to start"
+                      className="h-12 pl-10 text-lg"
+                    />
+                  </div>
+                  <RadioGroup defaultValue="residential" className="flex gap-4">
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="residential" id="residential" />
+                      <Label htmlFor="residential">Residential</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="commercial" id="commercial" />
+                      <Label htmlFor="commercial">Commercial</Label>
+                    </div>
+                  </RadioGroup>
+                  <Button type="submit" size="lg" className="w-full rounded-full text-lg">
+                    GET SOLAR QUOTES
+                  </Button>
+                </form>
+                <p className="mt-2 text-center text-xs text-muted-foreground">
+                  We respect your privacy. No spam, ever.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
