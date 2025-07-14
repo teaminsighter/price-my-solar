@@ -2,68 +2,15 @@
 'use client';
 
 import Image from 'next/image';
-import usePlacesAutocomplete, {
-  getGeocode,
-  getLatLng,
-} from 'use-places-autocomplete';
+import usePlacesAutocomplete from 'use-places-autocomplete';
 import { useLoadScript } from '@react-google-maps/api';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 
-// It's recommended to move the API key to environment variables
 const GOOGLE_PLACES_API_KEY = 'AIzaSyCbB2T9z5-peMYY-75oa1kdsJMdAGaKZDo';
-const libraries: ('places' | 'geocoding' | 'routes' | 'drawing' | 'visualization' | 'geometry')[] = ['places'];
-
-
-export function Hero() {
-    const { isLoaded } = useLoadScript({
-        googleMapsApiKey: GOOGLE_PLACES_API_KEY,
-        libraries,
-      });
-    
-      if (!isLoaded) {
-        return (
-            <section
-            id="get-quotes"
-            className="relative w-full overflow-hidden bg-background"
-          >
-            <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-center gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-24">
-                <div className="flex flex-col items-start justify-center space-y-6">
-                    <div className="relative h-40 w-full max-w-sm">
-                        <Image
-                            src="https://storage.googleapis.com/project-spark-341200.appspot.com/users%2F5gD0P2F33vR1rDfaJbpkMrVpM1v1%2Fuploads%2Fimages%2Fss-main-logo.png"
-                            alt="Price My Solar NZ Logo"
-                            layout="fill"
-                            objectFit="contain"
-                            className="object-left"
-                        />
-                    </div>
-                    <p className="max-w-md text-lg text-foreground/80 md:text-xl">
-                        Quotes from NZ qualified installers for your home or business. <br/>
-                        <strong>100% Free, No Obligation, SEANZ Approved.</strong>
-                    </p>
-                    <div className="relative h-20 w-full max-w-xs">
-                         <Image
-                            src="https://storage.googleapis.com/project-spark-341200.appspot.com/users%2F5gD0P2F33vR1rDfaJbpkMrVpM1v1%2Fuploads%2Fimages%2Fss-left-logo.png"
-                            alt="Sustainable Energy Association New Zealand Member"
-                            layout="fill"
-                            objectFit="contain"
-                            className="object-left"
-                        />
-                    </div>
-                </div>
-                <div className="flex items-center justify-center">
-                    <div>Loading...</div>
-                </div>
-              </div>
-          </section>
-        );
-      }
-    
-      return <HeroContent />;
-}
+const libraries: ('places')[] = ['places'];
 
 function HeroContent() {
     const {
@@ -199,4 +146,52 @@ function HeroContent() {
       </div>
     </section>
   );
+}
+
+export function Hero() {
+    const { isLoaded } = useLoadScript({
+        googleMapsApiKey: GOOGLE_PLACES_API_KEY,
+        libraries,
+    });
+
+    if (!isLoaded) {
+        return (
+            <section
+                id="get-quotes"
+                className="relative w-full overflow-hidden bg-background"
+            >
+                <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-center gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-24">
+                    <div className="flex flex-col items-start justify-center space-y-6">
+                        <div className="relative h-40 w-full max-w-sm">
+                            <Image
+                                src="https://storage.googleapis.com/project-spark-341200.appspot.com/users%2F5gD0P2F33vR1rDfaJbpkMrVpM1v1%2Fuploads%2Fimages%2Fss-main-logo.png"
+                                alt="Price My Solar NZ Logo"
+                                layout="fill"
+                                objectFit="contain"
+                                className="object-left"
+                            />
+                        </div>
+                        <p className="max-w-md text-lg text-foreground/80 md:text-xl">
+                            Quotes from NZ qualified installers for your home or business. <br/>
+                            <strong>100% Free, No Obligation, SEANZ Approved.</strong>
+                        </p>
+                        <div className="relative h-20 w-full max-w-xs">
+                             <Image
+                                src="https://storage.googleapis.com/project-spark-341200.appspot.com/users%2F5gD0P2F33vR1rDfaJbpkMrVpM1v1%2Fuploads%2Fimages%2Fss-left-logo.png"
+                                alt="Sustainable Energy Association New Zealand Member"
+                                layout="fill"
+                                objectFit="contain"
+                                className="object-left"
+                            />
+                        </div>
+                    </div>
+                    <div className="flex items-center justify-center">
+                        <div className="text-center">Loading Address Search...</div>
+                    </div>
+                  </div>
+              </section>
+        );
+    }
+    
+    return <HeroContent />;
 }
