@@ -1,115 +1,82 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  MapPin,
-  ChevronDown,
-  CheckCircle2,
-  ArrowRight,
-} from 'lucide-react';
+import { MapPin } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 export function Hero() {
   return (
     <section
       id="get-quotes"
-      className="relative w-full overflow-hidden bg-gradient-to-br from-accent/10 via-background to-primary/10 py-12 md:py-24 lg:py-32"
+      className="relative w-full overflow-hidden bg-gradient-to-br from-cyan-50/50 via-background to-amber-50/50"
     >
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
-          <div className="flex flex-col justify-center space-y-6">
-            <h1 className="text-4xl font-bold tracking-tighter text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
-              COMPARE SOLAR QUOTES
-            </h1>
-            <p className="text-lg text-muted-foreground md:text-xl">
-              Quotes from NZ qualified installers for your home or business.
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground lg:justify-start">
-              <span className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-green-500" />
-                100% Free
-              </span>
-              <span className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-green-500" />
-                No Obligation
-              </span>
-              <span className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-green-500" />
-                SEANZ Approved Installers
-              </span>
-            </div>
-             <div className="relative mt-8 hidden h-[450px] w-full max-w-sm lg:block">
-               <Image
-                src="https://storage.googleapis.com/project-spark-341200.appspot.com/users%2F5gD0P2F33vR1rDfaJbpkMrVpM1v1%2Fuploads%2Fimages%2Fhand-holding-phone.png"
-                alt="Hand holding phone with solar quote"
-                fill
-                className="object-contain"
-              />
-            </div>
+      <Image
+        src="https://placehold.co/1920x1080.png"
+        alt="House with solar panels"
+        layout="fill"
+        objectFit="cover"
+        className="absolute inset-0 z-0 opacity-20"
+        data-ai-hint="house solar panel"
+      />
+      <div className="container relative z-10 mx-auto px-4 py-16 md:px-6 lg:py-24">
+        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
+          <div className="relative hidden h-[500px] w-full lg:block">
+            <Image
+              src="https://storage.googleapis.com/project-spark-341200.appspot.com/users%2F5gD0P2F33vR1rDfaJbpkMrVpM1v1%2Fuploads%2Fimages%2Fhand-holding-phone.png"
+              alt="Hand holding phone with solar quote"
+              fill
+              className="object-contain"
+            />
           </div>
-          <div className="flex flex-col justify-center space-y-6">
-            <Card className="flex-1 bg-accent/20">
-              <CardHeader>
-                <CardTitle className="text-accent-foreground">
-                  Compare Solar Quotes
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <ul className="space-y-2 text-sm text-accent-foreground/80">
-                  <li className="flex items-start gap-2">
-                    <ArrowRight className="mt-1 h-4 w-4 flex-shrink-0" />
-                    <span>Receive multiple quotes to find the best deal.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <ArrowRight className="mt-1 h-4 w-4 flex-shrink-0" />
-                    <span>We only work with trusted, vetted installers.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <ArrowRight className="mt-1 h-4 w-4 flex-shrink-0" />
-                    <span>Save thousands on your installation and energy bills.</span>
-                  </li>
-                </ul>
-                <Button
-                  variant="secondary"
-                  className="w-full rounded-full bg-white text-accent hover:bg-white/90"
-                  asChild
-                >
-                  <Link href="#costs">Compare & Save</Link>
-                </Button>
-              </CardContent>
-            </Card>
-            <Card className="shadow-lg">
-              <CardContent className="p-6">
-                <form className="space-y-4">
-                  <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                    <Input
-                      id="address"
-                      placeholder="Enter your address to start"
-                      className="h-12 pl-10 text-lg"
-                    />
-                  </div>
-                  <RadioGroup defaultValue="residential" className="flex gap-4">
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="residential" id="residential" />
-                      <Label htmlFor="residential">Residential</Label>
+          <div className="flex items-center justify-center">
+            <Card className="w-full max-w-md bg-card/90 p-4 shadow-2xl backdrop-blur-sm">
+              <CardContent className="flex flex-col items-center p-6 text-center">
+                <div className="bg-primary p-4 text-center text-primary-foreground">
+                  <h2 className="text-3xl font-bold uppercase tracking-tight sm:text-4xl">
+                    COMPARE
+                  </h2>
+                  <h2 className="text-3xl font-bold uppercase tracking-tight sm:text-4xl">
+                    Solar Quotes
+                  </h2>
+                </div>
+                <div className="w-full bg-slate-100 p-6">
+                  <p className="font-semibold text-accent">
+                    Installation Costs & Power Savings
+                  </p>
+                  <h3 className="mb-4 text-2xl font-bold text-secondary">
+                    COMPARE & SAVE
+                  </h3>
+                  <form className="space-y-4">
+                    <div className="relative">
+                      <Input
+                        id="address"
+                        placeholder="Start typing your address"
+                        className="h-12 w-full text-center text-base"
+                      />
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="commercial" id="commercial" />
-                      <Label htmlFor="commercial">Commercial</Label>
-                    </div>
-                  </RadioGroup>
-                  <Button type="submit" size="lg" className="w-full rounded-full text-lg">
-                    GET SOLAR QUOTES
-                  </Button>
-                </form>
-                <p className="mt-2 text-center text-xs text-muted-foreground">
-                  We respect your privacy. No spam, ever.
-                </p>
+                    <p className="text-sm font-semibold text-accent">
+                      Once your address shows; <br /> SELECT your installation
+                      type
+                    </p>
+                    <Button
+                      type="submit"
+                      size="lg"
+                      className="w-full rounded-none bg-primary text-lg font-bold hover:bg-primary/90"
+                    >
+                      RESIDENTIAL SOLAR
+                    </Button>
+                    <Button
+                      type="submit"
+                      variant="outline"
+                      size="lg"
+                      className="w-full rounded-none border-accent bg-transparent text-lg font-bold text-accent hover:bg-accent/10"
+                    >
+                      COMMERCIAL SOLAR
+                    </Button>
+                  </form>
+                </div>
               </CardContent>
             </Card>
           </div>
