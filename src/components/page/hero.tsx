@@ -12,12 +12,7 @@ import { Input } from '@/components/ui/input';
 const GOOGLE_PLACES_API_KEY = 'AIzaSyCbB2T9z5-peMYY-75oa1kdsJMdAGaKZDo';
 const libraries: ('places')[] = ['places'];
 
-export function Hero() {
-    const { isLoaded } = useLoadScript({
-        googleMapsApiKey: GOOGLE_PLACES_API_KEY,
-        libraries,
-    });
-
+function HeroContent() {
     const {
         ready,
         value,
@@ -29,7 +24,6 @@ export function Hero() {
             componentRestrictions: { country: 'nz' },
         },
         debounce: 300,
-        disabled: !isLoaded,
     });
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,4 +145,18 @@ export function Hero() {
       </div>
     </section>
   );
+}
+
+export function Hero() {
+    const { isLoaded } = useLoadScript({
+        googleMapsApiKey: GOOGLE_PLACES_API_KEY,
+        libraries,
+    });
+
+    if (!isLoaded) {
+        // You can return a loading spinner or a skeleton component here
+        return <div>Loading...</div>;
+    }
+
+    return <HeroContent />;
 }
