@@ -1,0 +1,37 @@
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+
+export function RoiSection() {
+  return (
+    <section id="roi" className="w-full bg-card py-12 md:py-20 lg:py-24">
+      <div className="container mx-auto grid grid-cols-1 items-center gap-8 px-4 md:grid-cols-2 md:px-6 lg:gap-12">
+        <div className="space-y-6">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            Return on Investment (ROI)
+          </h2>
+          <p className="text-muted-foreground md:text-lg">
+            A typical NZ solar system pays for itself in around 7–8 years, while the panels and inverters often last 25 years or more. Solar is a long-term investment in free power, not just a one-time cost.
+          </p>
+          <div className="space-y-4">
+            <Button size="lg" className="rounded-full" asChild>
+                <Link href="#get-quotes">Estimate Solar Savings</Link>
+            </Button>
+            <p className="text-sm text-muted-foreground">
+                <Link href="#get-quotes" className="underline">Get a tailored ROI estimate for your address.</Link>
+            </p>
+          </div>
+        </div>
+        <div className="relative h-80 w-full">
+            <Image
+                src="https://placehold.co/600x400.png"
+                alt="Hand holding a house with solar panels"
+                fill
+                className="rounded-lg object-contain"
+                data-ai-hint="investment growth"
+            />
+        </div>
+      </div>
+    </section>
+  );
+}
