@@ -134,8 +134,8 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
           <div className={contentClasses}>
             <div className="flex flex-col gap-8 pt-4">
                 <div className="flex-grow space-y-4">
-                    <div className="relative mx-auto w-40 text-center text-4xl font-bold text-primary">
-                        <span className="absolute -left-4 top-1/2 -translate-y-1/2 z-0 opacity-50">$</span>
+                    <div className="flex items-center justify-center text-4xl font-bold text-primary">
+                        <span className="text-primary/50">$</span>
                         <Input
                             type="number"
                             value={value}
@@ -145,7 +145,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                                 if (numValue > currentStepInfo.max!) numValue = currentStepInfo.max!;
                                 setFormData({ ...formData, monthlyBill: numValue })
                             }}
-                            className="w-full bg-transparent text-center font-bold text-4xl text-primary border-0 shadow-none focus-visible:ring-0 p-0"
+                            className="w-40 bg-transparent text-center font-bold text-4xl text-primary border-0 shadow-none focus-visible:ring-0 p-0"
                         />
                     </div>
                     <Slider
@@ -170,7 +170,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
             <div className={contentClasses}>
                 <div className="flex flex-col gap-8 pt-4">
                     <div className="flex-grow space-y-4">
-                        <div className="relative mx-auto w-28 text-center text-4xl font-bold text-primary">
+                        <div className="flex items-center justify-center text-4xl font-bold text-primary">
                             <Input
                                 type="number"
                                 value={value}
@@ -180,9 +180,9 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                                     if (numValue > currentStepInfo.max!) numValue = currentStepInfo.max!;
                                     setFormData({ ...formData, householdSize: numValue })
                                 }}
-                                className="w-full bg-transparent text-center font-bold text-4xl text-primary border-0 shadow-none focus-visible:ring-0 p-0"
+                                className="w-28 bg-transparent text-center font-bold text-4xl text-primary border-0 shadow-none focus-visible:ring-0 p-0"
                             />
-                            { value === currentStepInfo.max! && <span className="absolute right-0 top-1/2 -translate-y-1/2">+</span> }
+                            { value === currentStepInfo.max! && <span className="text-primary/50">+</span> }
                         </div>
                         <Slider
                             value={[value]}
