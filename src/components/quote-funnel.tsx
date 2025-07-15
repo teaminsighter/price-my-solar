@@ -129,8 +129,8 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
           <div className={contentClasses}>
             <div className="flex flex-col gap-8 pt-4">
                 <div className="flex-grow space-y-4">
-                    <div className="flex items-baseline justify-center font-bold text-primary">
-                        <span className="text-5xl">$</span>
+                    <div className="flex items-baseline justify-center text-5xl font-bold text-primary">
+                        <span>$</span>
                         <Input
                             type="number"
                             value={value}
@@ -140,7 +140,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                                 if (numValue > currentStepInfo.max!) numValue = currentStepInfo.max!;
                                 setFormData({ ...formData, monthlyBill: numValue })
                             }}
-                            className="w-auto bg-transparent text-center font-bold text-5xl text-primary border-0 shadow-none focus-visible:ring-0 p-0"
+                            className="w-auto border-0 bg-transparent p-0 text-center text-5xl font-bold text-primary shadow-none focus-visible:ring-0"
                             style={{width: `${value.toString().length + 1}ch`}}
                         />
                     </div>
@@ -166,7 +166,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
             <div className={contentClasses}>
                 <div className="flex flex-col gap-8 pt-4">
                     <div className="flex-grow space-y-4">
-                        <div className="flex items-baseline justify-center font-bold text-primary">
+                        <div className="flex items-baseline justify-center text-5xl font-bold text-primary">
                             <Input
                                 type="number"
                                 value={value}
@@ -176,7 +176,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                                     if (numValue > currentStepInfo.max!) numValue = currentStepInfo.max!;
                                     setFormData({ ...formData, householdSize: numValue })
                                 }}
-                                className="w-auto bg-transparent text-center font-bold text-5xl text-primary border-0 shadow-none focus-visible:ring-0 p-0"
+                                className="w-auto border-0 bg-transparent p-0 text-center text-5xl font-bold text-primary shadow-none focus-visible:ring-0"
                                 style={{width: `${value.toString().length + 1}ch`}}
                             />
                             { value === currentStepInfo.max! && <span className="text-5xl">+</span> }
