@@ -9,6 +9,9 @@ import { ArrowLeft, Check, Sun, Zap, Percent } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { Slider } from '@/components/ui/slider';
 import { Input } from './ui/input';
+import { saveQuoteToFirestore } from '@/app/actions';
+import { useToast } from "@/hooks/use-toast";
+
 
 // Data structure for the entire funnel
 export type QuoteData = {
@@ -76,6 +79,8 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   const [stepIndex, setStepIndex] = useState(0);
   const [formData, setFormData] = useState<QuoteData>({ ...initialData });
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
   const visibleSteps = useMemo(() => funnelSteps.filter(step => !step.condition || step.condition(formData)), [formData]);
   
@@ -116,7 +121,6 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
         setStepIndex(s => s + 1);
       } else {
         console.log('Funnel complete:', formData);
-        onExit();
       }
     });
   };
@@ -136,9 +140,25 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
     handleNext();
   };
   
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    handleNext();
+    if (currentStepInfo.id === 'contactInfo') {
+        setIsSubmitting(true);
+        const result = await saveQuoteToFirestore(formData);
+        setIsSubmitting(false);
+
+        if (result.success) {
+            handleNext();
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Submission Error",
+                description: "There was a problem saving your quote. Please try again.",
+            });
+        }
+    } else {
+        handleNext();
+    }
   }
 
   const renderStepContent = () => {
@@ -155,7 +175,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
 
     const { id, type, options, min, max, step } = currentStepInfo;
 
-    if (type === undefined || type === 'select') {
+    if (type === undefined || id === 'region') {
       if (options) { // Buttons for options
           return (
             <div className={`flex flex-col gap-4 text-center ${contentClasses}`}>
@@ -179,7 +199,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
               </div>
             </div>
           );
-      } else if (type === 'select') { // Region select
+      } else if (id === 'region') { // Region select
           const islandRegions = regions[formData.island as keyof typeof regions] || [];
            return (
             <div className={`flex flex-col gap-4 text-center ${contentClasses}`}>
@@ -342,7 +362,9 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                 required
               />
               <div className="mt-6 flex items-center justify-center">
-                  <Button size="lg" type="submit">Get My Quote</Button>
+                  <Button size="lg" type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? 'Submitting...' : 'Get My Quote'}
+                  </Button>
               </div>
             </form>
           </div>
@@ -372,28 +394,27 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
 
   return (
     <section className="w-full bg-slate-50 py-12 md:py-20 lg:py-24 min-h-[80vh] flex flex-col items-center justify-start">
-        <div className="container mx-auto px-4 md:px-6 w-full">
-            <div className="w-full max-w-4xl mx-auto">
-                <div className="relative mb-2">
-                    <Progress value={progress} className="h-3" />
-                    <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-primary-foreground">
-                        {progress}%
-                    </span>
-                </div>
-                <p className="text-center text-sm text-muted-foreground mb-8">Step {stepIndex + 1} of {totalSteps}</p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start w-full">
-                <div className="hidden md:block md:col-span-1">
-                    <div className="bg-gray-200 rounded-lg p-8 h-full sticky top-24">
-                        <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
-                            <p className="font-bold">NZ QUALIFIED INSTALLERS</p>
-                            <div className="w-full h-px bg-gray-300 my-4"></div>
-                            <p>Image Area</p>
-                        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full items-start">
+            <div className="hidden md:flex justify-center items-start h-full">
+                <div className="bg-gray-200 rounded-lg p-8 h-full sticky top-24 w-80">
+                    <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
+                        <p className="font-bold">NZ QUALIFIED INSTALLERS</p>
+                        <div className="w-full h-px bg-gray-300 my-4"></div>
+                        <p>Image Area</p>
                     </div>
                 </div>
-                <div className="md:col-span-2">
+            </div>
+            
+            <div className="md:col-span-2 flex justify-start">
+                 <div className="w-full max-w-2xl px-4 md:px-0">
+                    <div className="relative mb-2">
+                        <Progress value={progress} className="h-3" />
+                        <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-primary-foreground">
+                            {progress}%
+                        </span>
+                    </div>
+                    <p className="text-center text-sm text-muted-foreground mb-8">Step {stepIndex + 1} of {totalSteps}</p>
+
                     <Card className="w-full shadow-none border-0 bg-transparent min-h-[400px]">
                       <CardContent className="flex flex-col justify-center p-2 md:p-6 h-full">
                          {renderStepContent()}
@@ -412,5 +433,3 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
     </section>
   );
 }
-
-    
