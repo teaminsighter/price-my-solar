@@ -24,7 +24,6 @@ export type QuoteData = {
   region?: string;
   gridSellBackInterest?: 'Yes' | 'Like to know more' | 'No';
   changePowerCompanyInterest?: 'Yes' | 'Like to know more' | 'No';
-  confirmPowerCompanySwitch?: 'Yes' | 'Like to know more' | 'No';
   savingsPercent?: number;
   firstName?: string;
   lastName?: string;
@@ -55,9 +54,8 @@ const funnelSteps = [
   { id: 'region', title: 'What region is your property in?', type: 'select', required: true, condition: (data: QuoteData) => !!data.island },
   { id: 'gridSellBackInterest', title: 'Would you consider selling solar power back to the grid?', options: ['Yes', 'Like to know more', 'No'], required: true },
   { id: 'changePowerCompanyInterest', title: 'Would you change power companies to earn more credits?', options: ['Yes', 'Like to know more', 'No'], required: true, condition: (data: QuoteData) => data.gridSellBackInterest !== 'No' },
-  { id: 'confirmPowerCompanySwitch', title: 'Would you swap power companies to earn more credits?', options: ['Yes', 'Like to know more', 'No'], required: true, condition: (data: QuoteData) => data.changePowerCompanyInterest !== 'No' },
-  { id: 'loadingSavings', title: 'Calculating your potential savings...', type: 'animation', duration: 3000, condition: (data: QuoteData) => data.confirmPowerCompanySwitch !== 'No' && data.changePowerCompanyInterest !== 'No' && data.gridSellBackInterest !== 'No'},
-  { id: 'summary', title: 'Just a moment...', type: 'summary', condition: (data: QuoteData) => data.gridSellBackInterest === 'No' || data.changePowerCompanyInterest === 'No' || data.confirmPowerCompanySwitch === 'No' },
+  { id: 'loadingSavings', title: 'Calculating your potential savings...', type: 'animation', duration: 3000, condition: (data: QuoteData) => data.changePowerCompanyInterest !== 'No' && data.gridSellBackInterest !== 'No'},
+  { id: 'summary', title: 'Just a moment...', type: 'summary', condition: (data: QuoteData) => data.gridSellBackInterest === 'No' || data.changePowerCompanyInterest === 'No' },
   { id: 'savingsCalculation', title: 'Potential Bill Reduction', type: 'calculation' },
   { id: 'costCalculation', title: "Let's work out the costs for Solar at your address", type: 'transition' },
   { id: 'firstName', title: 'What is your first name?', type: 'text', required: true },
@@ -161,16 +159,16 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
       if (options) { // Buttons for options
           return (
             <div className={`flex flex-col gap-4 text-center ${contentClasses}`}>
-              <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
+              <CardTitle className="text-xl font-bold tracking-tight sm:text-2xl">
                 {currentStepInfo.title.replace('[address]', formData.address)}
               </CardTitle>
               <div className="flex flex-col gap-3 pt-4">
-                <div className="grid flex-grow grid-cols-1 gap-3 sm:grid-cols-2">
+                <div className="grid flex-grow grid-cols-1 gap-2 sm:grid-cols-2">
                   {options.map(option => (
                     <Button
                       key={option}
                       variant={formData[id as keyof QuoteData] === option ? 'default' : 'outline'}
-                      className="h-auto p-3 text-xs md:text-sm transition-transform hover:scale-105"
+                      className="h-auto p-2 text-xs transition-transform hover:scale-105"
                       onClick={() => handleSelectAndNext(id as keyof QuoteData, option)}
                     >
                       {option}
@@ -184,16 +182,16 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
           const islandRegions = regions[formData.island as keyof typeof regions] || [];
            return (
             <div className={`flex flex-col gap-4 text-center ${contentClasses}`}>
-              <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
+              <CardTitle className="text-xl font-bold tracking-tight sm:text-2xl">
                 {currentStepInfo.title.replace('[address]', formData.address)}
               </CardTitle>
               <div className="flex flex-col gap-3 pt-4">
-                <div className="grid flex-grow grid-cols-2 gap-3 md:grid-cols-3">
+                <div className="grid flex-grow grid-cols-2 gap-2 md:grid-cols-3">
                   {islandRegions.map(region => (
                     <Button
                       key={region}
                       variant={formData.region === region ? 'default' : 'outline'}
-                      className="h-auto p-3 text-xs md:text-sm transition-transform hover:scale-105"
+                      className="h-auto p-2 text-xs transition-transform hover:scale-105"
                       onClick={() => handleSelectAndNext('region', region)}
                     >
                       {region}
@@ -215,31 +213,30 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
             if (numValue > max!) numValue = max!;
             setFormData({ ...formData, [id]: numValue });
         };
-
-        const householdLabels = Array.from({ length: max! }, (_, i) => i + 1);
+        const householdLabels = id === 'householdSize' ? Array.from({ length: max! }, (_, i) => i + 1) : null;
 
         return (
           <div className={`flex flex-col gap-8 text-center pt-4 ${contentClasses}`}>
-            <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
+            <CardTitle className="text-xl font-bold tracking-tight sm:text-2xl">
               {currentStepInfo.title.replace('[address]', formData.address)}
             </CardTitle>
 
             <div className="flex w-full items-center justify-center">
               <div className="flex w-full flex-col items-center justify-center gap-4">
-                <div className="flex items-baseline justify-center font-bold text-primary">
-                  {id === 'monthlyBill' && <span className="text-5xl">$</span>}
+                 <div className="flex items-baseline justify-center font-bold text-primary text-5xl">
+                  {id === 'monthlyBill' && <span>$</span>}
                    <Input
                     type="number"
                     value={value}
                     onChange={handleInputChange}
-                    className="w-auto border-0 bg-transparent p-0 text-center text-5xl font-bold text-primary shadow-none focus-visible:ring-0"
+                    className="h-auto w-auto border-0 bg-transparent p-0 text-center font-bold text-primary shadow-none focus-visible:ring-0 text-5xl"
                     style={{width: `${String(value).length + 1}ch`}}
                   />
-                  {id === 'monthlyBill' && <span className="text-3xl font-normal">/mo</span>}
+                  {id === 'monthlyBill' && <span className="text-3xl font-normal self-end">/mo</span>}
                 </div>
                 <div className="w-full max-w-sm">
                   <Slider value={[value]} onValueChange={([val]) => setFormData({ ...formData, [id]: val })} min={min} max={max} step={step} />
-                  {id === 'householdSize' && (
+                  {householdLabels && (
                     <div className="mt-2 flex justify-between text-xs text-muted-foreground">
                         {householdLabels.map(label => (
                             <span key={label} className={`w-1/10 text-center ${value === label ? 'font-bold text-primary' : ''}`}>
@@ -299,7 +296,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
       case 'tel':
           return (
             <div className={`flex flex-col gap-4 text-center ${contentClasses}`}>
-              <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
+              <CardTitle className="text-xl font-bold tracking-tight sm:text-2xl">
                 {currentStepInfo.title.replace('[address]', formData.address)}
               </CardTitle>
               <form onSubmit={handleFormSubmit} className="flex flex-col gap-4 pt-4">
@@ -320,7 +317,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
       case 'contact':
         return (
           <div className={`flex flex-col gap-4 text-center ${contentClasses}`}>
-            <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
+            <CardTitle className="text-xl font-bold tracking-tight sm:text-2xl">
                 {currentStepInfo.title.replace('[address]', formData.address)}
             </CardTitle>
             <form onSubmit={handleFormSubmit} className="flex flex-col gap-4 pt-4">
@@ -369,7 +366,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
 
   return (
     <section className="w-full bg-slate-50 py-12 md:py-20 lg:py-24 min-h-[80vh] flex flex-col items-center justify-center">
-        <div className="container mx-auto px-4 md:px-6 w-full max-w-5xl">
+        <div className="container mx-auto px-4 md:px-6 w-full max-w-4xl">
              <div className="relative mb-4">
                 <Progress value={progress} className="h-3" />
                 <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-primary-foreground">
