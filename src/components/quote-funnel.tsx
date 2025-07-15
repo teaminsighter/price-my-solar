@@ -170,7 +170,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                     <Button
                       key={option}
                       variant={formData[id as keyof QuoteData] === option ? 'default' : 'outline'}
-                      className="h-auto p-4 text-sm transition-transform hover:scale-105"
+                      className="h-auto p-3 text-xs md:text-sm transition-transform hover:scale-105"
                       onClick={() => handleSelectAndNext(id as keyof QuoteData, option)}
                     >
                       {option}
@@ -208,23 +208,50 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
 
     if (type === 'slider') {
         const value = formData[id as keyof QuoteData] as number || min!;
-        const labels = Array.from({ length: max! }, (_, i) => i + 1);
+        const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            let numValue = parseInt(e.target.value, 10);
+            if (isNaN(numValue)) numValue = min!;
+            if (numValue < min!) numValue = min!;
+            if (numValue > max!) numValue = max!;
+            setFormData({ ...formData, [id]: numValue });
+        };
+
+        const householdLabels = Array.from({ length: max! }, (_, i) => i + 1);
 
         return (
           <div className={`flex flex-col gap-8 text-center pt-4 ${contentClasses}`}>
             <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
               {currentStepInfo.title.replace('[address]', formData.address)}
             </CardTitle>
-            <div className="flex-grow space-y-4 px-4">
-              <Slider value={[value]} onValueChange={([val]) => setFormData({ ...formData, [id]: val })} min={min} max={max} step={step} />
-              <div className="flex justify-between text-xs text-muted-foreground">
-                {labels.map(label => (
-                  <span key={label} className={`w-1/10 text-center ${value === label ? 'font-bold text-primary' : ''}`}>
-                    {label}{label === max! ? '+' : ''}
-                  </span>
-                ))}
+
+            <div className="flex w-full items-center justify-center">
+              <div className="flex w-full flex-col items-center justify-center gap-4">
+                <div className="flex items-baseline justify-center font-bold text-primary">
+                  {id === 'monthlyBill' && <span className="text-5xl">$</span>}
+                   <Input
+                    type="number"
+                    value={value}
+                    onChange={handleInputChange}
+                    className="w-auto border-0 bg-transparent p-0 text-center text-5xl font-bold text-primary shadow-none focus-visible:ring-0"
+                    style={{width: `${String(value).length + 1}ch`}}
+                  />
+                  {id === 'monthlyBill' && <span className="text-3xl font-normal">/mo</span>}
+                </div>
+                <div className="w-full max-w-sm">
+                  <Slider value={[value]} onValueChange={([val]) => setFormData({ ...formData, [id]: val })} min={min} max={max} step={step} />
+                  {id === 'householdSize' && (
+                    <div className="mt-2 flex justify-between text-xs text-muted-foreground">
+                        {householdLabels.map(label => (
+                            <span key={label} className={`w-1/10 text-center ${value === label ? 'font-bold text-primary' : ''}`}>
+                                {label}{label === max! ? '+' : ''}
+                            </span>
+                        ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
+
             <div className="mt-6 flex items-center justify-center">
               <Button size="lg" onClick={handleNext}>Next</Button>
             </div>
@@ -342,13 +369,14 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
 
   return (
     <section className="w-full bg-slate-50 py-12 md:py-20 lg:py-24 min-h-[80vh] flex flex-col items-center justify-center">
-        <div className="container mx-auto px-4 md:px-6 w-full">
-            <div className="relative mb-4">
+        <div className="container mx-auto px-4 md:px-6 w-full max-w-5xl">
+             <div className="relative mb-4">
                 <Progress value={progress} className="h-3" />
                 <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-primary-foreground">
                     {progress}%
                 </span>
             </div>
+            <p className="text-center text-sm text-muted-foreground mb-4">Step {stepIndex + 1} of {totalSteps}</p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
                 <div className="hidden md:block md:col-span-1 bg-gray-200 rounded-lg p-8 h-full">
                     {/* This is the placeholder for the left-side image. */}
@@ -359,8 +387,8 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                     </div>
                 </div>
                 <div className="md:col-span-2">
-                    <Card className="w-full shadow-none border-0 bg-transparent">
-                      <CardContent className="min-h-[400px] flex flex-col justify-center p-2 md:p-6">
+                    <Card className="w-full shadow-none border-0 bg-transparent min-h-[400px]">
+                      <CardContent className="flex flex-col justify-center p-2 md:p-6 h-full">
                          {renderStepContent()}
                       </CardContent>
                     </Card>
@@ -377,5 +405,3 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
     </section>
   );
 }
-
-    
