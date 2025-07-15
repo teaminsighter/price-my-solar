@@ -12,7 +12,6 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import type { QuoteData } from '@/components/quote-funnel';
 
-const GOOGLE_PLACES_API_KEY = 'AIzaSyCbB2T9z5-peMYY-75oa1kdsJMdAGaKZDo';
 const libraries: ('places')[] = ['places'];
 
 type HeroProps = {
@@ -20,10 +19,20 @@ type HeroProps = {
 };
 
 export function Hero({ onStartFunnel }: HeroProps) {
-    const { isLoaded } = useLoadScript({
-        googleMapsApiKey: GOOGLE_PLACES_API_KEY,
+    const { isLoaded, loadError } = useLoadScript({
+        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY || '',
         libraries,
     });
+
+    if (loadError) {
+        return (
+             <section id="get-quotes" className="relative w-full overflow-hidden bg-background">
+             <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-center justify-center">
+                <div>Error loading maps. Please check the API key.</div>
+             </div>
+          </section>
+        )
+    }
 
     if (!isLoaded) {
         return (
