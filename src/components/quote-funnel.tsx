@@ -132,10 +132,10 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
         const value = formData.monthlyBill ?? currentStepInfo.min!;
         return (
           <div className={contentClasses}>
-            <div className="flex flex-col gap-4 pt-4">
-                <div className="flex-grow space-y-6">
-                    <div className="relative text-center text-4xl font-bold text-primary">
-                        <span className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 -z-10 opacity-50">$</span>
+            <div className="flex flex-col gap-8 pt-4">
+                <div className="flex-grow space-y-4">
+                    <div className="relative mx-auto w-40 text-center text-4xl font-bold text-primary">
+                        <span className="absolute -left-4 top-1/2 -translate-y-1/2 z-0 opacity-50">$</span>
                         <Input
                             type="number"
                             value={value}
@@ -145,7 +145,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                                 if (numValue > currentStepInfo.max!) numValue = currentStepInfo.max!;
                                 setFormData({ ...formData, monthlyBill: numValue })
                             }}
-                            className="w-40 mx-auto text-center font-bold text-4xl text-primary bg-transparent border-0 shadow-none focus-visible:ring-0 p-0"
+                            className="w-full bg-transparent text-center font-bold text-4xl text-primary border-0 shadow-none focus-visible:ring-0 p-0"
                         />
                     </div>
                     <Slider
@@ -168,29 +168,29 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
         const value = formData.householdSize ?? currentStepInfo.min!;
         return (
             <div className={contentClasses}>
-                <div className="flex flex-col gap-4 pt-4">
-                    <div className="flex-grow space-y-6">
-                    <div className="relative text-center text-4xl font-bold text-primary">
-                        <Input
-                            type="number"
-                            value={value}
-                            onChange={(e) => {
-                                let numValue = parseInt(e.target.value, 10);
-                                if (isNaN(numValue)) numValue = currentStepInfo.min!;
-                                if (numValue > currentStepInfo.max!) numValue = currentStepInfo.max!;
-                                setFormData({ ...formData, householdSize: numValue })
-                            }}
-                             className="w-28 mx-auto text-center font-bold text-4xl text-primary bg-transparent border-0 shadow-none focus-visible:ring-0 p-0"
+                <div className="flex flex-col gap-8 pt-4">
+                    <div className="flex-grow space-y-4">
+                        <div className="relative mx-auto w-28 text-center text-4xl font-bold text-primary">
+                            <Input
+                                type="number"
+                                value={value}
+                                onChange={(e) => {
+                                    let numValue = parseInt(e.target.value, 10);
+                                    if (isNaN(numValue)) numValue = currentStepInfo.min!;
+                                    if (numValue > currentStepInfo.max!) numValue = currentStepInfo.max!;
+                                    setFormData({ ...formData, householdSize: numValue })
+                                }}
+                                className="w-full bg-transparent text-center font-bold text-4xl text-primary border-0 shadow-none focus-visible:ring-0 p-0"
+                            />
+                            { value === currentStepInfo.max! && <span className="absolute right-0 top-1/2 -translate-y-1/2">+</span> }
+                        </div>
+                        <Slider
+                            value={[value]}
+                            onValueChange={([val]) => setFormData({ ...formData, householdSize: val })}
+                            min={currentStepInfo.min}
+                            max={currentStepInfo.max}
+                            step={currentStepInfo.step}
                         />
-                        { value === currentStepInfo.max! && <span className="absolute right-1/2 translate-x-12 top-1/2 -translate-y-1/2">+</span> }
-                    </div>
-                    <Slider
-                        value={[value]}
-                        onValueChange={([val]) => setFormData({ ...formData, householdSize: val })}
-                        min={currentStepInfo.min}
-                        max={currentStepInfo.max}
-                        step={currentStepInfo.step}
-                    />
                     </div>
                     <div className="mt-6 flex items-center justify-between">
                         {renderBackButton()}
