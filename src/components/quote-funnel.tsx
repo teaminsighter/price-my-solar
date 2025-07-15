@@ -110,7 +110,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                     <Button
                         key={option}
                         variant={formData[currentStepInfo.id as keyof QuoteData] === option ? 'default' : 'outline'}
-                        className="h-auto p-3 text-sm transition-transform hover:scale-105"
+                        className="h-auto p-4 text-sm transition-transform hover:scale-105"
                         onClick={() => handleSelectAndNext(currentStepInfo.id as keyof QuoteData, option)}
                     >
                         {option}
