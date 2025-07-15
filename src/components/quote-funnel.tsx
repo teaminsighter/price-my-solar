@@ -255,9 +255,9 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   };
 
   return (
-    <section className="w-full bg-slate-100 py-12 md:py-20 lg:py-24 min-h-[60vh]">
+    <section className="w-full bg-slate-100 py-12 md:py-20 lg:py-24 min-h-[60vh] flex items-center">
       <div className="container mx-auto px-4 md:px-6">
-        <Card className="mx-auto max-w-2xl shadow-lg rounded-xl">
+        <Card className="mx-auto max-w-lg shadow-lg rounded-xl">
           <CardHeader className="text-center relative p-6">
              {step < totalSteps -1 && (
                 <div className="w-full px-6 absolute top-6 left-0">
@@ -268,7 +268,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
               {currentStepInfo.title}
             </CardTitle>
           </CardHeader>
-          <CardContent className="min-h-[300px] flex flex-col justify-center p-6">
+          <CardContent className="min-h-[250px] flex flex-col justify-center p-6">
              {renderStepContent()}
           </CardContent>
         </Card>
