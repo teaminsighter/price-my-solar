@@ -224,13 +224,13 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
             <div className="flex w-full items-center justify-center">
               <div className="flex w-full flex-col items-center justify-center gap-4">
                  <div className="flex items-baseline justify-center font-bold text-primary text-5xl">
-                  {id === 'monthlyBill' && <span>$</span>}
+                  {id === 'monthlyBill' && <span className="text-5xl">$</span>}
                    <Input
                     type="number"
                     value={value}
                     onChange={handleInputChange}
-                    className="h-auto w-auto border-0 bg-transparent p-0 text-center font-bold text-primary shadow-none focus-visible:ring-0 text-5xl"
-                    style={{width: `${String(value).length + 1}ch`}}
+                    className="w-auto border-0 bg-transparent p-0 text-center text-5xl font-bold text-primary shadow-none focus-visible:ring-0"
+                    style={{width: `${String(value).length + 2}ch`}}
                   />
                   {id === 'monthlyBill' && <span className="text-3xl font-normal self-end">/mo</span>}
                 </div>
@@ -270,16 +270,20 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
           return <div className="text-center"><p>Redirecting you based on your answers...</p></div>
       case 'calculation':
           return (
-            <div className={`text-center space-y-4 ${contentClasses}`}>
-                <div className="flex justify-center">
-                    <div className="relative flex h-24 w-24 items-center justify-center">
-                        <Percent className="h-16 w-16 text-green-500" />
-                    </div>
+            <div className={`text-center space-y-6 ${contentClasses}`}>
+              <div className="flex justify-center">
+                <div className="relative flex h-24 w-24 items-center justify-center rounded-full bg-green-100">
+                  <Percent className="h-12 w-12 text-green-600" />
                 </div>
-                <h2 className="text-2xl font-bold">We could reduce your bill by <span className="text-primary">{formData.savingsPercent}%</span></h2>
-                <div className="mt-6 flex items-center justify-center">
-                    <Button size="lg" onClick={handleNext}>Continue</Button>
-                </div>
+              </div>
+              <div>
+                <p className="text-lg text-muted-foreground">Based on your usage, you could save</p>
+                <h2 className="text-4xl font-bold text-primary">up to {formData.savingsPercent}%</h2>
+                <p className="mt-1 text-lg text-muted-foreground">on your monthly power bill!</p>
+              </div>
+              <div className="mt-6 flex items-center justify-center">
+                <Button size="lg" onClick={handleNext}>See How</Button>
+              </div>
             </div>
           );
       case 'transition':
