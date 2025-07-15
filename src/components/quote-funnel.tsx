@@ -140,7 +140,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                                 if (numValue > currentStepInfo.max!) numValue = currentStepInfo.max!;
                                 setFormData({ ...formData, monthlyBill: numValue })
                             }}
-                            className="w-auto border-0 bg-transparent p-0 text-center font-bold text-primary shadow-none focus-visible:ring-0"
+                            className="w-auto border-0 bg-transparent p-0 text-center text-5xl font-bold text-primary shadow-none focus-visible:ring-0"
                             style={{width: `${value.toString().length + 1}ch`}}
                         />
                     </div>
@@ -176,7 +176,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                                     if (numValue > currentStepInfo.max!) numValue = currentStepInfo.max!;
                                     setFormData({ ...formData, householdSize: numValue })
                                 }}
-                                className="w-auto border-0 bg-transparent p-0 text-center font-bold text-primary shadow-none focus-visible:ring-0"
+                                className="w-auto border-0 bg-transparent p-0 text-center text-5xl font-bold text-primary shadow-none focus-visible:ring-0"
                                 style={{width: `${value.toString().length + 1}ch`}}
                             />
                             { value === currentStepInfo.max! && <span className="text-5xl">+</span> }
@@ -257,14 +257,17 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   return (
     <section className="w-full bg-slate-100 py-12 md:py-20 lg:py-24 min-h-[60vh] flex items-center">
       <div className="container mx-auto px-4 md:px-6">
-        <Card className="mx-auto max-w-xl shadow-lg rounded-xl">
-          <CardHeader className="text-center relative p-6">
+        <Card className="mx-auto max-w-2xl shadow-lg rounded-xl">
+          <CardHeader className="text-center relative p-6 space-y-4">
              {step < totalSteps -1 && (
-                <div className="w-full px-6 absolute top-6 left-0">
-                    <Progress value={progress} className="h-2" />
-                </div>
+                <>
+                    <div className="w-full px-6 absolute top-6 left-0">
+                        <Progress value={progress} className="h-2" />
+                    </div>
+                    <p className="text-sm text-muted-foreground pt-4">Step {step + 1} of {totalSteps -1}</p>
+                </>
              )}
-            <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl pt-8">
+            <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl pt-4">
               {currentStepInfo.title}
             </CardTitle>
           </CardHeader>
