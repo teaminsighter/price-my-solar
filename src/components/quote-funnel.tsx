@@ -96,7 +96,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
     const animationClass = isTransitioning ? 'opacity-0 scale-95' : 'opacity-100 scale-100';
     const contentClasses = `transition-all duration-300 ease-in-out ${animationClass}`;
 
-    if (isTransitioning && step < totalSteps -1) return <div className="min-h-[200px] flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>
+    if (isTransitioning && step < totalSteps -1) return <div className="min-h-[250px] flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>
 
     switch (currentStepInfo.id) {
       case 'ownProperty':
@@ -110,7 +110,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                     <Button
                         key={option}
                         variant={formData[currentStepInfo.id as keyof QuoteData] === option ? 'default' : 'outline'}
-                        className="h-auto p-4 text-base transition-transform hover:scale-105"
+                        className="h-auto p-3 text-sm transition-transform hover:scale-105"
                         onClick={() => handleSelectAndNext(currentStepInfo.id as keyof QuoteData, option)}
                     >
                         {option}
@@ -129,7 +129,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
           <div className={contentClasses}>
             <div className="flex flex-col gap-8 pt-4">
                 <div className="flex-grow space-y-4">
-                     <div className="flex items-baseline justify-center text-5xl font-bold text-primary">
+                    <div className="flex items-baseline justify-center text-5xl font-bold text-primary">
                         <span>$</span>
                         <Input
                             type="number"
@@ -140,7 +140,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                                 if (numValue > currentStepInfo.max!) numValue = currentStepInfo.max!;
                                 setFormData({ ...formData, monthlyBill: numValue })
                             }}
-                            className="w-auto border-0 bg-transparent p-0 text-center text-5xl font-bold text-primary shadow-none focus-visible:ring-0"
+                            className="w-auto border-0 bg-transparent p-0 text-center font-bold text-primary shadow-none focus-visible:ring-0"
                             style={{width: `${value.toString().length + 1}ch`}}
                         />
                     </div>
@@ -176,7 +176,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                                     if (numValue > currentStepInfo.max!) numValue = currentStepInfo.max!;
                                     setFormData({ ...formData, householdSize: numValue })
                                 }}
-                                className="w-auto border-0 bg-transparent p-0 text-center text-5xl font-bold text-primary shadow-none focus-visible:ring-0"
+                                className="w-auto border-0 bg-transparent p-0 text-center font-bold text-primary shadow-none focus-visible:ring-0"
                                 style={{width: `${value.toString().length + 1}ch`}}
                             />
                             { value === currentStepInfo.max! && <span className="text-5xl">+</span> }
@@ -257,7 +257,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   return (
     <section className="w-full bg-slate-100 py-12 md:py-20 lg:py-24 min-h-[60vh] flex items-center">
       <div className="container mx-auto px-4 md:px-6">
-        <Card className="mx-auto max-w-md shadow-lg rounded-xl">
+        <Card className="mx-auto max-w-xl shadow-lg rounded-xl">
           <CardHeader className="text-center relative p-6">
              {step < totalSteps -1 && (
                 <div className="w-full px-6 absolute top-6 left-0">
@@ -268,7 +268,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
               {currentStepInfo.title}
             </CardTitle>
           </CardHeader>
-          <CardContent className="min-h-[200px] flex flex-col justify-center p-6">
+          <CardContent className="min-h-[250px] flex flex-col justify-center p-6">
              {renderStepContent()}
           </CardContent>
         </Card>
