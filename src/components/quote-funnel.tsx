@@ -40,7 +40,11 @@ const funnelSteps = [
 
 export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   const [step, setStep] = useState(0);
-  const [formData, setFormData] = useState<QuoteData>(initialData);
+  const [formData, setFormData] = useState<QuoteData>({
+    ...initialData,
+    monthlyBill: initialData.monthlyBill ?? funnelSteps[2].min,
+    householdSize: initialData.householdSize ?? funnelSteps[3].min,
+  });
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const totalSteps = funnelSteps.length;
@@ -124,20 +128,32 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
             </div>
           </div>
         );
-       case 'monthlyBill':
+       case 'monthlyBill': {
+        const value = formData.monthlyBill ?? currentStepInfo.min!;
         return (
           <div className={contentClasses}>
             <div className="flex flex-col gap-4 pt-4">
                 <div className="flex-grow space-y-6">
-                    <div className="text-center text-4xl font-bold text-primary">
-                        ${formData.monthlyBill ?? currentStepInfo.min}
+                    <div className="relative text-center text-4xl font-bold text-primary">
+                        <span className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 -z-10 opacity-50">$</span>
+                        <Input
+                            type="number"
+                            value={value}
+                            onChange={(e) => {
+                                let numValue = parseInt(e.target.value, 10);
+                                if (isNaN(numValue)) numValue = currentStepInfo.min!;
+                                if (numValue > currentStepInfo.max!) numValue = currentStepInfo.max!;
+                                setFormData({ ...formData, monthlyBill: numValue })
+                            }}
+                            className="w-40 mx-auto text-center font-bold text-4xl text-primary bg-transparent border-0 shadow-none focus-visible:ring-0 p-0"
+                        />
                     </div>
                     <Slider
-                    value={[formData.monthlyBill ?? currentStepInfo.min!]}
-                    onValueChange={([value]) => setFormData({ ...formData, monthlyBill: value })}
-                    min={currentStepInfo.min}
-                    max={currentStepInfo.max}
-                    step={currentStepInfo.step}
+                        value={[value]}
+                        onValueChange={([val]) => setFormData({ ...formData, monthlyBill: val })}
+                        min={currentStepInfo.min}
+                        max={currentStepInfo.max}
+                        step={currentStepInfo.step}
                     />
                 </div>
                 <div className="mt-6 flex items-center justify-between">
@@ -147,17 +163,30 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
             </div>
           </div>
         );
-      case 'householdSize':
+      }
+      case 'householdSize': {
+        const value = formData.householdSize ?? currentStepInfo.min!;
         return (
             <div className={contentClasses}>
                 <div className="flex flex-col gap-4 pt-4">
                     <div className="flex-grow space-y-6">
-                    <div className="text-center text-4xl font-bold text-primary">
-                        {formData.householdSize ?? currentStepInfo.min}{formData.householdSize === currentStepInfo.max ? '+' : ''}
+                    <div className="relative text-center text-4xl font-bold text-primary">
+                        <Input
+                            type="number"
+                            value={value}
+                            onChange={(e) => {
+                                let numValue = parseInt(e.target.value, 10);
+                                if (isNaN(numValue)) numValue = currentStepInfo.min!;
+                                if (numValue > currentStepInfo.max!) numValue = currentStepInfo.max!;
+                                setFormData({ ...formData, householdSize: numValue })
+                            }}
+                             className="w-28 mx-auto text-center font-bold text-4xl text-primary bg-transparent border-0 shadow-none focus-visible:ring-0 p-0"
+                        />
+                        { value === currentStepInfo.max! && <span className="absolute right-1/2 translate-x-12 top-1/2 -translate-y-1/2">+</span> }
                     </div>
                     <Slider
-                        value={[formData.householdSize ?? currentStepInfo.min!]}
-                        onValueChange={([value]) => setFormData({ ...formData, householdSize: value })}
+                        value={[value]}
+                        onValueChange={([val]) => setFormData({ ...formData, householdSize: val })}
                         min={currentStepInfo.min}
                         max={currentStepInfo.max}
                         step={currentStepInfo.step}
@@ -170,6 +199,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                 </div>
             </div>
         );
+      }
       case 'contactInfo':
         return (
           <div className={contentClasses}>
