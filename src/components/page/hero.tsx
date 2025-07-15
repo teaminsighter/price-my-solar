@@ -62,8 +62,15 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     const handleSelect = ({ description }: { description: string }) => () => {
         setValue(description, false);
         clearSuggestions();
-        onStartFunnel({ address: description, propertyType });
     };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (value) {
+            onStartFunnel({ address: value, propertyType });
+        }
+    };
+
 
   const renderSuggestions = () => (
     <div className="absolute top-full z-10 mt-1 w-full rounded-md border bg-white shadow-lg">
@@ -77,7 +84,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
           <div
             key={place_id}
             onClick={handleSelect(suggestion)}
-            className="cursor-pointer p-2 hover:bg-gray-100"
+            className="cursor-pointer p-2 text-left hover:bg-gray-100"
           >
             <strong>{main_text}</strong> <small>{secondary_text}</small>
           </div>
@@ -133,7 +140,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                   <h3 className="mb-4 text-2xl font-bold text-secondary">
                     COMPARE & SAVE
                   </h3>
-                  <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                  <form className="space-y-4" onSubmit={handleSubmit}>
                     <div className="relative">
                       <Input
                         id="address"
@@ -146,10 +153,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                       />
                       {status === 'OK' && renderSuggestions()}
                     </div>
-                    <p className="text-sm font-semibold text-accent">
-                      Once your address shows; <br /> SELECT your installation
-                      type
-                    </p>
+
                     <RadioGroup 
                       defaultValue="RESIDENTIAL" 
                       className="grid grid-cols-2 gap-4"
@@ -159,16 +163,19 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                       <div>
                         <RadioGroupItem value="RESIDENTIAL" id="r1" className="sr-only" />
                         <Label htmlFor="r1" className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-transparent bg-primary p-3 font-bold text-primary-foreground hover:bg-primary/90 [&:has([data-state=checked])]:border-ring">
-                          RESIDENTIAL SOLAR
+                          RESIDENTIAL
                         </Label>
                       </div>
                       <div>
                         <RadioGroupItem value="COMMERCIAL" id="r2" className="sr-only" />
                         <Label htmlFor="r2" className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-accent bg-transparent p-3 font-bold text-accent hover:bg-accent/10 [&:has([data-state=checked])]:border-ring [&:has([data-state=checked])]:bg-accent/10">
-                          COMMERCIAL SOLAR
+                          COMMERCIAL
                         </Label>
                       </div>
                     </RadioGroup>
+                     <Button type="submit" size="lg" className="w-full" disabled={!value}>
+                        Get My Free Quote
+                    </Button>
                   </form>
                 </div>
               </CardContent>
