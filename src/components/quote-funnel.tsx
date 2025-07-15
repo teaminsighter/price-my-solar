@@ -98,11 +98,6 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
 
     if (isTransitioning && step < totalSteps -1) return <div className="min-h-[250px] flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>
 
-    const renderBackButton = () => {
-       if (step > totalSteps - 2) return <div/>;
-       return <BackButton />
-    }
-
     switch (currentStepInfo.id) {
       case 'ownProperty':
       case 'roofType':
@@ -123,7 +118,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                     ))}
                 </div>
                 <div className="mt-6 flex items-center justify-start">
-                    {renderBackButton()}
+                    <BackButton />
                 </div>
             </div>
           </div>
@@ -135,7 +130,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
             <div className="flex flex-col gap-8 pt-4">
                 <div className="flex-grow space-y-4">
                     <div className="flex items-baseline justify-center font-bold text-primary">
-                        <span className="text-4xl text-primary/70">$</span>
+                        <span className="text-5xl">$</span>
                         <Input
                             type="number"
                             value={value}
@@ -145,7 +140,8 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                                 if (numValue > currentStepInfo.max!) numValue = currentStepInfo.max!;
                                 setFormData({ ...formData, monthlyBill: numValue })
                             }}
-                            className="w-48 bg-transparent text-center font-bold text-5xl text-primary border-0 shadow-none focus-visible:ring-0 p-0"
+                            className="w-auto bg-transparent text-center font-bold text-5xl text-primary border-0 shadow-none focus-visible:ring-0 p-0"
+                            style={{width: `${value.toString().length + 1}ch`}}
                         />
                     </div>
                     <Slider
@@ -157,7 +153,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                     />
                 </div>
                 <div className="mt-6 flex items-center justify-between">
-                    {renderBackButton()}
+                    <BackButton />
                     <Button size="lg" onClick={handleNext}>Next</Button>
                 </div>
             </div>
@@ -180,9 +176,10 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                                     if (numValue > currentStepInfo.max!) numValue = currentStepInfo.max!;
                                     setFormData({ ...formData, householdSize: numValue })
                                 }}
-                                className="w-32 bg-transparent text-center font-bold text-5xl text-primary border-0 shadow-none focus-visible:ring-0 p-0"
+                                className="w-auto bg-transparent text-center font-bold text-5xl text-primary border-0 shadow-none focus-visible:ring-0 p-0"
+                                style={{width: `${value.toString().length + 1}ch`}}
                             />
-                            { value === currentStepInfo.max! && <span className="text-4xl text-primary/70">+</span> }
+                            { value === currentStepInfo.max! && <span className="text-5xl">+</span> }
                         </div>
                         <Slider
                             value={[value]}
@@ -193,7 +190,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                         />
                     </div>
                     <div className="mt-6 flex items-center justify-between">
-                        {renderBackButton()}
+                        <BackButton />
                         <Button size="lg" onClick={handleNext}>Next</Button>
                     </div>
                 </div>
@@ -233,7 +230,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                 />
                 </div>
                 <div className="mt-6 flex items-center justify-between">
-                    {renderBackButton()}
+                    <BackButton />
                     <Button size="lg" type="submit">Get My Quote</Button>
                 </div>
             </form>
