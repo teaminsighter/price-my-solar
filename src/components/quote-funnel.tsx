@@ -159,16 +159,17 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
       if (options) { // Buttons for options
           return (
             <div className={`flex flex-col gap-4 text-center ${contentClasses}`}>
-              <CardTitle className="text-xl font-bold tracking-tight sm:text-2xl">
+              <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
                 {currentStepInfo.title.replace('[address]', formData.address)}
               </CardTitle>
               <div className="flex flex-col gap-3 pt-4">
-                <div className="grid flex-grow grid-cols-1 gap-2 sm:grid-cols-2">
+                <div className="grid flex-grow grid-cols-1 gap-3 sm:grid-cols-2">
                   {options.map(option => (
                     <Button
                       key={option}
+                      size="lg"
                       variant={formData[id as keyof QuoteData] === option ? 'default' : 'outline'}
-                      className="h-auto p-2 text-xs transition-transform hover:scale-105"
+                      className="h-auto p-4 text-base transition-transform hover:scale-105"
                       onClick={() => handleSelectAndNext(id as keyof QuoteData, option)}
                     >
                       {option}
@@ -182,16 +183,17 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
           const islandRegions = regions[formData.island as keyof typeof regions] || [];
            return (
             <div className={`flex flex-col gap-4 text-center ${contentClasses}`}>
-              <CardTitle className="text-xl font-bold tracking-tight sm:text-2xl">
+              <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
                 {currentStepInfo.title.replace('[address]', formData.address)}
               </CardTitle>
               <div className="flex flex-col gap-3 pt-4">
-                <div className="grid flex-grow grid-cols-2 gap-2 md:grid-cols-3">
+                <div className="grid flex-grow grid-cols-2 gap-3 md:grid-cols-3">
                   {islandRegions.map(region => (
                     <Button
                       key={region}
+                      size="lg"
                       variant={formData.region === region ? 'default' : 'outline'}
-                      className="h-auto p-2 text-xs transition-transform hover:scale-105"
+                      className="h-auto p-4 text-base transition-transform hover:scale-105"
                       onClick={() => handleSelectAndNext('region', region)}
                     >
                       {region}
@@ -217,14 +219,14 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
 
         return (
           <div className={`flex flex-col gap-8 text-center pt-4 ${contentClasses}`}>
-            <CardTitle className="text-xl font-bold tracking-tight sm:text-2xl">
+            <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
               {currentStepInfo.title.replace('[address]', formData.address)}
             </CardTitle>
 
             <div className="flex w-full items-center justify-center">
               <div className="flex w-full flex-col items-center justify-center gap-4">
                  <div className="flex items-baseline justify-center font-bold text-primary text-5xl">
-                  {id === 'monthlyBill' && <span className="text-5xl">$</span>}
+                  {id === 'monthlyBill' && <span>$</span>}
                    <Input
                     type="number"
                     value={value}
@@ -237,7 +239,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                 <div className="w-full max-w-sm">
                   <Slider value={[value]} onValueChange={([val]) => setFormData({ ...formData, [id]: val })} min={min} max={max} step={step} />
                   {householdLabels && (
-                    <div className="mt-2 flex justify-between text-xs text-muted-foreground">
+                    <div className="mt-2 flex justify-between text-sm text-muted-foreground">
                         {householdLabels.map(label => (
                             <span key={label} className={`w-1/10 text-center ${value === label ? 'font-bold text-primary' : ''}`}>
                                 {label}{label === max! ? '+' : ''}
@@ -300,7 +302,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
       case 'tel':
           return (
             <div className={`flex flex-col gap-4 text-center ${contentClasses}`}>
-              <CardTitle className="text-xl font-bold tracking-tight sm:text-2xl">
+              <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
                 {currentStepInfo.title.replace('[address]', formData.address)}
               </CardTitle>
               <form onSubmit={handleFormSubmit} className="flex flex-col gap-4 pt-4">
@@ -321,7 +323,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
       case 'contact':
         return (
           <div className={`flex flex-col gap-4 text-center ${contentClasses}`}>
-            <CardTitle className="text-xl font-bold tracking-tight sm:text-2xl">
+            <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
                 {currentStepInfo.title.replace('[address]', formData.address)}
             </CardTitle>
             <form onSubmit={handleFormSubmit} className="flex flex-col gap-4 pt-4">
@@ -369,22 +371,26 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   };
 
   return (
-    <section className="w-full bg-slate-50 py-12 md:py-20 lg:py-24 min-h-[80vh] flex flex-col items-center justify-center">
-        <div className="container mx-auto px-4 md:px-6 w-full max-w-4xl">
-             <div className="relative mb-4">
-                <Progress value={progress} className="h-3" />
-                <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-primary-foreground">
-                    {progress}%
-                </span>
+    <section className="w-full bg-slate-50 py-12 md:py-20 lg:py-24 min-h-[80vh] flex flex-col items-center justify-start">
+        <div className="container mx-auto px-4 md:px-6 w-full">
+            <div className="w-full max-w-4xl mx-auto">
+                <div className="relative mb-2">
+                    <Progress value={progress} className="h-3" />
+                    <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-primary-foreground">
+                        {progress}%
+                    </span>
+                </div>
+                <p className="text-center text-sm text-muted-foreground mb-8">Step {stepIndex + 1} of {totalSteps}</p>
             </div>
-            <p className="text-center text-sm text-muted-foreground mb-4">Step {stepIndex + 1} of {totalSteps}</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-                <div className="hidden md:block md:col-span-1 bg-gray-200 rounded-lg p-8 h-full">
-                    {/* This is the placeholder for the left-side image. */}
-                    <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
-                        <p className="font-bold">NZ QUALIFIED INSTALLERS</p>
-                        <div className="w-full h-px bg-gray-300 my-4"></div>
-                        <p>Image Area</p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start w-full">
+                <div className="hidden md:block md:col-span-1">
+                    <div className="bg-gray-200 rounded-lg p-8 h-full sticky top-24">
+                        <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
+                            <p className="font-bold">NZ QUALIFIED INSTALLERS</p>
+                            <div className="w-full h-px bg-gray-300 my-4"></div>
+                            <p>Image Area</p>
+                        </div>
                     </div>
                 </div>
                 <div className="md:col-span-2">
@@ -406,3 +412,5 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
     </section>
   );
 }
+
+    
