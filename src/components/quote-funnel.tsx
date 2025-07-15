@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, Check, Sun, Zap, Percent } from 'lucide-react';
@@ -45,7 +46,7 @@ const funnelSteps = [
   // Step 1: Address handled by Hero component
   { id: 'motivation', title: 'What’s your primary reason for wanting solar?', options: ['The environment', 'Save power/Cut costs', 'Self-sufficient', 'Off the grid', 'All of the above'], required: true },
   { id: 'roofType', title: 'What is the substrate of your roof?', options: ['Iron/Metal', 'Tile (Concrete/Long run)', 'Bitumen', 'Asphalt shingles', 'Other/Not sure'], required: true },
-  { id: 'householdSize', title: 'How many people live at your address?', type: 'slider', min: 1, max: 10, step: 1, required: true, condition: (data: QuoteData) => data.propertyType === 'RESIDENTIAL' },
+  { id: 'householdSize', title: 'How many people live at [address]?', type: 'slider', min: 1, max: 10, step: 1, required: true, condition: (data: QuoteData) => data.propertyType === 'RESIDENTIAL' },
   { id: 'commercialPropertyType', title: 'What type of commercial property?', options: ['Tenant', 'Owner Occupier', 'Landlord Only'], required: true, condition: (data: QuoteData) => data.propertyType === 'COMMERCIAL' },
   { id: 'leaseYears', title: 'How many years remain on your lease?', type: 'slider', min: 1, max: 10, step: 1, required: true, condition: (data: QuoteData) => data.commercialPropertyType === 'Tenant' },
   { id: 'monthlyBill', title: 'What’s your average monthly power bill?', type: 'slider', min: 75, max: 700, step: 5, required: true },
@@ -78,12 +79,11 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   const [formData, setFormData] = useState<QuoteData>({ ...initialData });
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Filter steps based on conditional logic
   const visibleSteps = useMemo(() => funnelSteps.filter(step => !step.condition || step.condition(formData)), [formData]);
   
   const currentStepInfo = visibleSteps[stepIndex];
   const totalSteps = visibleSteps.length;
-  const progress = ((stepIndex + 1) / totalSteps) * 100;
+  const progress = Math.round(((stepIndex + 1) / totalSteps) * 100);
 
   useEffect(() => {
     if (currentStepInfo?.type === 'animation' || currentStepInfo?.type === 'summary') {
@@ -95,7 +95,6 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   }, [stepIndex, currentStepInfo]);
 
   useEffect(() => {
-    // Auto-calculate savings when monthlyBill is available
     if (formData.monthlyBill && !formData.savingsPercent) {
       let savings = 0;
       if (formData.monthlyBill < 201) savings = 62;
@@ -118,7 +117,6 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
       if (stepIndex < totalSteps - 1) {
         setStepIndex(s => s + 1);
       } else {
-        // Funnel complete
         console.log('Funnel complete:', formData);
         onExit();
       }
@@ -145,103 +143,93 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
     handleNext();
   }
 
-  const BackButton = () => {
-    if (currentStepInfo?.type === 'finalConfirmation' || currentStepInfo?.type === 'animation') return <div style={{width: '98px'}} />;
-    
-    return (
-      <Button variant="outline" onClick={handleBack} className="bg-transparent border-gray-300 hover:bg-gray-100">
-        <ArrowLeft className="mr-2 h-4 w-4" /> Back
-      </Button>
-    )
-  }
-
   const renderStepContent = () => {
     const animationClass = isTransitioning ? 'opacity-0 scale-95' : 'opacity-100 scale-100';
     const contentClasses = `transition-all duration-300 ease-in-out ${animationClass}`;
 
     if (!currentStepInfo) {
-        return <div className="min-h-[250px] flex items-center justify-center">Loading step...</div>;
+        return <div className="min-h-[350px] flex items-center justify-center">Loading step...</div>;
     }
 
     if (isTransitioning && currentStepInfo.type !== 'animation') {
-        return <div className="min-h-[250px] flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>
+        return <div className="min-h-[350px] flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>
     }
 
     const { id, type, options, min, max, step } = currentStepInfo;
 
-    // Default option-based steps
-    if (type === undefined || type === 'select' || (type === 'slider' && !isTransitioning)) {
-        if (options) { // Buttons for options
-            return (
-              <div className={contentClasses}>
-                <div className="flex flex-col gap-3">
-                  <div className="grid flex-grow grid-cols-1 gap-3 md:grid-cols-2">
-                    {options.map(option => (
-                      <Button
-                        key={option}
-                        variant={formData[id as keyof QuoteData] === option ? 'default' : 'outline'}
-                        className="h-auto p-3 text-xs md:text-sm transition-transform hover:scale-105"
-                        onClick={() => handleSelectAndNext(id as keyof QuoteData, option)}
-                      >
-                        {option}
-                      </Button>
-                    ))}
-                  </div>
+    if (type === undefined || type === 'select') {
+      if (options) { // Buttons for options
+          return (
+            <div className={`flex flex-col gap-4 text-center ${contentClasses}`}>
+              <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
+                {currentStepInfo.title.replace('[address]', formData.address)}
+              </CardTitle>
+              <div className="flex flex-col gap-3 pt-4">
+                <div className="grid flex-grow grid-cols-1 gap-3 sm:grid-cols-2">
+                  {options.map(option => (
+                    <Button
+                      key={option}
+                      variant={formData[id as keyof QuoteData] === option ? 'default' : 'outline'}
+                      className="h-auto p-4 text-sm transition-transform hover:scale-105"
+                      onClick={() => handleSelectAndNext(id as keyof QuoteData, option)}
+                    >
+                      {option}
+                    </Button>
+                  ))}
                 </div>
               </div>
-            );
-        } else if (type === 'slider') { // Slider steps
-            const value = formData[id as keyof QuoteData] as number || min!;
-             return (
-              <div className={contentClasses}>
-                <div className="flex flex-col gap-8 pt-4">
-                  <div className="flex-grow space-y-4">
-                    <div className="flex items-center justify-center text-5xl font-bold text-primary">
-                      {id === 'monthlyBill' && <span>$</span>}
-                      <Input
-                        type="number"
-                        value={value}
-                        onChange={(e) => {
-                          let numValue = parseInt(e.target.value, 10);
-                          if (isNaN(numValue)) numValue = min!;
-                          if (numValue > max!) numValue = max!;
-                          setFormData({ ...formData, [id]: numValue })
-                        }}
-                        className="w-auto border-0 bg-transparent p-0 text-center text-5xl font-bold text-primary shadow-none focus-visible:ring-0"
-                        style={{width: `${value.toString().length + 1}ch`}}
-                      />
-                      { (id === 'householdSize' || id === 'leaseYears') && value === max! && <span>+</span> }
-                    </div>
-                    <Slider value={[value]} onValueChange={([val]) => setFormData({ ...formData, [id]: val })} min={min} max={max} step={step} />
-                  </div>
-                  <div className="mt-6 flex items-center justify-between">
-                    <BackButton />
-                    <Button size="lg" onClick={handleNext}>Next</Button>
-                  </div>
+            </div>
+          );
+      } else if (type === 'select') { // Region select
+          const islandRegions = regions[formData.island as keyof typeof regions] || [];
+           return (
+            <div className={`flex flex-col gap-4 text-center ${contentClasses}`}>
+              <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
+                {currentStepInfo.title.replace('[address]', formData.address)}
+              </CardTitle>
+              <div className="flex flex-col gap-3 pt-4">
+                <div className="grid flex-grow grid-cols-2 gap-3 md:grid-cols-3">
+                  {islandRegions.map(region => (
+                    <Button
+                      key={region}
+                      variant={formData.region === region ? 'default' : 'outline'}
+                      className="h-auto p-3 text-xs md:text-sm transition-transform hover:scale-105"
+                      onClick={() => handleSelectAndNext('region', region)}
+                    >
+                      {region}
+                    </Button>
+                  ))}
                 </div>
               </div>
-            );
-        } else if (type === 'select') { // Region select
-            const islandRegions = regions[formData.island as keyof typeof regions] || [];
-             return (
-              <div className={contentClasses}>
-                <div className="flex flex-col gap-3">
-                  <div className="grid flex-grow grid-cols-2 gap-3 md:grid-cols-3">
-                    {islandRegions.map(region => (
-                      <Button
-                        key={region}
-                        variant={formData.region === region ? 'default' : 'outline'}
-                        className="h-auto p-3 text-xs md:text-sm transition-transform hover:scale-105"
-                        onClick={() => handleSelectAndNext('region', region)}
-                      >
-                        {region}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
+            </div>
+           );
+      }
+    }
+
+    if (type === 'slider') {
+        const value = formData[id as keyof QuoteData] as number || min!;
+        const labels = Array.from({ length: max! }, (_, i) => i + 1);
+
+        return (
+          <div className={`flex flex-col gap-8 text-center pt-4 ${contentClasses}`}>
+            <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
+              {currentStepInfo.title.replace('[address]', formData.address)}
+            </CardTitle>
+            <div className="flex-grow space-y-4 px-4">
+              <Slider value={[value]} onValueChange={([val]) => setFormData({ ...formData, [id]: val })} min={min} max={max} step={step} />
+              <div className="flex justify-between text-xs text-muted-foreground">
+                {labels.map(label => (
+                  <span key={label} className={`w-1/10 text-center ${value === label ? 'font-bold text-primary' : ''}`}>
+                    {label}{label === max! ? '+' : ''}
+                  </span>
+                ))}
               </div>
-            );
-        }
+            </div>
+            <div className="mt-6 flex items-center justify-center">
+              <Button size="lg" onClick={handleNext}>Next</Button>
+            </div>
+          </div>
+        );
     }
     
     switch (type) {
@@ -283,8 +271,11 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
       case 'email':
       case 'tel':
           return (
-            <div className={contentClasses}>
-              <form onSubmit={handleFormSubmit} className="flex flex-col gap-4">
+            <div className={`flex flex-col gap-4 text-center ${contentClasses}`}>
+              <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
+                {currentStepInfo.title.replace('[address]', formData.address)}
+              </CardTitle>
+              <form onSubmit={handleFormSubmit} className="flex flex-col gap-4 pt-4">
                 <Input
                   type={type}
                   placeholder={currentStepInfo.title}
@@ -293,8 +284,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                   required={currentStepInfo.required}
                   className="h-12 text-center"
                 />
-                <div className="mt-6 flex items-center justify-between">
-                  <BackButton />
+                <div className="mt-6 flex items-center justify-center">
                   <Button size="lg" type="submit">Next</Button>
                 </div>
               </form>
@@ -302,8 +292,11 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
           )
       case 'contact':
         return (
-          <div className={contentClasses}>
-            <form onSubmit={handleFormSubmit} className="flex flex-col gap-4">
+          <div className={`flex flex-col gap-4 text-center ${contentClasses}`}>
+            <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
+                {currentStepInfo.title.replace('[address]', formData.address)}
+            </CardTitle>
+            <form onSubmit={handleFormSubmit} className="flex flex-col gap-4 pt-4">
               <Input
                 type="email"
                 placeholder="Email Address"
@@ -318,8 +311,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 required
               />
-              <div className="mt-6 flex items-center justify-between">
-                  <BackButton />
+              <div className="mt-6 flex items-center justify-center">
                   <Button size="lg" type="submit">Get My Quote</Button>
               </div>
             </form>
@@ -338,38 +330,50 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
         );
 
       default:
-        return <div className="min-h-[250px]"><BackButton /></div>;
+        return (
+          <div className="min-h-[350px] flex items-center justify-center">
+             <Button variant="outline" onClick={handleBack} className="absolute top-8 left-8">
+                <ArrowLeft className="mr-2 h-4 w-4" /> Back
+             </Button>
+          </div>
+        );
     }
   };
 
   return (
-    <section className="w-full bg-slate-100 py-12 md:py-20 lg:py-24 min-h-[60vh] flex items-center">
-      <div className="container mx-auto px-4 md:px-6">
-        <Card className="mx-auto max-w-2xl shadow-lg rounded-xl">
-          <CardHeader className="text-center relative p-6 space-y-4">
-             {currentStepInfo?.type !== 'finalConfirmation' && (
-                <>
-                    <div className="w-full px-6 absolute top-6 left-0">
-                        <Progress value={progress} className="h-2" />
+    <section className="w-full bg-slate-50 py-12 md:py-20 lg:py-24 min-h-[80vh] flex flex-col items-center justify-center">
+        <div className="container mx-auto px-4 md:px-6 w-full">
+            <div className="relative mb-4">
+                <Progress value={progress} className="h-3" />
+                <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-primary-foreground">
+                    {progress}%
+                </span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                <div className="hidden md:block md:col-span-1 bg-gray-200 rounded-lg p-8 h-full">
+                    {/* This is the placeholder for the left-side image. */}
+                    <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
+                        <p className="font-bold">NZ QUALIFIED INSTALLERS</p>
+                        <div className="w-full h-px bg-gray-300 my-4"></div>
+                        <p>Image Area</p>
                     </div>
-                    <p className="text-sm text-muted-foreground pt-4">Step {stepIndex + 1} of {totalSteps}</p>
-                </>
-             )}
-            <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl pt-4">
-              {currentStepInfo?.title.replace('[address]', formData.address)}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="min-h-[250px] flex flex-col justify-center p-6">
-             {renderStepContent()}
-             {/* Render Back button here for steps without explicit nav buttons */}
-             { (currentStepInfo?.type === undefined || currentStepInfo?.type === 'select') &&
-                <div className="mt-6 flex items-center justify-start">
-                    <BackButton />
                 </div>
-             }
-          </CardContent>
-        </Card>
-      </div>
+                <div className="md:col-span-2">
+                    <Card className="w-full shadow-none border-0 bg-transparent">
+                      <CardContent className="min-h-[400px] flex flex-col justify-center p-2 md:p-6">
+                         {renderStepContent()}
+                      </CardContent>
+                    </Card>
+                    <div className="flex justify-start mt-4">
+                        {(currentStepInfo?.type !== 'finalConfirmation' && currentStepInfo?.type !== 'animation') && (
+                             <Button variant="link" onClick={handleBack} className="text-muted-foreground">
+                                <ArrowLeft className="mr-2 h-4 w-4" /> Back
+                            </Button>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
   );
 }
