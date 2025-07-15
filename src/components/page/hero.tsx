@@ -2,17 +2,44 @@
 'use client';
 
 import Image from 'next/image';
+import { useState } from 'react';
 import usePlacesAutocomplete from 'use-places-autocomplete';
 import { useLoadScript } from '@react-google-maps/api';
-
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import type { QuoteData } from '@/components/quote-funnel';
 
 const GOOGLE_PLACES_API_KEY = 'AIzaSyCbB2T9z5-peMYY-75oa1kdsJMdAGaKZDo';
 const libraries: ('places')[] = ['places'];
 
-function HeroContent() {
+type HeroProps = {
+  onStartFunnel: (data: QuoteData) => void;
+};
+
+export function Hero({ onStartFunnel }: HeroProps) {
+    const { isLoaded } = useLoadScript({
+        googleMapsApiKey: GOOGLE_PLACES_API_KEY,
+        libraries,
+    });
+
+    if (!isLoaded) {
+        return (
+          <section id="get-quotes" className="relative w-full overflow-hidden bg-background">
+             <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-center justify-center">
+                <div>Loading...</div>
+             </div>
+          </section>
+        );
+    }
+
+    return <HeroContent onStartFunnel={onStartFunnel} />;
+}
+
+
+function HeroContent({ onStartFunnel }: HeroProps) {
     const {
         ready,
         value,
@@ -26,15 +53,16 @@ function HeroContent() {
         debounce: 300,
     });
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
+    const [propertyType, setPropertyType] = useState<'RESIDENTIAL' | 'COMMERCIAL'>('RESIDENTIAL');
 
-  const handleSelect =
-    ({ description }: { description: string }) =>
-    () => {
-      setValue(description, false);
-      clearSuggestions();
+    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(e.target.value);
+    };
+
+    const handleSelect = ({ description }: { description: string }) => () => {
+        setValue(description, false);
+        clearSuggestions();
+        onStartFunnel({ address: description, propertyType });
     };
 
   const renderSuggestions = () => (
@@ -66,7 +94,7 @@ function HeroContent() {
        <Image
         src="https://storage.googleapis.com/project-spark-341200.appspot.com/users%2F5gD0P2F33vR1rDfaJbpkMrVpM1v1%2Fuploads%2Fimages%2Fss-bg-layer.png"
         alt="Solar panels background"
-        layout="fill"
+        fill
         objectFit="cover"
         className="absolute inset-0 z-0 opacity-20"
       />
@@ -105,8 +133,8 @@ function HeroContent() {
                   <h3 className="mb-4 text-2xl font-bold text-secondary">
                     COMPARE & SAVE
                   </h3>
-                  <form className="space-y-4">
-                  <div className="relative">
+                  <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                    <div className="relative">
                       <Input
                         id="address"
                         value={value}
@@ -122,21 +150,25 @@ function HeroContent() {
                       Once your address shows; <br /> SELECT your installation
                       type
                     </p>
-                    <Button
-                      type="submit"
-                      size="lg"
-                      className="w-full rounded-none bg-primary text-lg font-bold hover:bg-primary/90"
+                    <RadioGroup 
+                      defaultValue="RESIDENTIAL" 
+                      className="grid grid-cols-2 gap-4"
+                      onValueChange={(value: 'RESIDENTIAL' | 'COMMERCIAL') => setPropertyType(value)}
+                      value={propertyType}
                     >
-                      RESIDENTIAL SOLAR
-                    </Button>
-                    <Button
-                      type="submit"
-                      variant="outline"
-                      size="lg"
-                      className="w-full rounded-none border-accent bg-transparent text-lg font-bold text-accent hover:bg-accent/10"
-                    >
-                      COMMERCIAL SOLAR
-                    </Button>
+                      <div>
+                        <RadioGroupItem value="RESIDENTIAL" id="r1" className="sr-only" />
+                        <Label htmlFor="r1" className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-transparent bg-primary p-3 font-bold text-primary-foreground hover:bg-primary/90 [&:has([data-state=checked])]:border-ring">
+                          RESIDENTIAL SOLAR
+                        </Label>
+                      </div>
+                      <div>
+                        <RadioGroupItem value="COMMERCIAL" id="r2" className="sr-only" />
+                        <Label htmlFor="r2" className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-accent bg-transparent p-3 font-bold text-accent hover:bg-accent/10 [&:has([data-state=checked])]:border-ring [&:has([data-state=checked])]:bg-accent/10">
+                          COMMERCIAL SOLAR
+                        </Label>
+                      </div>
+                    </RadioGroup>
                   </form>
                 </div>
               </CardContent>
@@ -145,18 +177,4 @@ function HeroContent() {
       </div>
     </section>
   );
-}
-
-export function Hero() {
-    const { isLoaded } = useLoadScript({
-        googleMapsApiKey: GOOGLE_PLACES_API_KEY,
-        libraries,
-    });
-
-    if (!isLoaded) {
-        // You can return a loading spinner or a skeleton component here
-        return <div>Loading...</div>;
-    }
-
-    return <HeroContent />;
 }
