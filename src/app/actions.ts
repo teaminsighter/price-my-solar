@@ -5,7 +5,7 @@ import { db } from '@/lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import type { QuoteData } from '@/components/quote-funnel';
 
-export async function saveQuoteToFirestore(quoteData: QuoteData) {
+export async function saveQuoteToFirestore(quoteData: Omit<QuoteData, 'createdAt'>) {
   try {
     const docRef = await addDoc(collection(db, 'quotes'), {
       ...quoteData,
