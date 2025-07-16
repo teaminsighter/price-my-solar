@@ -156,13 +156,13 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                       <div>
                         <RadioGroupItem value="RESIDENTIAL" id="r1" className="sr-only" />
                         <Label htmlFor="r1" className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-muted bg-white p-3 font-bold text-muted-foreground hover:bg-slate-50 [&:has([data-state=checked])]:border-primary [&:has([data-state=checked])]:bg-primary [&:has([data-state=checked])]:text-primary-foreground">
-                          RESIDENTIAL
+                          Residential
                         </Label>
                       </div>
                       <div>
                         <RadioGroupItem value="COMMERCIAL" id="r2" className="sr-only" />
                         <Label htmlFor="r2" className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-muted bg-white p-3 font-bold text-muted-foreground hover:bg-slate-50 [&:has([data-state=checked])]:border-primary [&:has([data-state=checked])]:bg-primary [&:has([data-state=checked])]:text-primary-foreground">
-                          COMMERCIAL
+                          Commercial
                         </Label>
                       </div>
                     </RadioGroup>
