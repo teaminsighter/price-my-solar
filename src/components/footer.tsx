@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SolarSaverLogo } from "@/components/icons";
+import Image from "next/image";
 
 export function Footer() {
   return (
@@ -8,8 +8,13 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <div className="flex flex-col items-start gap-4">
             <Link href="/" className="flex items-center gap-2 text-xl font-bold">
-              <SolarSaverLogo className="h-8 w-8 text-primary" />
-              <span>Price My Solar</span>
+               <Image 
+                src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FPMS-Final-Logo-2.webp?alt=media&token=486ac4d9-d9dd-4921-ab19-0b4b55b4b2f1"
+                alt="Price My Solar Logo"
+                width={200}
+                height={50}
+                className="h-10 w-auto"
+              />
             </Link>
             <p className="text-sm text-secondary-foreground/80">
               Compare solar quotes from qualified NZ installers.

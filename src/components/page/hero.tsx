@@ -118,7 +118,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         <div className="flex flex-col items-start justify-center space-y-6">
             <div className="relative h-40 w-full max-w-sm">
                 <Image
-                    src="https://storage.googleapis.com/project-spark-341200.appspot.com/users%2F5gD0P2F33vR1rDfaJbpkMrVpM1v1%2Fuploads%2Fimages%2Fss-main-logo.png"
+                    src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FPMS-Final-Logo-2.webp?alt=media&token=486ac4d9-d9dd-4921-ab19-0b4b55b4b2f1"
                     alt="Price My Solar NZ Logo"
                     layout="fill"
                     objectFit="contain"
