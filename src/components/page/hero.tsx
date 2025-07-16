@@ -175,7 +175,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
           </p>
           
           <div className="space-y-4 rounded-lg border border-border/50 bg-card p-8 shadow-sm">
-             <div className="w-4/5 mx-auto">
+             <div className="w-4/5">
                 <div className="grid grid-cols-2 gap-4">
                     <Button 
                         variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
