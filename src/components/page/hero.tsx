@@ -120,31 +120,31 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         className="absolute inset-0 z-0 opacity-20"
         priority
       />
-      <div className="container relative z-10 mx-auto grid min-h-[700px] grid-cols-1 items-start gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-24">
+      <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-start gap-8 px-4 py-12 md:grid-cols-2 md:px-6 lg:py-16">
         <div className="relative h-full w-full hidden md:block">
             <Image
               src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
               alt="Phone showing solar quote comparison"
-              width={500}
-              height={750}
-              className="absolute left-[-100px] top-0 object-contain h-full w-auto max-w-none"
+              width={400}
+              height={600}
+              className="absolute left-[-80px] top-0 object-contain h-full w-auto max-w-none"
             />
         </div>
-        <div className="flex flex-col items-center justify-start space-y-8">
-            <div className="bg-primary p-4 rounded-md text-center text-primary-foreground shadow-lg">
-                <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl">
+        <div className="flex flex-col items-center justify-start space-y-6">
+            <div className="bg-primary p-3 rounded-md text-center text-primary-foreground shadow-lg">
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">
                     Compare Solar Quotes
                 </h1>
-                <p className="text-lg opacity-90">Quotes from NZ qualified installers</p>
+                <p className="text-base opacity-90">Quotes from NZ qualified installers</p>
             </div>
 
-            <Card className="w-full max-w-md bg-card/90 p-4 shadow-2xl backdrop-blur-sm">
-              <CardContent className="flex flex-col items-center p-6 text-center">
-                <div className="w-full bg-slate-100 p-6 rounded-md">
+            <Card className="w-full max-w-sm bg-card/90 p-4 shadow-2xl backdrop-blur-sm">
+              <CardContent className="flex flex-col items-center p-4 text-center">
+                <div className="w-full bg-slate-100 p-4 rounded-md">
                    <p className="font-semibold text-accent">
                     Installation Costs & Power Savings
                   </p>
-                  <h3 className="mb-4 text-2xl font-bold text-secondary">
+                  <h3 className="mb-4 text-xl font-bold text-secondary">
                     Compare & Save
                   </h3>
                   <form className="space-y-4" onSubmit={handleSubmit}>
@@ -181,13 +181,13 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                         onChange={handleInput}
                         disabled={!ready}
                         placeholder="Start typing your address..."
-                        className="h-12 w-full text-center text-base"
+                        className="h-11 w-full text-center text-base"
                         autoComplete="off"
                       />
                       {status === 'OK' && renderSuggestions()}
                     </div>
                      
-                    <Button type="submit" size="lg" className="w-full" disabled={!value}>
+                    <Button type="submit" size="default" className="w-full h-11" disabled={!value}>
                         Get My Free Quote
                     </Button>
                   </form>
