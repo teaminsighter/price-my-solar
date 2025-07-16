@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { ChevronLeft, ChevronRight, Download, ArrowUpDown, Columns } from 'lucide-react';
 import type { QuoteData } from '@/components/quote-funnel';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 type Lead = QuoteData & { id: string; createdAt: string | null };
 type SortDirection = 'asc' | 'desc';
@@ -46,10 +47,10 @@ export default function LeadsPage() {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [sortColumn, setSortColumn] = useState<keyof Lead>('createdAt');
     const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
-    const [visibleColumns, setVisibleColumns] = useState<Record<keyof Lead, boolean>>(() => {
+    const [visibleColumns, setVisibleColumns] = useState<Record<string, boolean>>(() => {
         const initialState: Record<string, boolean> = {};
         allColumns.forEach(col => {
-            initialState[col.key] = defaultVisibleColumns.includes(col.key);
+            initialState[col.key] = defaultVisibleColumns.includes(col.key as keyof Lead);
         });
         return initialState;
     });
@@ -78,7 +79,7 @@ export default function LeadsPage() {
             if (bValue === null || bValue === undefined) return -1;
             
             let comparison = 0;
-            if (sortColumn === 'createdAt') {
+            if (sortColumn === 'createdAt' && aValue && bValue) {
                 comparison = new Date(aValue).getTime() - new Date(bValue).getTime();
             } else if (typeof aValue === 'number' && typeof bValue === 'number') {
                 comparison = aValue - bValue;
@@ -128,7 +129,7 @@ export default function LeadsPage() {
         const headers = activeColumns.map(c => c.label).join(',');
         const rows = data.map(row => 
             activeColumns.map(col => {
-                const value = row[col.key];
+                const value = row[col.key as keyof Lead];
                 return `"${String(value ?? '').replace(/"/g, '""')}"`;
             }).join(',')
         );
@@ -189,21 +190,24 @@ export default function LeadsPage() {
                         <DropdownMenuContent align="end" className="w-40">
                              <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
                              <DropdownMenuSeparator />
-                            {allColumns.map(column => (
-                                <DropdownMenuCheckboxItem
-                                    key={column.key}
-                                    className="capitalize"
-                                    checked={visibleColumns[column.key]}
-                                    onCheckedChange={value =>
-                                        setVisibleColumns(prev => ({
-                                            ...prev,
-                                            [column.key]: !!value,
-                                        }))
-                                    }
-                                >
-                                    {column.label}
-                                </DropdownMenuCheckboxItem>
-                            ))}
+                             <ScrollArea className="h-64">
+                                {allColumns.map(column => (
+                                    <DropdownMenuCheckboxItem
+                                        key={column.key}
+                                        className="capitalize"
+                                        checked={visibleColumns[column.key]}
+                                        onCheckedChange={value =>
+                                            setVisibleColumns(prev => ({
+                                                ...prev,
+                                                [column.key]: !!value,
+                                            }))
+                                        }
+                                        onSelect={(e) => e.preventDefault()}
+                                    >
+                                        {column.label}
+                                    </DropdownMenuCheckboxItem>
+                                ))}
+                             </ScrollArea>
                         </DropdownMenuContent>
                     </DropdownMenu>
                     <Button onClick={handleExportAll} variant="outline" size="sm">
@@ -228,7 +232,7 @@ export default function LeadsPage() {
                             </TableHead>
                             {allColumns.filter(c => visibleColumns[c.key]).map(column => (
                                 <TableHead key={column.key}>
-                                    <Button variant="ghost" onClick={() => handleSort(column.key)}>
+                                    <Button variant="ghost" onClick={() => handleSort(column.key as keyof Lead)}>
                                         {column.label}
                                         <ArrowUpDown className="ml-2 h-4 w-4" />
                                     </Button>
@@ -248,7 +252,7 @@ export default function LeadsPage() {
                                     </TableCell>
                                     {allColumns.filter(c => visibleColumns[c.key]).map(column => (
                                         <TableCell key={column.key} className="whitespace-normal align-top">
-                                            {renderCellContent(lead, column.key)}
+                                            {renderCellContent(lead, column.key as keyof Lead)}
                                         </TableCell>
                                     ))}
                                 </TableRow>
