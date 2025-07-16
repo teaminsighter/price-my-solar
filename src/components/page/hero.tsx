@@ -7,7 +7,7 @@ import { useLoadScript } from '@react-google-maps/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { QuoteData } from '@/components/quote-funnel';
-import { Home, Search, Check, MapPin } from 'lucide-react';
+import { Check, MapPin } from 'lucide-react';
 import Image from 'next/image';
 
 const libraries: ('places')[] = ['places'];
@@ -232,7 +232,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             alt="Phone showing solar quotes"
             width={450}
             height={600}
-            className="w-full max-w-sm object-contain translate-y-24 translate-x-24"
+            className="w-full max-w-sm object-contain translate-y-36 translate-x-24"
             priority
           />
         </div>
