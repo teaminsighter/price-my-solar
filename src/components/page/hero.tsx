@@ -138,6 +138,10 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             alert("Please select a property type (Residential or Commercial).");
         }
     };
+    
+  const dynamicQuestion = propertyType === 'RESIDENTIAL' 
+    ? "Where do you want your Solar to be installed?" 
+    : "Where is your commercial building located?";
 
   const renderSuggestions = () => (
     <div className="absolute top-full z-10 mt-1 w-full rounded-md border bg-white shadow-lg">
@@ -174,7 +178,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             Compare two quotes from New Zealand’s top solar installers side by side and see how much you could save—choose the best deal and maximise your power savings.
           </p>
           
-          <div className="space-y-6 rounded-lg border border-border/50 bg-card p-8 shadow-sm">
+          <div className="space-y-4 rounded-lg border border-border/50 bg-card p-8 shadow-sm">
              <div className="grid grid-cols-2 gap-4">
                 <Button 
                     variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
@@ -191,9 +195,16 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                     Commercial
                 </Button>
              </div>
-             <form onSubmit={handleSubmit} className="relative mt-4">
+              <div className="min-h-[2.5rem] flex items-center justify-center transition-all duration-300">
+                {propertyType && (
+                    <p className="text-center font-semibold text-foreground animate-in fade-in">
+                        {dynamicQuestion}
+                    </p>
+                )}
+              </div>
+             <form onSubmit={handleSubmit} className="relative">
                 <div className="relative flex items-center">
-                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/80" />
+                    <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary-foreground/80" />
                     <Input
                         id="address"
                         value={value}
