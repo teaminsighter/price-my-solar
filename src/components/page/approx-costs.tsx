@@ -10,7 +10,7 @@ const costTiers = [
     title: "Couple",
     price: "Less than $12,000",
     features: ["Low solar needs", "Minimal battery/storage", "Best for small homes"],
-    icon: null, // Will be replaced by an image
+    icon: null,
     imageUrl: "https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FTiers%2Fcouple.jpg?alt=media&token=3b2d1fb2-321f-4e40-adfa-421de8060497",
     imageHint: "couple house"
   },
@@ -26,8 +26,9 @@ const costTiers = [
     title: "Large Family",
     price: "$17,000 – $22,000",
     features: ["Large property", "Higher consumption & battery"],
-    icon: Building2,
-    imageUrl: null,
+    icon: null,
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FTiers%2Fl%20family.jpg?alt=media&token=9b2369f0-51c3-4a89-86fd-bdff046f112f",
+    imageHint: "large house"
   },
 ];
 
