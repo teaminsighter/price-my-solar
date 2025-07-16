@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -17,8 +18,9 @@ const costTiers = [
     title: "Family",
     price: "$12,000 – $17,000",
     features: ["Can export/store power", "Good ROI, more energy usage"],
-    icon: Users,
-    imageUrl: null,
+    icon: null,
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FTiers%2Ffamily.jpg?alt=media&token=ce89dba1-5235-446e-815f-1b10068c6b4a",
+    imageHint: "family house"
   },
   {
     title: "Large Family",
