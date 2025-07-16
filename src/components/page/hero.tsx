@@ -133,9 +133,9 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         <div className="flex flex-col items-center justify-center space-y-8">
             <div className="bg-primary p-4 rounded-md text-center text-primary-foreground shadow-lg">
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl">
-                    COMPARE SOLAR QUOTES
+                    Compare Solar Quotes
                 </h1>
-                <p className="text-lg opacity-90">QUOTES FROM NZ QUALIFIED INSTALLERS</p>
+                <p className="text-lg opacity-90">Quotes from NZ qualified installers</p>
             </div>
 
             <Card className="w-full max-w-md bg-card/90 p-4 shadow-2xl backdrop-blur-sm">
@@ -145,7 +145,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                     Installation Costs & Power Savings
                   </p>
                   <h3 className="mb-4 text-2xl font-bold text-secondary">
-                    COMPARE & SAVE
+                    Compare & Save
                   </h3>
                   <form className="space-y-4" onSubmit={handleSubmit}>
                     

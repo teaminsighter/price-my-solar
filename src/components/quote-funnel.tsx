@@ -57,7 +57,7 @@ const funnelSteps = [
   { id: 'loadingSavings', title: 'Calculating your potential savings...', type: 'animation', duration: 3000, condition: (data: QuoteData) => data.changePowerCompanyInterest !== 'No' && data.gridSellBackInterest !== 'No'},
   { id: 'summary', title: 'Just a moment...', type: 'summary', condition: (data: QuoteData) => data.gridSellBackInterest === 'No' || data.changePowerCompanyInterest === 'No' },
   { id: 'savingsCalculation', title: 'Potential Bill Reduction', type: 'calculation' },
-  { id: 'costCalculation', title: "Let's work out the costs for Solar at your address", type: 'transition' },
+  { id: 'costCalculation', title: "Let's work out the costs for solar at your address", type: 'transition' },
   { id: 'firstName', title: 'What is your first name?', type: 'text', required: true },
   { id: 'lastName', title: 'And your last name?', type: 'text', required: true },
   { id: 'financeInterest', title: 'Do you want us to show you finance options?', options: ['Why not!', 'Will sort myself'], required: true },

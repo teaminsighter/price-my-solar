@@ -23,7 +23,7 @@ export function ChoosingPartner() {
             Look for SEANZ-member installers with strong track records, clear case studies, and compliance with NZ standards. The cheapest quote isn’t always the best. Ask for evidence of previous installs and check Google reviews.
           </p>
           <Button size="lg" className="rounded-full" asChild>
-            <Link href="#get-quotes">Cost to Install Solar At My Address</Link>
+            <Link href="#get-quotes">Cost to Install Solar at My Address</Link>
           </Button>
         </div>
       </div>
