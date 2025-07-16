@@ -71,6 +71,8 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     const handleSelect = ({ description }: { description: string }) => () => {
         setValue(description, false);
         clearSuggestions();
+        // Automatically start the funnel when an address is selected
+        onStartFunnel({ address: description, propertyType });
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -145,19 +147,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                     COMPARE & SAVE
                   </h3>
                   <form className="space-y-4" onSubmit={handleSubmit}>
-                    <div className="relative">
-                      <Input
-                        id="address"
-                        value={value}
-                        onChange={handleInput}
-                        disabled={!ready}
-                        placeholder="Start typing your address..."
-                        className="h-12 w-full text-center text-base"
-                        autoComplete="off"
-                      />
-                      {status === 'OK' && renderSuggestions()}
-                    </div>
-
+                    
                     <RadioGroup 
                       defaultValue="RESIDENTIAL" 
                       className="grid grid-cols-2 gap-4"
@@ -177,7 +167,21 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                         </Label>
                       </div>
                     </RadioGroup>
-                     <Button type="submit" size="lg" className="w-full" disabled={!value}>
+
+                    <div className="relative">
+                      <Input
+                        id="address"
+                        value={value}
+                        onChange={handleInput}
+                        disabled={!ready}
+                        placeholder="Start typing your address..."
+                        className="h-12 w-full text-center text-base"
+                        autoComplete="off"
+                      />
+                      {status === 'OK' && renderSuggestions()}
+                    </div>
+                     
+                    <Button type="submit" size="lg" className="w-full" disabled={!value}>
                         Get My Free Quote
                     </Button>
                   </form>
