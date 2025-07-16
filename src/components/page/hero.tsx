@@ -112,11 +112,11 @@ function HeroContent({ onStartFunnel }: HeroProps) {
       id="get-quotes"
       className="relative w-full overflow-hidden bg-background"
     >
-      <div className="absolute inset-0 z-0 hidden md:block">
-        <AnimatedFamilyRun className="w-full h-full" />
-      </div>
       <div className="container relative z-10 mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-8 px-4 py-8 pt-12 md:grid-cols-2 lg:px-6">
-        <div className="space-y-8 text-left">
+        <div className="relative space-y-8 text-left">
+          <div className="absolute top-36 -left-12 right-0 h-48 w-[calc(100%+6rem)] -z-10 hidden md:block">
+            <AnimatedFamilyRun className="w-full h-full" />
+          </div>
           <h1 className="text-4xl font-bold uppercase text-foreground sm:text-6xl">
             Compare Solar<br/>Quotes
           </h1>
