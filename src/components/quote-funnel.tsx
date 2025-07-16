@@ -396,16 +396,14 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
     <section className="w-full bg-slate-50 py-12 md:py-20 lg:py-24 min-h-[80vh] flex flex-col items-center justify-start">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full items-start">
             <div className="hidden md:flex justify-center items-start h-full">
-                <div className="bg-gray-200 rounded-lg p-4 h-full sticky top-24 w-80 overflow-hidden">
-                    <div className="relative w-full h-full">
-                         <Image
-                            src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
-                            alt="Happy homeowner on phone"
-                            layout="fill"
-                            objectFit="cover"
-                            className="rounded-md"
-                         />
-                    </div>
+                <div className="sticky top-24 w-80 h-[500px]">
+                     <Image
+                        src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
+                        alt="Happy homeowner on phone"
+                        layout="fill"
+                        objectFit="cover"
+                        className="rounded-lg"
+                     />
                 </div>
             </div>
             
