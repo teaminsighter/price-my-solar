@@ -140,7 +140,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     : "Where is your commercial building located?";
 
   const renderSuggestions = () => (
-    <div className="absolute top-full z-10 mt-1 w-4/5 rounded-md border bg-white shadow-lg">
+    <div className="absolute top-full z-10 mt-1 w-full rounded-md border bg-white shadow-lg">
       {data.map((suggestion) => {
         const {
           place_id,
@@ -200,7 +200,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                     </p>
                 )}
               </div>
-             <form onSubmit={handleSubmit} className="relative">
+             <form onSubmit={handleSubmit} className="relative w-4/5">
                 <div className="relative flex items-center">
                     <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-accent-foreground/80" />
                     <Input
@@ -209,7 +209,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                         onChange={handleInput}
                         disabled={!ready}
                         placeholder={placeholder}
-                        className="h-12 w-4/5 bg-accent pl-10 text-base text-accent-foreground placeholder:text-accent-foreground/70 disabled:opacity-70"
+                        className="h-12 w-full bg-accent pl-10 text-base text-accent-foreground placeholder:text-accent-foreground/70 disabled:opacity-70"
                         autoComplete="off"
                     />
                     {status === 'OK' && renderSuggestions()}
