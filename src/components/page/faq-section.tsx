@@ -1,6 +1,7 @@
 
 "use client"
 
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { GitCompareArrows, BadgePercent, ClipboardList, PiggyBank, Handshake, FileQuestion, CalendarDays, MailQuestion } from "lucide-react"
 
@@ -60,6 +61,42 @@ const cardVariants = {
   }),
 };
 
+function FaqCard({ item, index }: { item: typeof faqItems[0], index: number }) {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  return (
+    <motion.div
+      className="relative h-64 w-full [perspective:1000px]"
+      custom={index}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={cardVariants}
+      onHoverStart={() => setIsFlipped(true)}
+      onHoverEnd={() => setIsFlipped(false)}
+    >
+      <motion.div
+        className="relative h-full w-full [transform-style:preserve-3d]"
+        initial={false}
+        animate={{ rotateY: isFlipped ? 180 : 0 }}
+        transition={{ duration: 0.6, ease: "easeInOut" }}
+      >
+        {/* Front of the card */}
+        <div className="absolute flex h-full w-full flex-col items-center justify-center rounded-lg border bg-background p-6 text-center [backface-visibility:hidden]">
+          <item.icon className="mb-4 h-10 w-10 text-primary" />
+          <h3 className="text-md font-semibold">{item.question}</h3>
+        </div>
+        
+        {/* Back of the card */}
+        <div className="absolute flex h-full w-full items-center justify-center rounded-lg border bg-primary p-6 text-center text-primary-foreground [backface-visibility:hidden] [transform:rotateY(180deg)]">
+          <p className="text-sm">{item.answer}</p>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+
 export default function FaqSection() {
   return (
     <section id="faq" className="w-full bg-card py-12 md:py-20 lg:py-24 overflow-hidden">
@@ -74,32 +111,7 @@ export default function FaqSection() {
         </div>
         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {faqItems.map((item, index) => (
-            <motion.div
-              key={index}
-              className="relative h-64 w-full [perspective:1000px]"
-              custom={index}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={cardVariants}
-            >
-              <motion.div
-                className="relative h-full w-full [transform-style:preserve-3d]"
-                initial={{ rotateY: 0 }}
-                whileHover={{ rotateY: 180, transition: { duration: 0.6 } }}
-              >
-                {/* Front of the card */}
-                <div className="absolute flex h-full w-full flex-col items-center justify-center rounded-lg border bg-background p-6 text-center [backface-visibility:hidden]">
-                  <item.icon className="mb-4 h-10 w-10 text-primary" />
-                  <h3 className="text-md font-semibold">{item.question}</h3>
-                </div>
-                
-                {/* Back of the card */}
-                <div className="absolute flex h-full w-full items-center justify-center rounded-lg border bg-primary p-6 text-center text-primary-foreground [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                  <p className="text-sm">{item.answer}</p>
-                </div>
-              </motion.div>
-            </motion.div>
+            <FaqCard key={index} item={item} index={index} />
           ))}
         </div>
       </div>
