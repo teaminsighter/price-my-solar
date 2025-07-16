@@ -82,7 +82,6 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         }
     };
 
-
   const renderSuggestions = () => (
     <div className="absolute top-full z-10 mt-1 w-full rounded-md border bg-white shadow-lg">
       {data.map((suggestion) => {
@@ -105,7 +104,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
   );
 
   const buttonBaseClass = "flex w-full cursor-pointer items-center justify-center rounded-md border p-3 font-medium transition-colors";
-  const unselectedClass = "text-muted-foreground bg-background hover:bg-muted/50";
+  const unselectedClass = "text-muted-foreground bg-background hover:bg-muted/50 border-input";
   const selectedClass = "border-primary bg-primary text-primary-foreground hover:bg-primary/90";
 
   return (
@@ -126,8 +125,8 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             <Image
               src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
               alt="Phone showing solar quote comparison"
-              width={500}
-              height={700}
+              width={400}
+              height={600}
               className="object-contain"
             />
         </div>
