@@ -79,14 +79,13 @@ export default {
           },
         },
         'hero-glow': {
-          '0%, 100%': { 'box-shadow': '0 0 10px hsl(var(--primary) / 0)' },
-          '50%': { 'box-shadow': '0 0 20px 5px hsl(var(--primary) / 0.5)' },
+          'to': { 'background-position': '-200% center' },
         }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'hero-glow': 'hero-glow 3s ease-in-out infinite',
+        'hero-glow': 'hero-glow 3s linear infinite',
       },
     },
   },

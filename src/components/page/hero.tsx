@@ -131,7 +131,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                 </li>
             </ul>
             <form className="relative flex max-w-md space-x-2" onSubmit={handleSubmit}>
-              <div className="relative flex-grow animate-hero-glow rounded-md">
+              <div className="relative flex-grow rounded-md bg-[linear-gradient(110deg,hsl(var(--primary)),45%,hsl(var(--accent)),55%,hsl(var(--primary)))] bg-[length:200%_100%] animate-hero-glow">
                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground" />
                 <Input
                   id="address"
@@ -139,7 +139,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                   onChange={handleInput}
                   disabled={!ready}
                   placeholder={heroContentConfig.addressPlaceholder}
-                  className="h-12 w-full pl-10 text-base bg-primary text-primary-foreground placeholder:text-primary-foreground/80 focus:ring-primary/80"
+                  className="h-12 w-full pl-10 text-base bg-transparent text-primary-foreground placeholder:text-primary-foreground/80 focus:ring-primary/80"
                   autoComplete="off"
                 />
                 {status === 'OK' && renderSuggestions()}
