@@ -40,7 +40,7 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-8 border-t border-primary-foreground/20 pt-8 text-center text-sm text-primary-foreground/60">
+        <div className="mt-8 border-t border-primary-foreground/20 pt-8 text-center text-xs text-primary-foreground">
           <p>&copy; 2025 Price My Solar. All Rights Reserved.</p>
         </div>
       </div>
