@@ -111,16 +111,16 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     >
       <div className="container mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-12 px-4 py-8 pt-12 md:grid-cols-2 lg:px-6">
         <div className="space-y-6 text-left">
-          <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+          <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
             Compare Solar Quotes
           </h1>
-          <p className="text-lg text-muted-foreground md:text-xl">
+          <p className="text-lg text-muted-foreground">
             Quotes from NZ qualified installers
           </p>
           
           <div className="space-y-4 rounded-lg border border-border/50 bg-card p-6 shadow-sm">
              <p className="text-muted-foreground">Installation costs & power savings</p>
-             <p className="text-2xl font-bold text-foreground">Compare & save</p>
+             <p className="text-xl font-bold text-foreground">Compare & save</p>
              <div className="grid grid-cols-2 gap-2">
                 <Button 
                     variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
@@ -144,7 +144,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                         onChange={handleInput}
                         disabled={!ready}
                         placeholder="Start typing your address"
-                        className="h-12 w-full pl-10 text-base"
+                        className="h-12 w-full pl-10 text-sm"
                         autoComplete="off"
                     />
                     {status === 'OK' && renderSuggestions()}
