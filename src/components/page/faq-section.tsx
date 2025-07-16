@@ -60,11 +60,6 @@ const cardVariants = {
   }),
 };
 
-const flipVariants = {
-  initial: { rotateY: 0 },
-  hover: { rotateY: 180 },
-};
-
 export default function FaqSection() {
   return (
     <section id="faq" className="w-full bg-card py-12 md:py-20 lg:py-24 overflow-hidden">
@@ -90,10 +85,8 @@ export default function FaqSection() {
             >
               <motion.div
                 className="relative h-full w-full [transform-style:preserve-3d]"
-                variants={flipVariants}
-                initial="initial"
-                whileHover="hover"
-                transition={{ duration: 0.6 }}
+                initial={{ rotateY: 0 }}
+                whileHover={{ rotateY: 180, transition: { duration: 0.6 } }}
               >
                 {/* Front of the card */}
                 <div className="absolute flex h-full w-full flex-col items-center justify-center rounded-lg border bg-background p-6 text-center [backface-visibility:hidden]">
