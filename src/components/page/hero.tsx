@@ -125,15 +125,17 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                     size="sm"
                     variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
                     onClick={() => setPropertyType('RESIDENTIAL')}
+                    className="font-bold"
                 >
-                    Residential solar
+                    Residential
                 </Button>
                 <Button
                     size="sm"
                     variant={propertyType === 'COMMERCIAL' ? 'default' : 'outline'}
                     onClick={() => setPropertyType('COMMERCIAL')}
+                    className="font-bold"
                 >
-                    Commercial solar
+                    Commercial
                 </Button>
              </div>
              <form onSubmit={handleSubmit} className="relative mt-4">
