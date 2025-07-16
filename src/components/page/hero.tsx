@@ -130,12 +130,8 @@ function HeroContent({ onStartFunnel }: HeroProps) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (value && propertyType) {
+        if (value) {
             setAddress(value);
-        } else if (value && !propertyType) {
-            // Highlight the property type buttons if address is entered but type isn't selected
-            // This is a simple alert for now, could be a UI highlight
-            alert("Please select a property type (Residential or Commercial).");
         }
     };
     
@@ -179,22 +175,24 @@ function HeroContent({ onStartFunnel }: HeroProps) {
           </p>
           
           <div className="space-y-4 rounded-lg border border-border/50 bg-card p-8 shadow-sm">
-             <div className="grid grid-cols-2 gap-4">
-                <Button 
-                    variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
-                    onClick={() => handlePropertyTypeSelect('RESIDENTIAL')}
-                    className="h-10 px-4 text-sm font-bold"
-                >
-                    Residential
-                </Button>
-                <Button
-                    variant={propertyType === 'COMMERCIAL' ? 'default' : 'outline'}
-                    onClick={() => handlePropertyTypeSelect('COMMERCIAL')}
-                    className="h-10 px-4 text-sm font-bold"
-                >
-                    Commercial
-                </Button>
-             </div>
+             <div className="w-4/5 mx-auto">
+                <div className="grid grid-cols-2 gap-4">
+                    <Button 
+                        variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
+                        onClick={() => handlePropertyTypeSelect('RESIDENTIAL')}
+                        className="h-10 px-4 text-sm font-bold"
+                    >
+                        Residential
+                    </Button>
+                    <Button
+                        variant={propertyType === 'COMMERCIAL' ? 'default' : 'outline'}
+                        onClick={() => handlePropertyTypeSelect('COMMERCIAL')}
+                        className="h-10 px-4 text-sm font-bold"
+                    >
+                        Commercial
+                    </Button>
+                </div>
+            </div>
               <div className="min-h-[2.5rem] flex items-center justify-start transition-all duration-300">
                 {propertyType && (
                     <p className="text-left font-semibold text-foreground animate-in fade-in">
