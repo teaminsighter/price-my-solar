@@ -166,3 +166,39 @@ export function AnimatedIconHybrid(props: SVGProps<SVGSVGElement>) {
     </svg>
   )
 }
+
+export function AnimatedFamilyRun(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 800 200" preserveAspectRatio="xMidYMax meet" fill="none" {...props}>
+      <path id="runPath" d="M-100 150 Q 400 100, 900 150" stroke="none" />
+      <g stroke="hsl(var(--primary))" strokeWidth="3" fill="hsl(var(--primary))" strokeLinecap="round" strokeLinejoin="round">
+        <g>
+          {/* Parent 1 */}
+          <g>
+            <circle cx="0" cy="0" r="8" />
+            <path d="M -5 10 L 0 25 L 5 10 L 0 25 L 0 40 L -7 55 M 0 40 L 7 55" />
+             <animateMotion dur="8s" repeatCount="indefinite" rotate="auto">
+                <mpath href="#runPath" />
+            </animateMotion>
+          </g>
+          {/* Parent 2 */}
+          <g transform="translate(50, -5)">
+            <circle cx="0" cy="0" r="8" />
+            <path d="M -5 10 L 0 25 L 5 10 L 0 25 L 0 40 L -7 55 M 0 40 L 7 55" />
+             <animateMotion dur="7.8s" begin="-0.2s" repeatCount="indefinite" rotate="auto">
+                <mpath href="#runPath" />
+            </animateMotion>
+          </g>
+          {/* Child */}
+          <g transform="translate(90, 15) scale(0.7)">
+            <circle cx="0" cy="0" r="8" />
+            <path d="M -5 10 L 0 25 L 5 10 L 0 25 L 0 40 L -7 55 M 0 40 L 7 55" />
+             <animateMotion dur="7.5s" begin="-0.4s" repeatCount="indefinite" rotate="auto">
+                <mpath href="#runPath" />
+            </animateMotion>
+          </g>
+        </g>
+      </g>
+    </svg>
+  )
+}
