@@ -29,7 +29,7 @@ export function Hero({ onStartFunnel }: HeroProps) {
     if (loadError) {
         return (
              <section id="get-quotes" className="relative w-full overflow-hidden bg-background">
-             <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-center justify-center">
+             <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-start justify-center">
                 <div>{heroContentConfig.errorLoadingMaps}</div>
              </div>
           </section>
@@ -39,7 +39,7 @@ export function Hero({ onStartFunnel }: HeroProps) {
     if (!isLoaded) {
         return (
           <section id="get-quotes" className="relative w-full overflow-hidden bg-background">
-             <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-center justify-center">
+             <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-start justify-center">
                 <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
              </div>
           </section>
@@ -124,14 +124,14 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                 <Button 
                     variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
                     onClick={() => setPropertyType('RESIDENTIAL')}
-                    className="font-bold h-6 px-2 text-xs"
+                    className="font-bold h-5 px-1.5 text-[10px]"
                 >
                     Residential
                 </Button>
                 <Button
                     variant={propertyType === 'COMMERCIAL' ? 'default' : 'outline'}
                     onClick={() => setPropertyType('COMMERCIAL')}
-                    className="font-bold h-6 px-2 text-xs"
+                    className="font-bold h-5 px-1.5 text-[10px]"
                 >
                     Commercial
                 </Button>
