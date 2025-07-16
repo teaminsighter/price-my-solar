@@ -51,7 +51,7 @@ export function Hero({ onStartFunnel }: HeroProps) {
 
 
 function HeroContent({ onStartFunnel }: HeroProps) {
-    const [propertyType, setPropertyType] = useState<'RESIDENTIAL' | 'COMMERCIAL'>('RESIDENTIAL');
+    const [propertyType, setPropertyType] = useState<'RESIDENTIAL' | 'COMMERCIAL' | null>(null);
 
     const {
         ready,
@@ -73,12 +73,14 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     const handleSelect = (description: string) => {
         setValue(description, false);
         clearSuggestions();
-        onStartFunnel({ address: description, propertyType });
+        if (propertyType) {
+            onStartFunnel({ address: description, propertyType });
+        }
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (value) {
+        if (value && propertyType) {
             onStartFunnel({ address: value, propertyType });
         }
     };
@@ -120,12 +122,14 @@ function HeroContent({ onStartFunnel }: HeroProps) {
              <p className="text-xl font-bold text-foreground">Compare &amp; save</p>
              <div className="grid grid-cols-2 gap-2">
                 <Button 
+                    size="sm"
                     variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
                     onClick={() => setPropertyType('RESIDENTIAL')}
                 >
                     Residential solar
                 </Button>
                 <Button
+                    size="sm"
                     variant={propertyType === 'COMMERCIAL' ? 'default' : 'outline'}
                     onClick={() => setPropertyType('COMMERCIAL')}
                 >
@@ -134,14 +138,14 @@ function HeroContent({ onStartFunnel }: HeroProps) {
              </div>
              <form onSubmit={handleSubmit} className="relative mt-4">
                 <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+                    <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary-foreground/80" />
                     <Input
                         id="address"
                         value={value}
                         onChange={handleInput}
-                        disabled={!ready}
+                        disabled={!ready || !propertyType}
                         placeholder="Start typing your address"
-                        className="h-12 w-full pl-10 text-sm"
+                        className="h-12 w-full pl-10 text-sm bg-primary text-primary-foreground placeholder:text-primary-foreground/80 disabled:opacity-70"
                         autoComplete="off"
                     />
                     {status === 'OK' && renderSuggestions()}
