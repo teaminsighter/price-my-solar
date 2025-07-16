@@ -15,6 +15,7 @@ import { RoiSection } from '@/components/page/roi-section';
 import { HybridSystem } from '@/components/page/hybrid-system';
 import { QuoteFunnel } from '@/components/quote-funnel';
 import type { QuoteData } from '@/components/quote-funnel';
+import { FaqSection } from '@/components/page/faq-section';
 
 export default function Home() {
   const [funnelStarted, setFunnelStarted] = useState(false);
@@ -47,6 +48,7 @@ export default function Home() {
             <SavingsSection />
             <RoiSection />
             <HybridSystem />
+            <FaqSection />
           </>
         )}
       </main>
