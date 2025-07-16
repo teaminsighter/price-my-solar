@@ -12,7 +12,6 @@ import { Check, MapPin } from 'lucide-react';
 
 const libraries: ('places')[] = ['places'];
 
-// Configuration for all text content in the Hero component
 const heroContentConfig = {
   bullet1: "SEANZ-member installers",
   bullet2: "100% Free with no obligation",
@@ -132,7 +131,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                 </li>
             </ul>
             <form className="relative flex max-w-md space-x-2" onSubmit={handleSubmit}>
-              <div className="relative flex-grow">
+              <div className="relative flex-grow animate-hero-glow rounded-md">
                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground" />
                 <Input
                   id="address"
