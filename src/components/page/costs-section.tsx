@@ -18,20 +18,20 @@ export function CostsSection() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
           <div className="space-y-6">
-            <div className="w-full h-[250px] flex items-center justify-center">
-              <AnimatedIconPiggyBank className="w-32 h-32 text-primary animate-float" />
+            <div className="w-full h-[150px] flex items-center justify-center">
+              <AnimatedIconPiggyBank className="w-24 h-24 text-primary animate-float" />
             </div>
-            <h3 className="text-2xl font-bold tracking-tight md:text-3xl">The Costs of Going Solar</h3>
+            <h3 className="text-2xl font-bold tracking-tight md:text-3xl text-center md:text-left">The Costs of Going Solar</h3>
             <p className="text-muted-foreground">
               In the last eight years, solar prices have plummeted from around $40,000 to under $9,000 for a standard 3 kW system. For New Zealand homes and businesses, going solar is more affordable than ever.
             </p>
             <p className="text-xs text-muted-foreground/80">Learn more – <Link href="#" className="underline">Freedom Forever</Link></p>
           </div>
           <div className="space-y-6">
-            <div className="w-full h-[250px] flex items-center justify-center">
-              <AnimatedIconPowerCompany className="w-32 h-32 text-primary animate-float" />
+            <div className="w-full h-[150px] flex items-center justify-center">
+              <AnimatedIconPowerCompany className="w-24 h-24 text-primary animate-float" />
             </div>
-            <h3 className="text-2xl font-bold tracking-tight md:text-3xl">Solar and Your NZ Power Company</h3>
+            <h3 className="text-2xl font-bold tracking-tight md:text-3xl text-center md:text-left">Solar and Your NZ Power Company</h3>
             <p className="text-muted-foreground">
               NZ power prices have risen by an average of 5% annually. Exporting solar to the grid only earns you 7-12c/kWh, while grid rates continue to climb. Solar empowers you to control your energy costs.
             </p>
