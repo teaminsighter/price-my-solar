@@ -134,10 +134,6 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             setAddress(value);
         }
     };
-    
-  const dynamicQuestion = propertyType === 'RESIDENTIAL' 
-    ? "Where do you want your Solar to be installed?" 
-    : "Where is your commercial building located?";
 
   const renderSuggestions = () => (
     <div className="absolute top-full z-10 mt-1 w-full rounded-md border bg-white shadow-lg">
@@ -199,11 +195,9 @@ function HeroContent({ onStartFunnel }: HeroProps) {
               </div>
             </div>
               <div className="min-h-[2.5rem] flex items-center justify-start transition-all duration-300">
-                {propertyType && (
-                    <p className="text-left font-semibold text-foreground animate-in fade-in">
-                        {dynamicQuestion}
-                    </p>
-                )}
+                <p className="text-left font-semibold text-foreground">
+                    Where is your property located?
+                </p>
               </div>
              <form onSubmit={handleSubmit} className="relative w-full">
                 <div className="relative flex items-center w-full">
