@@ -27,7 +27,6 @@ export type QuoteData = {
   gridSellBackInterest?: 'Yes' | 'Like to know more' | 'No';
   changePowerCompanyInterest?: 'Yes' | 'Like to know more' | 'No';
   savingsPercent?: number;
-  fullName?: string;
   firstName?: string;
   lastName?: string;
   financeInterest?: 'Why not!' | 'Will sort myself';
@@ -143,34 +142,22 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-
-    const { fullName } = formData;
-    let finalData = { ...formData };
-
-    if (fullName) {
-      const nameParts = fullName.trim().split(' ');
-      const firstName = nameParts[0];
-      const lastName = nameParts.slice(1).join(' ');
-      finalData = { ...finalData, firstName, lastName: lastName || firstName };
-      setFormData(finalData); // Update state to have firstName for the confirmation page
-    }
 
     if (currentStepInfo.id === 'contactInfo') {
       setLastCompletedStep('contactInfo');
       setIsSubmitting(true);
       try {
-        const result = await saveQuoteToFirestore(finalData);
+        const result = await saveQuoteToFirestore(formData);
         if (result.success) {
           // Push to dataLayer
           if (window.dataLayer) {
             window.dataLayer.push({
               event: 'new_lead',
               lead_data: {
-                user_id: finalData.userId,
-                address: finalData.address,
-                property_type: finalData.propertyType,
-                email: finalData.email,
+                user_id: formData.userId,
+                address: formData.address,
+                property_type: formData.propertyType,
+                email: formData.email,
               }
             });
           }
@@ -377,14 +364,24 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                 {currentStepInfo.title.replace('[address]', formData.address)}
             </CardTitle>
             <form onSubmit={handleFormSubmit} className="flex flex-col gap-4 pt-4 max-w-sm mx-auto">
-              <Input
-                type="text"
-                placeholder="Full Name"
-                value={formData.fullName || ''}
-                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                required
-                autoComplete="name"
-              />
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  type="text"
+                  placeholder="First Name"
+                  value={formData.firstName || ''}
+                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                  required
+                  autoComplete="given-name"
+                />
+                <Input
+                  type="text"
+                  placeholder="Last Name"
+                  value={formData.lastName || ''}
+                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                  required
+                  autoComplete="family-name"
+                />
+              </div>
               <Input
                 type="email"
                 placeholder="Email Address"
