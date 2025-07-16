@@ -138,16 +138,21 @@ function HeroContent({ onStartFunnel }: HeroProps) {
              </div>
              <form onSubmit={handleSubmit} className="relative mt-4">
                 <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary-foreground/80" />
+                    <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary-foreground/80 z-10" />
                     <Input
                         id="address"
                         value={value}
                         onChange={handleInput}
                         disabled={!ready || !propertyType}
-                        placeholder="Start typing your address"
+                        placeholder=""
                         className="h-12 w-full pl-10 text-sm bg-primary text-primary-foreground placeholder:text-primary-foreground/80 disabled:opacity-70"
                         autoComplete="off"
                     />
+                    {value === '' && (
+                        <label htmlFor="address" className="absolute left-10 top-1/2 -translate-y-1/2 pointer-events-none text-sm text-primary-foreground/80">
+                            <span className="font-bold">Start typing</span> your address
+                        </label>
+                    )}
                     {status === 'OK' && renderSuggestions()}
                 </div>
             </form>
