@@ -205,7 +205,7 @@ export default function LeadsPage() {
 
     if (loading) {
         return (
-            <div className="flex h-[calc(100vh-10rem)] items-center justify-center">
+            <div className="flex h-full items-center justify-center">
                 <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
             </div>
         );
@@ -256,55 +256,57 @@ export default function LeadsPage() {
                 </div>
             </div>
 
-            <ScrollArea className="flex-grow">
-                <div className="rounded-lg border shadow-sm mx-8">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="w-[50px]">
-                                    <Checkbox 
-                                    checked={paginatedLeads.length > 0 && selectedRows.length === paginatedLeads.length}
-                                    onCheckedChange={(checked) => handleSelectAll(Boolean(checked))}
-                                    />
-                                </TableHead>
-                                {columns.filter(c => c.visible).map(column => (
-                                    <TableHead key={column.key}>
-                                        <Button variant="ghost" onClick={() => handleSort(column.key as keyof Lead)}>
-                                            {column.label}
-                                            <ArrowUpDown className="ml-2 h-4 w-4" />
-                                        </Button>
-                                    </TableHead>
-                                ))}
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {paginatedLeads.length > 0 ? (
-                                paginatedLeads.map(lead => (
-                                    <TableRow key={lead.id} data-state={selectedRows.includes(lead.id) ? "selected" : ""}>
-                                        <TableCell>
-                                            <Checkbox 
-                                                checked={selectedRows.includes(lead.id)}
-                                                onCheckedChange={(checked) => handleSelectRow(lead.id, Boolean(checked))}
-                                            />
-                                        </TableCell>
-                                        {columns.filter(c => c.visible).map(column => (
-                                            <TableCell key={column.key} className="whitespace-normal align-top">
-                                                {renderCellContent(lead, column.key as keyof Lead)}
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
-                                ))
-                            ) : (
+            <div className="flex-grow min-h-0">
+                <ScrollArea className="h-full">
+                    <div className="rounded-lg border shadow-sm mx-8">
+                        <Table>
+                            <TableHeader>
                                 <TableRow>
-                                    <TableCell colSpan={columns.filter(c => c.visible).length + 1} className="text-center h-24">
-                                        No leads found.
-                                    </TableCell>
+                                    <TableHead className="w-[50px]">
+                                        <Checkbox 
+                                        checked={paginatedLeads.length > 0 && selectedRows.length === paginatedLeads.length}
+                                        onCheckedChange={(checked) => handleSelectAll(Boolean(checked))}
+                                        />
+                                    </TableHead>
+                                    {columns.filter(c => c.visible).map(column => (
+                                        <TableHead key={column.key}>
+                                            <Button variant="ghost" onClick={() => handleSort(column.key as keyof Lead)}>
+                                                {column.label}
+                                                <ArrowUpDown className="ml-2 h-4 w-4" />
+                                            </Button>
+                                        </TableHead>
+                                    ))}
                                 </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </div>
-            </ScrollArea>
+                            </TableHeader>
+                            <TableBody>
+                                {paginatedLeads.length > 0 ? (
+                                    paginatedLeads.map(lead => (
+                                        <TableRow key={lead.id} data-state={selectedRows.includes(lead.id) ? "selected" : ""}>
+                                            <TableCell>
+                                                <Checkbox 
+                                                    checked={selectedRows.includes(lead.id)}
+                                                    onCheckedChange={(checked) => handleSelectRow(lead.id, Boolean(checked))}
+                                                />
+                                            </TableCell>
+                                            {columns.filter(c => c.visible).map(column => (
+                                                <TableCell key={column.key} className="whitespace-normal align-top">
+                                                    {renderCellContent(lead, column.key as keyof Lead)}
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    ))
+                                ) : (
+                                    <TableRow>
+                                        <TableCell colSpan={columns.filter(c => c.visible).length + 1} className="text-center h-24">
+                                            No leads found.
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </div>
+                </ScrollArea>
+            </div>
             
             <div className="flex-none p-8 pt-4">
                 <div className="flex items-center justify-between">
