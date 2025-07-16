@@ -47,7 +47,7 @@ export function HowItWorks() {
           </div>
            <p className="text-xs text-muted-foreground/80">More info – <Link href="#" className="underline">Vivint Solar</Link></p>
           <Button size="lg" className="rounded-full" asChild>
-            <Link href="#get-quotes">How Much Can I Save?</Link>
+            <Link href="#get-quotes">Compare Now</Link>
           </Button>
         </div>
         <div className="relative h-96 w-full">

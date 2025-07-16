@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -44,7 +45,7 @@ export function Header() {
         </nav>
         <div className="flex items-center gap-4">
           <Button className="hidden rounded-full md:flex" asChild>
-            <Link href="#get-quotes">Get Quotes</Link>
+            <Link href="#get-quotes">Compare Now</Link>
           </Button>
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="md:hidden">
@@ -82,7 +83,7 @@ export function Header() {
                   ))}
                 </nav>
                 <Button className="mt-6 rounded-full" asChild>
-                  <Link href="#get-quotes" onClick={() => setIsOpen(false)}>Get Quotes</Link>
+                  <Link href="#get-quotes" onClick={() => setIsOpen(false)}>Compare Now</Link>
                 </Button>
               </div>
             </SheetContent>

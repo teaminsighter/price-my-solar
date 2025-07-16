@@ -23,7 +23,7 @@ export function SavingsSection() {
             Most NZ households save 40–70% off their power bills with solar. The payback period is usually 7–10 years, depending on your energy usage, available rebates, and system size.
           </p>
           <Button variant="secondary" size="lg" className="rounded-full" asChild>
-            <Link href="#get-quotes">Calculate My Savings</Link>
+            <Link href="#get-quotes">Compare Now</Link>
           </Button>
         </div>
       </div>

@@ -78,7 +78,7 @@ export function ApproxCosts() {
         </div>
         <div className="mt-12 text-center">
           <Button size="lg" className="rounded-full" asChild>
-            <Link href="#get-quotes">Compare Two Quotes Online</Link>
+            <Link href="#get-quotes">Compare Now</Link>
           </Button>
         </div>
       </div>

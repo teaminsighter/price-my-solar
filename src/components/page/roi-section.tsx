@@ -15,7 +15,7 @@ export function RoiSection() {
           </p>
           <div className="space-y-4">
             <Button size="lg" className="rounded-full" asChild>
-                <Link href="#get-quotes">Estimate Solar Savings</Link>
+                <Link href="#get-quotes">Compare Now</Link>
             </Button>
             <p className="text-sm text-muted-foreground">
                 <Link href="#get-quotes" className="underline">Get a tailored ROI estimate for your address.</Link>

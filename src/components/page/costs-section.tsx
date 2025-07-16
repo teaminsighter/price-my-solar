@@ -21,7 +21,7 @@ export function CostsSection() {
           </p>
           <p className="text-xs text-muted-foreground/80">Learn more – <Link href="#" className="underline">Freedom Forever</Link></p>
           <Button variant="outline" className="rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground" asChild>
-            <Link href="#get-quotes">Compare 3 Quotes</Link>
+            <Link href="#get-quotes">Compare Now</Link>
           </Button>
         </div>
         <div className="space-y-6">
@@ -39,7 +39,7 @@ export function CostsSection() {
           </p>
           <p className="text-xs text-muted-foreground/80">Source – <Link href="#" className="underline">CanstarBlue</Link></p>
           <Button className="rounded-full" asChild>
-            <Link href="#get-quotes">How Much Could You Save?</Link>
+            <Link href="#get-quotes">Compare Now</Link>
           </Button>
         </div>
       </div>
