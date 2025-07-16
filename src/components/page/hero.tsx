@@ -6,21 +6,18 @@ import { useState } from 'react';
 import usePlacesAutocomplete from 'use-places-autocomplete';
 import { useLoadScript } from '@react-google-maps/api';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
 import type { QuoteData } from '@/components/quote-funnel';
-import { cn } from '@/lib/utils';
+import { Check } from 'lucide-react';
 
 const libraries: ('places')[] = ['places'];
 
 // Configuration for all text content in the Hero component
 const heroContentConfig = {
-  widgetPreTitle: "Installation Costs & Power Savings",
-  widgetTitle: "Compare & Save",
-  residentialLabel: "Residential",
-  commercialLabel: "Commercial",
+  headline: "Get Your Custom Solar Quote in Seconds",
+  subheadline: "Enter your address to see what you can save. Get free, no-obligation quotes from qualified NZ installers.",
+  bullet1: "SEANZ-member installers",
+  bullet2: "100% Free with no obligation",
   addressPlaceholder: "Start typing your address...",
   buttonText: "Get My Free Quote",
   errorLoadingMaps: "Error loading maps. Please check the API key.",
@@ -74,8 +71,6 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         debounce: 300,
     });
 
-    const [propertyType, setPropertyType] = useState<'RESIDENTIAL' | 'COMMERCIAL'>('RESIDENTIAL');
-
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
     };
@@ -83,13 +78,13 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     const handleSelect = ({ description }: { description: string }) => () => {
         setValue(description, false);
         clearSuggestions();
-        onStartFunnel({ address: description, propertyType });
+        onStartFunnel({ address: description, propertyType: 'RESIDENTIAL' });
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (value) {
-            onStartFunnel({ address: value, propertyType });
+            onStartFunnel({ address: value, propertyType: 'RESIDENTIAL' });
         }
     };
 
@@ -114,90 +109,57 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     </div>
   );
 
-  const buttonBaseClass = "flex w-full cursor-pointer items-center justify-center rounded-md border p-3 font-medium transition-colors";
-  const unselectedClass = "text-muted-foreground bg-background hover:bg-muted/50 border-input";
-  const selectedClass = "border-primary bg-primary text-primary-foreground hover:bg-primary/90";
-
   return (
     <section
       id="get-quotes"
       className="relative w-full overflow-hidden bg-background"
     >
-       <Image
-        src="https://storage.googleapis.com/project-spark-341200.appspot.com/users%2F5gD0P2F33vR1rDfaJbpkMrVpM1v1%2Fuploads%2Fimages%2Fss-bg-layer.png"
-        alt="Solar panels on a house"
-        fill
-        objectFit="cover"
-        className="absolute inset-0 z-0 opacity-20"
-        priority
-      />
-      <div className="container relative z-10 mx-auto grid min-h-[500px] grid-cols-1 items-center gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-20">
-        <div className="relative h-full w-full hidden md:block">
-            <Image
-              src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
-              alt="Phone showing solar quote comparison"
-              width={256} // Reduced from 320
-              height={384} // Reduced from 480
-              className="absolute left-[-60px] top-1/2 -translate-y-1/2 object-contain h-auto w-auto max-w-none"
-            />
+      <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-center gap-12 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-20">
+        <div className="flex flex-col justify-center space-y-6">
+            <div className="space-y-4">
+                <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+                  {heroContentConfig.headline}
+                </h1>
+                <p className="max-w-[600px] text-muted-foreground md:text-xl">
+                  {heroContentConfig.subheadline}
+                </p>
+            </div>
+            <ul className="space-y-2">
+                <li className="flex items-center gap-2">
+                    <Check className="h-5 w-5 text-green-500" />
+                    <span>{heroContentConfig.bullet1}</span>
+                </li>
+                <li className="flex items-center gap-2">
+                    <Check className="h-5 w-5 text-green-500" />
+                    <span>{heroContentConfig.bullet2}</span>
+                </li>
+            </ul>
+            <form className="relative flex max-w-md space-x-2" onSubmit={handleSubmit}>
+              <div className="relative flex-grow">
+                <Input
+                  id="address"
+                  value={value}
+                  onChange={handleInput}
+                  disabled={!ready}
+                  placeholder={heroContentConfig.addressPlaceholder}
+                  className="h-12 w-full text-base"
+                  autoComplete="off"
+                />
+                {status === 'OK' && renderSuggestions()}
+              </div>
+              <Button type="submit" size="lg" className="h-12" disabled={!value}>
+                  {heroContentConfig.buttonText}
+              </Button>
+            </form>
         </div>
-        <div className="flex flex-col items-center justify-center space-y-6">
-            <Card className="w-full max-w-sm bg-card/90 p-4 shadow-2xl backdrop-blur-sm">
-              <CardContent className="flex flex-col items-center p-4 text-center">
-                <div className="w-full bg-slate-100 p-4 rounded-md">
-                   <p className="font-semibold text-accent">
-                    {heroContentConfig.widgetPreTitle}
-                  </p>
-                  <h3 className="mb-4 text-xl font-bold text-secondary">
-                    {heroContentConfig.widgetTitle}
-                  </h3>
-                  <form className="space-y-4" onSubmit={handleSubmit}>
-                    
-                    <RadioGroup 
-                      className="grid grid-cols-2 gap-4"
-                      onValueChange={(value: 'RESIDENTIAL' | 'COMMERCIAL') => setPropertyType(value)}
-                      value={propertyType}
-                    >
-                      <div>
-                        <RadioGroupItem value="RESIDENTIAL" id="r1" className="sr-only" />
-                        <Label
-                          htmlFor="r1"
-                          className={cn(buttonBaseClass, propertyType === 'RESIDENTIAL' ? selectedClass : unselectedClass)}
-                        >
-                          {heroContentConfig.residentialLabel}
-                        </Label>
-                      </div>
-                      <div>
-                        <RadioGroupItem value="COMMERCIAL" id="r2" className="sr-only" />
-                        <Label
-                          htmlFor="r2"
-                           className={cn(buttonBaseClass, propertyType === 'COMMERCIAL' ? selectedClass : unselectedClass)}
-                        >
-                          {heroContentConfig.commercialLabel}
-                        </Label>
-                      </div>
-                    </RadioGroup>
-
-                    <div className="relative">
-                      <Input
-                        id="address"
-                        value={value}
-                        onChange={handleInput}
-                        disabled={!ready}
-                        placeholder={heroContentConfig.addressPlaceholder}
-                        className="h-11 w-full text-center text-base"
-                        autoComplete="off"
-                      />
-                      {status === 'OK' && renderSuggestions()}
-                    </div>
-                     
-                    <Button type="submit" size="default" className="w-full h-11" disabled={!value}>
-                        {heroContentConfig.buttonText}
-                    </Button>
-                  </form>
-                </div>
-              </CardContent>
-            </Card>
+        <div className="relative h-[500px] w-full">
+            <Image
+              src="https://placehold.co/500x600.png"
+              alt="Person looking thoughtfully at the future of energy"
+              fill
+              className="rounded-lg object-cover"
+              data-ai-hint="person looking"
+            />
         </div>
       </div>
     </section>
