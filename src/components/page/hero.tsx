@@ -163,7 +163,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
   return (
     <section
       id="get-quotes"
-      className="relative w-full overflow-hidden bg-gradient-to-br from-primary to-orange-400 bg-[length:200%_200%] animate-hero-gradient"
+      className="relative w-full overflow-hidden bg-gradient-to-b from-primary/80 to-background bg-[length:200%_200%] animate-hero-gradient"
     >
       <div className="container relative z-10 mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-8 px-4 py-8 pt-12 md:grid-cols-2 lg:px-6">
         <div className="relative space-y-6 text-left">
@@ -202,14 +202,14 @@ function HeroContent({ onStartFunnel }: HeroProps) {
               </div>
              <form onSubmit={handleSubmit} className="relative w-full">
                 <div className="relative flex items-center">
-                    <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-accent-foreground/80" />
+                    <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary-foreground/80" />
                     <Input
                         id="address"
                         value={value}
                         onChange={handleInput}
                         disabled={!ready}
                         placeholder={placeholder}
-                        className="h-12 w-full bg-accent pl-10 text-base text-accent-foreground placeholder:text-accent-foreground/70 disabled:opacity-70"
+                        className="h-12 w-full bg-primary pl-10 text-base text-primary-foreground placeholder:text-primary-foreground/70 disabled:opacity-70"
                         autoComplete="off"
                     />
                     {status === 'OK' && renderSuggestions()}
