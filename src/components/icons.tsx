@@ -202,3 +202,23 @@ export function AnimatedFamilyRun(props: SVGProps<SVGSVGElement>) {
     </svg>
   )
 }
+
+export function AnimatedSun(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 800 200" preserveAspectRatio="xMidYMax meet" {...props}>
+      <defs>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="10" result="coloredBlur" />
+          <feMerge>
+            <feMergeNode in="coloredBlur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <circle cx="400" cy="125" r="20" fill="hsl(var(--primary))" filter="url(#glow)">
+        <animate attributeName="r" values="20;25;20" dur="8s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.8;1;0.8" dur="8s" repeatCount="indefinite" />
+      </circle>
+    </svg>
+  );
+}
