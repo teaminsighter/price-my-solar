@@ -113,7 +113,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
       className="relative w-full overflow-hidden bg-background"
     >
       <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-center gap-12 px-4 py-16 md:grid-cols-2 md:px-8 lg:px-12 lg:py-20">
-        <div className="flex flex-col justify-center space-y-6">
+        <div className="flex flex-col justify-center space-y-6 pl-8">
             <div className="space-y-4">
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
                   Compare Solar Quotes
@@ -150,14 +150,15 @@ function HeroContent({ onStartFunnel }: HeroProps) {
               </Button>
             </form>
         </div>
-        <div className="relative h-[500px] w-full">
-            <Image
-              src="https://placehold.co/500x600.png"
-              alt="Person looking thoughtfully at the future of energy"
-              fill
-              className="rounded-lg object-cover"
-              data-ai-hint="person looking"
-            />
+        <div className="flex justify-end">
+            <div className="relative h-[450px] w-[250px]">
+                <Image
+                  src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
+                  alt="Phone showing solar quote interface"
+                  fill
+                  className="object-contain"
+                />
+            </div>
         </div>
       </div>
     </section>
