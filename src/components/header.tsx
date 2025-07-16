@@ -30,23 +30,29 @@ export function Header() {
             priority
           />
         </Link>
-        <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="transition-colors hover:text-primary"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="flex items-center gap-4">
-          <Button className="hidden rounded-full md:flex" asChild>
+
+        {/* Desktop Navigation Group */}
+        <div className="hidden items-center gap-6 md:flex">
+          <nav className="flex items-center gap-6 text-sm font-medium">
+            {navLinks.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="transition-colors hover:text-primary"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+          <Button className="rounded-full" asChild>
             <Link href="#get-quotes">Compare Now</Link>
           </Button>
+        </div>
+
+        {/* Mobile Navigation */}
+        <div className="flex items-center md:hidden">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild className="md:hidden">
+            <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle navigation menu</span>
