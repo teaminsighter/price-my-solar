@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export function Footer() {
   return (
-    <footer className="bg-secondary text-secondary-foreground">
+    <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto px-4 py-12 md:px-6">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <div className="flex flex-col items-start gap-4">
@@ -14,9 +14,10 @@ export function Footer() {
                 width={200}
                 height={50}
                 className="h-10 w-auto"
+                style={{ filter: 'brightness(0) invert(1)' }}
               />
             </Link>
-            <p className="text-sm text-secondary-foreground/80">
+            <p className="text-sm text-primary-foreground/80">
               Compare solar quotes from qualified NZ installers.
             </p>
           </div>
@@ -24,10 +25,10 @@ export function Footer() {
             <div>
               <h3 className="mb-4 font-bold">Quick Links</h3>
               <ul className="space-y-2">
-                <li><Link href="#" className="transition-colors hover:text-primary">Terms & Conditions</Link></li>
-                <li><Link href="#" className="transition-colors hover:text-primary">Privacy Policy</Link></li>
-                <li><Link href="#faq" className="transition-colors hover:text-primary">FAQ</Link></li>
-                <li><Link href="#articles" className="transition-colors hover:text-primary">Articles</Link></li>
+                <li><Link href="#" className="transition-colors hover:text-primary-foreground/80">Terms & Conditions</Link></li>
+                <li><Link href="#" className="transition-colors hover:text-primary-foreground/80">Privacy Policy</Link></li>
+                <li><Link href="#faq" className="transition-colors hover:text-primary-foreground/80">FAQ</Link></li>
+                <li><Link href="#articles" className="transition-colors hover:text-primary-foreground/80">Articles</Link></li>
               </ul>
             </div>
             <div>
@@ -39,7 +40,7 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-8 border-t border-secondary-foreground/20 pt-8 text-center text-sm text-secondary-foreground/60">
+        <div className="mt-8 border-t border-primary-foreground/20 pt-8 text-center text-sm text-primary-foreground/60">
           <p>&copy; 2025 Price My Solar. All Rights Reserved.</p>
         </div>
       </div>
