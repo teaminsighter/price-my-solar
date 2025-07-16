@@ -71,7 +71,6 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     const handleSelect = ({ description }: { description: string }) => () => {
         setValue(description, false);
         clearSuggestions();
-        // Automatically start the funnel when an address is selected
         onStartFunnel({ address: description, propertyType });
     };
 
@@ -156,13 +155,13 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                     >
                       <div>
                         <RadioGroupItem value="RESIDENTIAL" id="r1" className="sr-only" />
-                        <Label htmlFor="r1" className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-transparent bg-primary p-3 font-bold text-primary-foreground hover:bg-primary/90 [&:has([data-state=checked])]:border-ring">
+                        <Label htmlFor="r1" className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-muted bg-white p-3 font-bold text-muted-foreground hover:bg-slate-50 [&:has([data-state=checked])]:border-primary [&:has([data-state=checked])]:bg-primary [&:has([data-state=checked])]:text-primary-foreground">
                           RESIDENTIAL
                         </Label>
                       </div>
                       <div>
                         <RadioGroupItem value="COMMERCIAL" id="r2" className="sr-only" />
-                        <Label htmlFor="r2" className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-accent bg-transparent p-3 font-bold text-accent hover:bg-accent/10 [&:has([data-state=checked])]:border-ring [&:has([data-state=checked])]:bg-accent/10">
+                        <Label htmlFor="r2" className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-muted bg-white p-3 font-bold text-muted-foreground hover:bg-slate-50 [&:has([data-state=checked])]:border-primary [&:has([data-state=checked])]:bg-primary [&:has([data-state=checked])]:text-primary-foreground">
                           COMMERCIAL
                         </Label>
                       </div>
