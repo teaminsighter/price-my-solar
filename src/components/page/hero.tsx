@@ -133,7 +133,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         className="absolute inset-0 z-0 opacity-20"
         priority
       />
-      <div className="container relative z-10 mx-auto grid min-h-[500px] grid-cols-1 items-start gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-20">
+      <div className="container relative z-10 mx-auto grid min-h-[500px] grid-cols-1 items-center gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-20">
         <div className="relative h-full w-full hidden md:block">
             <Image
               src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
@@ -143,14 +143,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
               className="absolute left-[-80px] top-0 object-contain h-full w-auto max-w-none"
             />
         </div>
-        <div className="flex flex-col items-center justify-start space-y-6">
-            <div className="bg-primary p-3 rounded-md text-center text-primary-foreground shadow-lg">
-                <h1 className="text-2xl font-bold tracking-tighter whitespace-nowrap">
-                  {heroContentConfig.headline}
-                </h1>
-                <p className="text-sm opacity-90">{heroContentConfig.subheadline}</p>
-            </div>
-
+        <div className="flex flex-col items-center justify-center space-y-6">
             <Card className="w-full max-w-sm bg-card/90 p-4 shadow-2xl backdrop-blur-sm">
               <CardContent className="flex flex-col items-center p-4 text-center">
                 <div className="w-full bg-slate-100 p-4 rounded-md">
