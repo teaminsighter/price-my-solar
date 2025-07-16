@@ -112,7 +112,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
       <div className="container mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-12 px-4 py-8 pt-12 md:grid-cols-2 lg:px-6">
         <div className="space-y-6 text-left">
           <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-            Compare Solar Quotes
+            COMPARE SOLAR QUOTES
           </h1>
           <p className="text-lg text-muted-foreground">
             Quotes from NZ qualified installers
