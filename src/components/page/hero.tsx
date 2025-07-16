@@ -131,27 +131,17 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         className="absolute inset-0 z-0 opacity-20"
         priority
       />
-      <div className="container relative z-10 mx-auto grid min-h-[500px] grid-cols-1 items-start gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-20">
+      <div className="container relative z-10 mx-auto grid min-h-[500px] grid-cols-1 items-center gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-20">
         <div className="relative h-full w-full hidden md:block">
             <Image
               src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
               alt="Phone showing solar quote comparison"
-              width={320}
-              height={480}
-              className="absolute left-[-80px] top-0 object-contain h-full w-auto max-w-none"
+              width={256} // Reduced from 320
+              height={384} // Reduced from 480
+              className="absolute left-[-60px] top-1/2 -translate-y-1/2 object-contain h-auto w-auto max-w-none"
             />
         </div>
-        <div className="flex flex-col items-center justify-start space-y-6">
-            <div className="text-center">
-                <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl text-secondary">
-                    COMPARE SOLAR QUOTES
-                </h1>
-            </div>
-            <div className="text-center">
-                <p className="mt-4 text-lg font-medium text-muted-foreground">
-                    QUOTES FROM NZ QUALIFIED INSTALLERS
-                </p>
-            </div>
+        <div className="flex flex-col items-center justify-center space-y-6">
             <Card className="w-full max-w-sm bg-card/90 p-4 shadow-2xl backdrop-blur-sm">
               <CardContent className="flex flex-col items-center p-4 text-center">
                 <div className="w-full bg-slate-100 p-4 rounded-md">
