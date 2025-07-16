@@ -110,13 +110,10 @@ function HeroContent({ onStartFunnel }: HeroProps) {
       className="relative w-full overflow-hidden bg-background"
     >
       <div className="container mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-12 px-4 py-8 pt-12 md:grid-cols-2 lg:px-6">
-        <div className="space-y-6 text-left">
-          <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+        <div className="space-y-8 text-left">
+          <h1 className="text-4xl font-bold text-foreground sm:text-5xl">
             COMPARE SOLAR QUOTES
           </h1>
-          <p className="text-lg text-muted-foreground">
-            Quotes from NZ qualified installers
-          </p>
           
           <div className="space-y-4 rounded-lg border border-border/50 bg-card p-6 shadow-sm">
              <p className="text-muted-foreground">Installation costs & power savings</p>
