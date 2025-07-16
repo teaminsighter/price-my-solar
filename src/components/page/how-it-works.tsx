@@ -1,7 +1,9 @@
-import Image from "next/image";
+
+"use client"
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
+import { motion } from "framer-motion";
 
 const steps = [
   {
@@ -24,7 +26,14 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="w-full bg-card py-12 md:py-20 lg:py-24">
+    <motion.section 
+      id="how-it-works" 
+      className="w-full bg-card py-12 md:py-20 lg:py-24"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="container mx-auto grid grid-cols-1 items-center gap-12 px-4 md:grid-cols-2 md:px-6">
         <div className="space-y-8">
           <div className="space-y-4">
@@ -55,6 +64,6 @@ export function HowItWorks() {
             <Settings className="h-32 w-32 text-primary animate-spin-slow" />
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

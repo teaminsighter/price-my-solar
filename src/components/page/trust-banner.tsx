@@ -1,12 +1,21 @@
 
-import Image from "next/image";
+
+"use client";
+
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { ShieldCheck } from "lucide-react";
+import { motion } from "framer-motion";
 
 export function TrustBanner() {
   return (
-    <section className="w-full bg-card py-8 md:py-12">
+    <motion.section 
+      className="w-full bg-card py-8 md:py-12"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center justify-center gap-6 text-center md:flex-row md:gap-10">
           <div className="space-y-2">
@@ -22,6 +31,6 @@ export function TrustBanner() {
           </Link>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

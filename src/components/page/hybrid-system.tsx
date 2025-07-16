@@ -1,11 +1,20 @@
-import Image from "next/image";
+
+"use client"
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { BatteryCharging } from "lucide-react";
+import { motion } from "framer-motion";
 
 export function HybridSystem() {
   return (
-    <section id="hybrid" className="w-full bg-gradient-to-b from-primary to-orange-400 text-primary-foreground py-12 md:py-20 lg:py-24">
+    <motion.section 
+      id="hybrid" 
+      className="w-full bg-gradient-to-b from-primary to-orange-400 text-primary-foreground py-12 md:py-20 lg:py-24"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="container mx-auto grid grid-cols-1 items-center gap-8 px-4 md:grid-cols-2 md:px-6 lg:gap-12">
         <div className="relative h-80 w-full flex items-center justify-center">
           <BatteryCharging className="h-32 w-32 text-primary-foreground animate-pulse" />
@@ -22,6 +31,6 @@ export function HybridSystem() {
           </Button>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

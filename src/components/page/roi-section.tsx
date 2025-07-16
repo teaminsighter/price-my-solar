@@ -1,11 +1,20 @@
-import Image from "next/image";
+
+"use client"
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { TrendingUp } from "lucide-react";
+import { motion } from "framer-motion";
 
 export function RoiSection() {
   return (
-    <section id="roi" className="w-full bg-card py-12 md:py-20 lg:py-24">
+    <motion.section 
+      id="roi" 
+      className="w-full bg-card py-12 md:py-20 lg:py-24"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="container mx-auto grid grid-cols-1 items-center gap-8 px-4 md:grid-cols-2 md:px-6 lg:gap-12">
         <div className="space-y-6">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
@@ -27,6 +36,6 @@ export function RoiSection() {
             <TrendingUp className="h-32 w-32 text-primary animate-bob" />
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

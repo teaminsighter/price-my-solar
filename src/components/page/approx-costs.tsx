@@ -1,9 +1,13 @@
 
+
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Home, Users, Building2 } from "lucide-react";
+import { Check } from "lucide-react";
+import { motion } from "framer-motion";
 
 const costTiers = [
   {
@@ -34,7 +38,14 @@ const costTiers = [
 
 export function ApproxCosts() {
   return (
-    <section id="estimates" className="w-full bg-background py-12 md:py-20 lg:py-24">
+    <motion.section 
+      id="estimates" 
+      className="w-full bg-background py-12 md:py-20 lg:py-24"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="container mx-auto px-4 md:px-6">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
@@ -48,18 +59,18 @@ export function ApproxCosts() {
           {costTiers.map((tier) => (
             <Card key={tier.title} className="group flex flex-col overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-105">
               <CardHeader className="p-0">
-                <div className="relative h-48 w-full bg-muted/50">
+                <div className="relative h-48 w-full overflow-hidden">
                    {tier.imageUrl ? (
                     <Image
                       src={tier.imageUrl}
                       alt={tier.title}
                       layout="fill"
                       objectFit="cover"
-                      className="transition-transform group-hover:scale-110"
+                      className="transition-transform duration-500 group-hover:scale-110"
                       data-ai-hint={tier.imageHint}
                     />
                   ) : tier.icon ? (
-                    <div className="flex h-full w-full items-center justify-center">
+                    <div className="flex h-full w-full items-center justify-center bg-muted/50">
                       <tier.icon className="h-24 w-24 text-primary transition-transform group-hover:scale-110" />
                     </div>
                   ) : null}
@@ -88,6 +99,6 @@ export function ApproxCosts() {
           </Button>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
