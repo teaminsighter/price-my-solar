@@ -121,7 +121,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         priority
       />
       <div className="container relative z-10 mx-auto grid min-h-[700px] grid-cols-1 items-center gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-24">
-        <div className="flex items-center justify-center h-full">
+        <div className="flex items-center justify-start h-full">
             <Image
               src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
               alt="Phone showing solar quote comparison"
