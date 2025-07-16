@@ -1,12 +1,6 @@
 
 "use client"
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
 import { motion } from "framer-motion"
 import { GitCompareArrows, BadgePercent, ClipboardList, PiggyBank, Handshake, FileQuestion, CalendarDays, MailQuestion } from "lucide-react"
 
@@ -23,7 +17,7 @@ const faqItems = [
   },
   {
     question: "What exactly will my solar quotes include?",
-    answer: "Your quotes clearly outline:\n\n- Total installation costs\n- Number and brand of solar panels, batteries and inverter\n- Estimated annual energy production and savings\n- Warranty details and length\n- Financing or payment plan options (if applicable)\n\nEverything is explained in simple, straightforward terms.",
+    answer: "Your quotes clearly outline total installation costs, panel and inverter brands, estimated energy production, warranty details, and any financing options, all in simple terms.",
     icon: ClipboardList,
   },
   {
@@ -53,8 +47,8 @@ const faqItems = [
   },
 ];
 
-const faqVariants = {
-  hidden: { opacity: 0, y: 20 },
+const cardVariants = {
+  hidden: { opacity: 0, y: 50 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
@@ -66,43 +60,54 @@ const faqVariants = {
   }),
 };
 
+const flipVariants = {
+  initial: { rotateY: 0 },
+  hover: { rotateY: 180 },
+};
+
 export default function FaqSection() {
   return (
     <section id="faq" className="w-full bg-card py-12 md:py-20 lg:py-24 overflow-hidden">
-      <div className="container mx-auto max-w-4xl px-4 md:px-6">
+      <div className="container mx-auto max-w-7xl px-4 md:px-6">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
             Frequently Asked Questions
           </h2>
           <p className="mt-4 text-muted-foreground md:text-xl">
-            Find answers to common questions about comparing solar quotes.
+            Hover over a card to find answers to common questions.
           </p>
         </div>
-        <div className="mt-12">
-          <Accordion type="single" collapsible className="w-full">
-            {faqItems.map((item, index) => (
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {faqItems.map((item, index) => (
+            <motion.div
+              key={index}
+              className="relative h-64 w-full [perspective:1000px]"
+              custom={index}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={cardVariants}
+            >
               <motion.div
-                key={index}
-                custom={index}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.5 }}
-                variants={faqVariants}
+                className="relative h-full w-full [transform-style:preserve-3d]"
+                variants={flipVariants}
+                initial="initial"
+                whileHover="hover"
+                transition={{ duration: 0.6 }}
               >
-                <AccordionItem value={`item-${index}`}>
-                  <AccordionTrigger className="text-left font-semibold text-lg hover:no-underline">
-                    <div className="flex items-center gap-4">
-                      <item.icon className="h-6 w-6 text-primary" />
-                      <span>{item.question}</span>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="text-base text-muted-foreground whitespace-pre-line pl-14">
-                    {item.answer}
-                  </AccordionContent>
-                </AccordionItem>
+                {/* Front of the card */}
+                <div className="absolute flex h-full w-full flex-col items-center justify-center rounded-lg border bg-background p-6 text-center [backface-visibility:hidden]">
+                  <item.icon className="mb-4 h-10 w-10 text-primary" />
+                  <h3 className="text-md font-semibold">{item.question}</h3>
+                </div>
+                
+                {/* Back of the card */}
+                <div className="absolute flex h-full w-full items-center justify-center rounded-lg border bg-primary p-6 text-center text-primary-foreground [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                  <p className="text-sm">{item.answer}</p>
+                </div>
               </motion.div>
-            ))}
-          </Accordion>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
