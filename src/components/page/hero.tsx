@@ -17,8 +17,6 @@ const libraries: ('places')[] = ['places'];
 
 // Configuration for all text content in the Hero component
 const heroContentConfig = {
-  headline: "COMPARE SOLAR QUOTES",
-  subheadline: "QUOTES FROM NZ QUALIFIED INSTALLERS",
   widgetPreTitle: "Installation Costs & Power Savings",
   widgetTitle: "Compare & Save",
   residentialLabel: "Residential",
@@ -146,10 +144,10 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         <div className="flex flex-col items-center justify-start space-y-6">
             <div className="text-center">
                 <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl text-secondary">
-                    {heroContentConfig.headline}
+                    COMPARE SOLAR QUOTES
                 </h1>
                 <p className="mt-4 text-lg font-medium text-muted-foreground">
-                    {heroContentConfig.subheadline}
+                    QUOTES FROM NZ QUALIFIED INSTALLERS
                 </p>
             </div>
             <Card className="w-full max-w-sm bg-card/90 p-4 shadow-2xl backdrop-blur-sm">
