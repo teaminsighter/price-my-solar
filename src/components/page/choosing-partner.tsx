@@ -7,7 +7,7 @@ export function ChoosingPartner() {
   return (
     <section id="partner" className="w-full bg-background py-12 md:py-20 lg:py-24">
       <div className="container mx-auto grid grid-cols-1 items-center gap-8 px-4 md:grid-cols-2 md:px-6 lg:gap-12">
-        <div className="relative h-80 w-full rounded-lg bg-muted/50 flex items-center justify-center">
+        <div className="relative h-80 w-full flex items-center justify-center">
             <Wrench className="h-32 w-32 text-primary animate-wobble" />
         </div>
         <div className="space-y-6">

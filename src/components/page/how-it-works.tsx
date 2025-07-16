@@ -51,7 +51,7 @@ export function HowItWorks() {
             <Link href="#get-quotes">Compare Now</Link>
           </Button>
         </div>
-        <div className="relative h-96 w-full rounded-lg bg-muted/50 flex items-center justify-center">
+        <div className="relative h-96 w-full flex items-center justify-center">
             <Settings className="h-32 w-32 text-primary animate-spin-slow" />
         </div>
       </div>

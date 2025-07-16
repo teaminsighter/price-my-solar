@@ -8,7 +8,7 @@ export function CostsSection() {
     <section id="costs" className="w-full bg-card py-12 md:py-20 lg:py-24">
       <div className="container mx-auto grid grid-cols-1 gap-12 px-4 md:grid-cols-2 md:px-6">
         <div className="space-y-6">
-          <div className="w-full h-[250px] rounded-lg bg-muted/50 flex items-center justify-center">
+          <div className="w-full h-[250px] flex items-center justify-center">
             <PiggyBank className="w-24 h-24 text-primary" />
           </div>
           <h3 className="text-2xl font-bold tracking-tight md:text-3xl">The Costs of Going Solar</h3>
@@ -21,7 +21,7 @@ export function CostsSection() {
           </Button>
         </div>
         <div className="space-y-6">
-          <div className="w-full h-[250px] rounded-lg bg-muted/50 flex items-center justify-center">
+          <div className="w-full h-[250px] flex items-center justify-center">
             <LinkIcon className="w-24 h-24 text-primary" />
           </div>
           <h3 className="text-2xl font-bold tracking-tight md:text-3xl">Solar and Your NZ Power Company</h3>
