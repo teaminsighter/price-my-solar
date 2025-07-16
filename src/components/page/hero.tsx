@@ -177,7 +177,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
           <div className="space-y-4 rounded-lg border border-border/50 bg-card p-8 shadow-sm">
             <div className="w-full">
               <div className="mb-4">
-                  <p className="text-left font-semibold text-foreground">What type of property are you looking to install solar on?</p>
+                  <p className="text-left font-semibold text-foreground">What type of property?</p>
               </div>
               <div className="w-full">
                   <div className="grid grid-cols-2 gap-4">
