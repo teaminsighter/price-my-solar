@@ -60,11 +60,8 @@ const funnelSteps = [
   { id: 'summary', title: 'Just a moment...', type: 'summary', condition: (data: QuoteData) => data.gridSellBackInterest === 'No' || data.changePowerCompanyInterest === 'No' },
   { id: 'savingsCalculation', title: 'Potential Bill Reduction', type: 'calculation' },
   { id: 'costCalculation', title: "Let's work out the costs for solar at your address", type: 'transition' },
-  { id: 'fullName', title: 'What is your full name?', type: 'text', required: true, autocomplete: 'name' },
   { id: 'financeInterest', title: 'Do you want us to show you finance options?', options: ['Why not!', 'Will sort myself'], required: true },
   { id: 'contactInfo', title: 'Where should we send your quote?', type: 'contact' },
-  { id: 'emailConfirm', title: 'Confirm your email (optional)', type: 'email', autocomplete: 'email' },
-  { id: 'phoneConfirm', title: 'Confirm your phone (optional)', type: 'tel', autocomplete: 'tel' },
   { id: 'confirmation', title: 'Thank you!', type: 'finalConfirmation' }
 ];
 
@@ -108,12 +105,12 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   }, [formData.monthlyBill, formData.savingsPercent]);
   
   useEffect(() => {
-    if (lastCompletedStep && formData[lastCompletedStep as keyof QuoteData]) {
+    if (lastCompletedStep && lastCompletedStep !== 'contactInfo' && formData[lastCompletedStep as keyof QuoteData]) {
       handleNext();
       setLastCompletedStep(null); 
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lastCompletedStep, formData]);
+  }, [formData, lastCompletedStep]);
 
 
   const transition = (callback: () => void) => {
@@ -147,20 +144,23 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLastCompletedStep('contactInfo');
 
-    if (currentStepInfo.id === 'fullName' && formData.fullName) {
-        const nameParts = formData.fullName.split(' ');
-        const firstName = nameParts[0];
-        const lastName = nameParts.slice(1).join(' ');
-        setFormData(prev => ({ ...prev, firstName, lastName: lastName || firstName }));
-        handleNext();
-        return;
+    const { fullName } = formData;
+    let finalData = { ...formData };
+
+    if (fullName) {
+      const nameParts = fullName.trim().split(' ');
+      const firstName = nameParts[0];
+      const lastName = nameParts.slice(1).join(' ');
+      finalData = { ...finalData, firstName, lastName: lastName || firstName };
+      setFormData(finalData); // Update state to have firstName for the confirmation page
     }
 
     if (currentStepInfo.id === 'contactInfo') {
       setIsSubmitting(true);
       try {
-        const result = await saveQuoteToFirestore(formData);
+        const result = await saveQuoteToFirestore(finalData);
         if (result.success) {
           handleNext();
         } else {
@@ -364,7 +364,15 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
             <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
                 {currentStepInfo.title.replace('[address]', formData.address)}
             </CardTitle>
-            <form onSubmit={handleFormSubmit} className="flex flex-col gap-4 pt-4">
+            <form onSubmit={handleFormSubmit} className="flex flex-col gap-4 pt-4 max-w-sm mx-auto">
+              <Input
+                type="text"
+                placeholder="Full Name"
+                value={formData.fullName || ''}
+                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                required
+                autoComplete="name"
+              />
               <Input
                 type="email"
                 placeholder="Email Address"
@@ -431,8 +439,8 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                 </div>
             </div>
             
-            <div className="md:col-span-2 flex justify-start">
-                 <div className="w-full max-w-2xl px-4 md:px-0">
+            <div className="md:col-span-2 flex justify-start px-4 md:px-0">
+                 <div className="w-full max-w-2xl">
                     <div className="relative mb-2">
                         <Progress value={progress} className="h-3" />
                         <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-primary-foreground">
