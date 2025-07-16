@@ -155,13 +155,13 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                     >
                       <div>
                         <RadioGroupItem value="RESIDENTIAL" id="r1" className="sr-only" />
-                        <Label htmlFor="r1" className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-muted bg-white p-3 font-bold text-muted-foreground hover:bg-slate-50 [&:has([data-state=checked])]:border-primary [&:has([data-state=checked])]:bg-primary [&:has([data-state=checked])]:text-primary-foreground">
+                        <Label htmlFor="r1" className="flex w-full cursor-pointer items-center justify-center rounded-md border p-3 font-medium text-muted-foreground transition-colors hover:bg-muted/50 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:hover:bg-primary/90">
                           Residential
                         </Label>
                       </div>
                       <div>
                         <RadioGroupItem value="COMMERCIAL" id="r2" className="sr-only" />
-                        <Label htmlFor="r2" className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-muted bg-white p-3 font-bold text-muted-foreground hover:bg-slate-50 [&:has([data-state=checked])]:border-primary [&:has([data-state=checked])]:bg-primary [&:has([data-state=checked])]:text-primary-foreground">
+                        <Label htmlFor="r2" className="flex w-full cursor-pointer items-center justify-center rounded-md border p-3 font-medium text-muted-foreground transition-colors hover:bg-muted/50 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:hover:bg-primary/90">
                           Commercial
                         </Label>
                       </div>
