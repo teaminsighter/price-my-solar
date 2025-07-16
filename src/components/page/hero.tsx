@@ -115,35 +115,33 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     >
        <Image
         src="https://storage.googleapis.com/project-spark-341200.appspot.com/users%2F5gD0P2F33vR1rDfaJbpkMrVpM1v1%2Fuploads%2Fimages%2Fss-bg-layer.png"
-        alt="Solar panels background"
+        alt="Solar panels on a house"
         fill
         objectFit="cover"
         className="absolute inset-0 z-0 opacity-20"
+        priority
       />
-      <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-center gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-24">
-        <div className="flex flex-col items-start justify-center space-y-6">
-            <h1 className="text-4xl font-bold tracking-tighter text-secondary sm:text-5xl md:text-6xl">
-              PRICE MY SOLAR
-              <span className="block text-xl font-normal text-muted-foreground">Save Power & Compare Solar</span>
-            </h1>
-            <p className="max-w-md text-lg text-foreground/80 md:text-xl">
-                Quotes from NZ qualified installers for your home or business. <br/>
-                <strong>100% Free, No Obligation, SEANZ Approved.</strong>
-            </p>
-            <div className="relative h-20 w-full max-w-xs">
-                 <Image
-                    src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
-                    alt="Sustainable Energy Association New Zealand Member"
-                    layout="fill"
-                    objectFit="contain"
-                    className="object-left"
-                />
-            </div>
+      <div className="container relative z-10 mx-auto grid min-h-[700px] grid-cols-1 items-center gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-24">
+        <div className="flex items-center justify-center h-full">
+            <Image
+              src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
+              alt="Phone showing solar quote comparison"
+              width={500}
+              height={700}
+              className="object-contain"
+            />
         </div>
-        <div className="flex items-center justify-center">
-        <Card className="w-full max-w-md bg-card/90 p-4 shadow-2xl backdrop-blur-sm">
+        <div className="flex flex-col items-center justify-center space-y-8">
+            <div className="bg-primary p-4 rounded-md text-center text-primary-foreground shadow-lg">
+                <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl">
+                    COMPARE SOLAR QUOTES
+                </h1>
+                <p className="text-lg opacity-90">QUOTES FROM NZ QUALIFIED INSTALLERS</p>
+            </div>
+
+            <Card className="w-full max-w-md bg-card/90 p-4 shadow-2xl backdrop-blur-sm">
               <CardContent className="flex flex-col items-center p-6 text-center">
-                <div className="w-full bg-slate-100 p-6">
+                <div className="w-full bg-slate-100 p-6 rounded-md">
                    <p className="font-semibold text-accent">
                     Installation Costs & Power Savings
                   </p>
