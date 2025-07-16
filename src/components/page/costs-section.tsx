@@ -2,8 +2,8 @@
 "use client"
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { PiggyBank, Link as LinkIcon } from "lucide-react";
 import { motion } from "framer-motion";
+import { AnimatedIconPiggyBank, AnimatedIconPowerCompany } from "../icons";
 
 export function CostsSection() {
   return (
@@ -19,7 +19,7 @@ export function CostsSection() {
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
           <div className="space-y-6">
             <div className="w-full h-[250px] flex items-center justify-center">
-              <PiggyBank className="w-24 h-24 text-primary animate-bob" />
+              <AnimatedIconPiggyBank className="w-32 h-32 text-primary" />
             </div>
             <h3 className="text-2xl font-bold tracking-tight md:text-3xl">The Costs of Going Solar</h3>
             <p className="text-muted-foreground">
@@ -29,7 +29,7 @@ export function CostsSection() {
           </div>
           <div className="space-y-6">
             <div className="w-full h-[250px] flex items-center justify-center">
-              <LinkIcon className="w-24 h-24 text-primary animate-pulse" />
+              <AnimatedIconPowerCompany className="w-32 h-32 text-primary" />
             </div>
             <h3 className="text-2xl font-bold tracking-tight md:text-3xl">Solar and Your NZ Power Company</h3>
             <p className="text-muted-foreground">
