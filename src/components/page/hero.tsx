@@ -7,7 +7,7 @@ import { useLoadScript } from '@react-google-maps/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { QuoteData } from '@/components/quote-funnel';
-import { Check, MapPin } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import Image from 'next/image';
 
 const libraries: ('places')[] = ['places'];
@@ -51,6 +51,8 @@ export function Hero({ onStartFunnel }: HeroProps) {
 
 
 function HeroContent({ onStartFunnel }: HeroProps) {
+    const [propertyType, setPropertyType] = useState<'RESIDENTIAL' | 'COMMERCIAL'>('RESIDENTIAL');
+
     const {
         ready,
         value,
@@ -71,13 +73,13 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     const handleSelect = (description: string) => {
         setValue(description, false);
         clearSuggestions();
-        onStartFunnel({ address: description, propertyType: 'RESIDENTIAL' });
+        onStartFunnel({ address: description, propertyType });
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (value) {
-            onStartFunnel({ address: value, propertyType: 'RESIDENTIAL' });
+            onStartFunnel({ address: value, propertyType });
         }
     };
 
@@ -115,33 +117,42 @@ function HeroContent({ onStartFunnel }: HeroProps) {
           <p className="text-lg text-muted-foreground md:text-xl">
             Quotes from NZ qualified installers
           </p>
-          <ul className="space-y-2">
-            <li className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-green-500" />
-              <span>SEANZ-member installers</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-green-500" />
-              <span>100% Free with no obligation</span>
-            </li>
-          </ul>
-          <form onSubmit={handleSubmit} className="relative mt-8 max-w-lg">
-            <div className="relative">
-              <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary-foreground/80" />
-              <Input
-                id="address"
-                value={value}
-                onChange={handleInput}
-                disabled={!ready}
-                placeholder="Start typing your address..."
-                className="h-14 w-full rounded-lg bg-primary pl-10 text-base text-primary-foreground placeholder:text-primary-foreground/80 focus-visible:ring-primary/80"
-                autoComplete="off"
-              />
-              {status === 'OK' && renderSuggestions()}
-            </div>
-          </form>
+          
+          <div className="space-y-4 rounded-lg border border-border/50 bg-card p-6 shadow-sm">
+             <p className="text-muted-foreground">Installation costs & power savings</p>
+             <p className="text-2xl font-bold text-foreground">Compare & save</p>
+             <div className="grid grid-cols-2 gap-2">
+                <Button 
+                    variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
+                    onClick={() => setPropertyType('RESIDENTIAL')}
+                >
+                    Residential solar
+                </Button>
+                <Button
+                    variant={propertyType === 'COMMERCIAL' ? 'default' : 'outline'}
+                    onClick={() => setPropertyType('COMMERCIAL')}
+                >
+                    Commercial solar
+                </Button>
+             </div>
+             <form onSubmit={handleSubmit} className="relative mt-4">
+                <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                        id="address"
+                        value={value}
+                        onChange={handleInput}
+                        disabled={!ready}
+                        placeholder="Start typing your address"
+                        className="h-12 w-full pl-10 text-base"
+                        autoComplete="off"
+                    />
+                    {status === 'OK' && renderSuggestions()}
+                </div>
+            </form>
+          </div>
         </div>
-        <div className="hidden h-full items-center justify-center md:flex">
+        <div className="hidden h-full items-end justify-center md:flex">
           <Image
             src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
             alt="Phone showing solar quotes"
