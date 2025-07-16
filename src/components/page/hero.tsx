@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import type { QuoteData } from '@/components/quote-funnel';
 import { MapPin } from 'lucide-react';
 import Image from 'next/image';
-import { AnimatedFamilyRun, AnimatedSun } from '../icons';
+import { AnimatedFamilyRun, AnimatedToy } from '../icons';
 
 const libraries: ('places')[] = ['places'];
 
@@ -114,9 +114,9 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     >
       <div className="container relative z-10 mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-8 px-4 py-8 pt-12 md:grid-cols-2 lg:px-6">
         <div className="relative space-y-8 text-left">
-          <div className="absolute top-36 -left-12 right-0 h-48 w-[calc(100%+6rem)] z-0 hidden md:block">
-            <AnimatedSun className="w-full h-full" />
-            <AnimatedFamilyRun className="w-full h-full absolute top-0 left-0" />
+           <div className="absolute -top-4 -left-12 right-0 h-48 w-[calc(100%+6rem)] z-0 hidden md:block pointer-events-none">
+            <AnimatedToy className="absolute" />
+            <AnimatedFamilyRun className="absolute" />
           </div>
           <h1 className="text-4xl font-bold uppercase text-foreground sm:text-6xl">
             Compare Solar<br/>Quotes

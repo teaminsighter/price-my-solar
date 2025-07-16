@@ -167,58 +167,29 @@ export function AnimatedIconHybrid(props: SVGProps<SVGSVGElement>) {
   )
 }
 
-export function AnimatedFamilyRun(props: SVGProps<SVGSVGElement>) {
+function Person({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <svg viewBox="0 0 800 200" preserveAspectRatio="xMidYMax meet" fill="none" {...props}>
-      <path id="runPath" d="M-100 150 Q 400 100, 900 150" stroke="none" />
-      <g stroke="hsl(var(--primary))" strokeWidth="3" fill="hsl(var(--primary))" strokeLinecap="round" strokeLinejoin="round">
-        <g>
-          {/* Parent 1 */}
-          <g>
-            <circle cx="0" cy="0" r="8" />
-            <path d="M -5 10 L 0 25 L 5 10 L 0 25 L 0 40 L -7 55 M 0 40 L 7 55" />
-             <animateMotion dur="8s" repeatCount="indefinite" rotate="auto">
-                <mpath href="#runPath" />
-            </animateMotion>
-          </g>
-          {/* Parent 2 */}
-          <g transform="translate(50, -5)">
-            <circle cx="0" cy="0" r="8" />
-            <path d="M -5 10 L 0 25 L 5 10 L 0 25 L 0 40 L -7 55 M 0 40 L 7 55" />
-             <animateMotion dur="7.8s" begin="-0.2s" repeatCount="indefinite" rotate="auto">
-                <mpath href="#runPath" />
-            </animateMotion>
-          </g>
-          {/* Child */}
-          <g transform="translate(90, 15) scale(0.7)">
-            <circle cx="0" cy="0" r="8" />
-            <path d="M -5 10 L 0 25 L 5 10 L 0 25 L 0 40 L -7 55 M 0 40 L 7 55" />
-             <animateMotion dur="7.5s" begin="-0.4s" repeatCount="indefinite" rotate="auto">
-                <mpath href="#runPath" />
-            </animateMotion>
-          </g>
-        </g>
-      </g>
-    </svg>
+    <div className={`absolute bottom-0 w-8 h-16 ${className}`} {...props}>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-4 bg-primary rounded-full" />
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 w-2 h-8 bg-primary" />
+      <div className="absolute bottom-0 left-0 w-full h-2">
+        <div className="absolute left-0 bottom-0 w-1 h-4 bg-primary origin-top-left animate-run-leg-1" />
+        <div className="absolute right-0 bottom-0 w-1 h-4 bg-primary origin-top-right animate-run-leg-2" />
+      </div>
+    </div>
   )
 }
 
-export function AnimatedSun(props: SVGProps<SVGSVGElement>) {
+export function AnimatedFamilyRun(props: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <svg viewBox="0 0 800 200" preserveAspectRatio="xMidYMax meet" {...props}>
-      <defs>
-        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="10" result="coloredBlur" />
-          <feMerge>
-            <feMergeNode in="coloredBlur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-      <circle cx="400" cy="125" r="20" fill="hsl(var(--primary))" filter="url(#glow)">
-        <animate attributeName="r" values="20;25;20" dur="8s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="0.8;1;0.8" dur="8s" repeatCount="indefinite" />
-      </circle>
-    </svg>
-  );
+    <div {...props}>
+      <Person className="animate-run-person-1" />
+      <Person className="animate-run-person-2" style={{ animationDelay: '0.1s', transform: 'scale(0.95)' }} />
+      <Person className="animate-run-person-3" style={{ animationDelay: '0.2s', transform: 'scale(0.7)' }} />
+    </div>
+  )
+}
+
+export function AnimatedToy(props: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className="absolute w-4 h-4 bg-accent rounded-full animate-ball-play" {...props} />;
 }
