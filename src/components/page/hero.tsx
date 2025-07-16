@@ -114,7 +114,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
       id="get-quotes"
       className="relative w-full overflow-hidden bg-background"
     >
-      <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-center gap-12 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-20">
+      <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-center gap-12 px-4 py-16 md:grid-cols-2 md:px-8 lg:px-12 lg:py-20">
         <div className="flex flex-col justify-center space-y-6">
             <div className="space-y-4">
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
