@@ -227,13 +227,13 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             </ul>
           </div>
         </div>
-        <div className="hidden h-full items-end justify-center md:flex">
+        <div className="hidden items-center justify-center md:flex">
           <Image
             src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
             alt="Phone showing solar quotes"
             width={400}
-            height={800}
-            className="h-auto w-full max-w-sm object-contain"
+            height={600}
+            className="w-full max-w-sm object-cover aspect-[2/3]"
             priority
           />
         </div>
