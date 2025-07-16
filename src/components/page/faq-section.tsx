@@ -7,6 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { motion } from "framer-motion"
 
 const faqItems = [
   {
@@ -43,10 +44,22 @@ const faqItems = [
   },
 ];
 
+const faqVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  }),
+};
 
-export function FaqSection() {
+export default function FaqSection() {
   return (
-    <section id="faq" className="w-full bg-card py-12 md:py-20 lg:py-24">
+    <section id="faq" className="w-full bg-card py-12 md:py-20 lg:py-24 overflow-hidden">
       <div className="container mx-auto max-w-4xl px-4 md:px-6">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
@@ -59,14 +72,23 @@ export function FaqSection() {
         <div className="mt-12">
           <Accordion type="single" collapsible className="w-full">
             {faqItems.map((item, index) => (
-              <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="text-left font-semibold text-lg hover:no-underline">
-                  {item.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-base text-muted-foreground whitespace-pre-line">
-                  {item.answer}
-                </AccordionContent>
-              </AccordionItem>
+              <motion.div
+                key={index}
+                custom={index}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.5 }}
+                variants={faqVariants}
+              >
+                <AccordionItem value={`item-${index}`}>
+                  <AccordionTrigger className="text-left font-semibold text-lg hover:no-underline">
+                    {item.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-base text-muted-foreground whitespace-pre-line">
+                    {item.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              </motion.div>
             ))}
           </Accordion>
         </div>

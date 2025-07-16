@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Hero } from '@/components/page/hero';
@@ -15,7 +15,9 @@ import { RoiSection } from '@/components/page/roi-section';
 import { HybridSystem } from '@/components/page/hybrid-system';
 import { QuoteFunnel } from '@/components/quote-funnel';
 import type { QuoteData } from '@/components/quote-funnel';
-import { FaqSection } from '@/components/page/faq-section';
+import { Skeleton } from '@/components/ui/skeleton';
+
+const FaqSection = lazy(() => import('@/components/page/faq-section'));
 
 const USER_ID_KEY = 'pms_user_id';
 
@@ -66,7 +68,23 @@ export default function Home() {
             <SavingsSection />
             <RoiSection />
             <HybridSystem />
-            <FaqSection />
+            <Suspense fallback={
+              <section className="w-full bg-card py-12 md:py-20 lg:py-24">
+                <div className="container mx-auto max-w-4xl px-4 md:px-6">
+                  <div className="mx-auto max-w-3xl text-center">
+                    <Skeleton className="h-10 w-3/4 mx-auto" />
+                    <Skeleton className="h-6 w-1/2 mx-auto mt-4" />
+                  </div>
+                  <div className="mt-12 space-y-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Skeleton key={i} className="h-16 w-full" />
+                    ))}
+                  </div>
+                </div>
+              </section>
+            }>
+              <FaqSection />
+            </Suspense>
           </>
         )}
       </main>
