@@ -111,7 +111,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
       id="get-quotes"
       className="relative w-full overflow-hidden bg-background"
     >
-      <div className="container mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-12 px-4 py-8 pt-20 md:grid-cols-2 lg:px-6">
+      <div className="container mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-8 px-2 py-8 pt-12 md:grid-cols-2 lg:px-6">
         <div className="space-y-8 text-left">
           <h1 className="text-5xl font-bold text-foreground">
             COMPARE SOLAR QUOTES
@@ -122,7 +122,6 @@ function HeroContent({ onStartFunnel }: HeroProps) {
              <p className="text-xl font-bold text-foreground">Compare &amp; save</p>
              <div className="grid grid-cols-2 gap-2">
                 <Button 
-                    size="sm"
                     variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
                     onClick={() => setPropertyType('RESIDENTIAL')}
                     className="font-bold h-7 px-2.5 text-xs"
@@ -130,7 +129,6 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                     Residential
                 </Button>
                 <Button
-                    size="sm"
                     variant={propertyType === 'COMMERCIAL' ? 'default' : 'outline'}
                     onClick={() => setPropertyType('COMMERCIAL')}
                     className="font-bold h-7 px-2.5 text-xs"
