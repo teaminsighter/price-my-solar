@@ -61,6 +61,8 @@ export function HowItWorks() {
           </Button>
         </div>
         <div className="relative h-96 w-full flex items-center justify-center">
+            <div className="absolute top-10 left-20 h-12 w-12 bg-accent/20 rounded-full animate-float animation-delay-500"></div>
+            <div className="absolute bottom-16 right-16 h-20 w-20 bg-primary/20 rounded-full animate-float animation-delay-1500"></div>
             <Settings className="h-32 w-32 text-primary animate-spin-slow" />
         </div>
       </div>

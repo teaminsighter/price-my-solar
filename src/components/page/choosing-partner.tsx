@@ -17,6 +17,8 @@ export function ChoosingPartner() {
     >
       <div className="container mx-auto grid grid-cols-1 items-center gap-8 px-4 md:grid-cols-2 md:px-6 lg:gap-12">
         <div className="relative h-80 w-full flex items-center justify-center">
+            <div className="absolute top-10 left-20 h-16 w-16 bg-primary/20 rounded-full animate-float"></div>
+            <div className="absolute bottom-10 right-20 h-24 w-24 bg-accent/20 rounded-full animate-float animation-delay-1000"></div>
             <Wrench className="h-32 w-32 text-primary animate-wobble" />
         </div>
         <div className="space-y-6">

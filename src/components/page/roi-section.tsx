@@ -33,6 +33,8 @@ export function RoiSection() {
           </div>
         </div>
         <div className="relative h-80 w-full flex items-center justify-center">
+            <div className="absolute top-12 left-24 h-20 w-20 bg-primary/10 rounded-full animate-float"></div>
+            <div className="absolute bottom-12 right-24 h-14 w-14 bg-accent/10 rounded-full animate-float animation-delay-1000"></div>
             <TrendingUp className="h-32 w-32 text-primary animate-bob" />
         </div>
       </div>
