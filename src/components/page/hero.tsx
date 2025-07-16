@@ -109,15 +109,15 @@ function HeroContent({ onStartFunnel }: HeroProps) {
       id="get-quotes"
       className="relative w-full overflow-hidden bg-background"
     >
-      <div className="container mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-12 px-4 py-8 pt-12 md:grid-cols-2 lg:px-6">
+      <div className="container mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-12 px-4 py-8 pt-20 md:grid-cols-2 lg:px-6">
         <div className="space-y-8 text-left">
           <h1 className="text-4xl font-bold text-foreground sm:text-5xl">
             COMPARE SOLAR QUOTES
           </h1>
           
           <div className="space-y-4 rounded-lg border border-border/50 bg-card p-6 shadow-sm">
-             <p className="text-muted-foreground">Installation costs & power savings</p>
-             <p className="text-xl font-bold text-foreground">Compare & save</p>
+             <p className="text-lg text-muted-foreground">Installation costs &amp; power savings</p>
+             <p className="text-xl font-bold text-foreground">Compare &amp; save</p>
              <div className="grid grid-cols-2 gap-2">
                 <Button 
                     variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
