@@ -150,8 +150,8 @@ function HeroContent({ onStartFunnel }: HeroProps) {
               </Button>
             </form>
         </div>
-        <div className="flex justify-end">
-            <div className="relative h-[450px] w-[250px]">
+        <div className="flex justify-end items-end h-[500px]">
+            <div className="relative h-full w-[250px]">
                 <Image
                   src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
                   alt="Phone showing solar quote interface"
