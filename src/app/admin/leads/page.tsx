@@ -212,142 +212,150 @@ export default function LeadsPage() {
     }
 
     return (
-        <div className="space-y-8">
-            <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold tracking-tight">Leads</h1>
-                <div className="flex items-center gap-2">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="outline" size="sm">
-                                <Columns className="mr-2 h-4 w-4" />
-                                Columns
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-56">
-                             <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
-                             <DropdownMenuSeparator />
-                             <ScrollArea className="h-64">
-                                <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-                                    <SortableContext items={columns.map(c => c.key)} strategy={verticalListSortingStrategy}>
-                                        {columns.map(column => (
-                                            <SortableColumnItem
-                                                key={column.key}
-                                                id={column.key}
-                                                label={column.label}
-                                                checked={column.visible}
-                                                onCheckedChange={(value) => handleColumnVisibilityChange(column.key, value)}
-                                            />
-                                        ))}
-                                    </SortableContext>
-                                </DndContext>
-                             </ScrollArea>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                    <Button onClick={handleExportAll} variant="outline" size="sm">
-                        <Download className="mr-2 h-4 w-4" />
-                        Export All
-                    </Button>
-                    <Button onClick={handleExportSelected} variant="outline" size="sm" disabled={selectedRows.length === 0}>
-                        <Download className="mr-2 h-4 w-4" />
-                        Export Selected ({selectedRows.length})
-                    </Button>
+        <div className="flex h-full flex-col">
+            <div className="flex-none p-8 pb-4">
+                <div className="flex items-center justify-between">
+                    <h1 className="text-3xl font-bold tracking-tight">Leads</h1>
+                    <div className="flex items-center gap-2">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" size="sm">
+                                    <Columns className="mr-2 h-4 w-4" />
+                                    Columns
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-56">
+                                <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <ScrollArea className="h-64">
+                                    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                                        <SortableContext items={columns.map(c => c.key)} strategy={verticalListSortingStrategy}>
+                                            {columns.map(column => (
+                                                <SortableColumnItem
+                                                    key={column.key}
+                                                    id={column.key}
+                                                    label={column.label}
+                                                    checked={column.visible}
+                                                    onCheckedChange={(value) => handleColumnVisibilityChange(column.key, value)}
+                                                />
+                                            ))}
+                                        </SortableContext>
+                                    </DndContext>
+                                </ScrollArea>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                        <Button onClick={handleExportAll} variant="outline" size="sm">
+                            <Download className="mr-2 h-4 w-4" />
+                            Export All
+                        </Button>
+                        <Button onClick={handleExportSelected} variant="outline" size="sm" disabled={selectedRows.length === 0}>
+                            <Download className="mr-2 h-4 w-4" />
+                            Export Selected ({selectedRows.length})
+                        </Button>
+                    </div>
                 </div>
             </div>
-            <div className="rounded-lg border shadow-sm">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className="w-[50px]">
-                                <Checkbox 
-                                  checked={paginatedLeads.length > 0 && selectedRows.length === paginatedLeads.length}
-                                  onCheckedChange={(checked) => handleSelectAll(Boolean(checked))}
-                                />
-                            </TableHead>
-                            {columns.filter(c => c.visible).map(column => (
-                                <TableHead key={column.key}>
-                                    <Button variant="ghost" onClick={() => handleSort(column.key as keyof Lead)}>
-                                        {column.label}
-                                        <ArrowUpDown className="ml-2 h-4 w-4" />
-                                    </Button>
-                                </TableHead>
-                            ))}
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {paginatedLeads.length > 0 ? (
-                            paginatedLeads.map(lead => (
-                                <TableRow key={lead.id} data-state={selectedRows.includes(lead.id) ? "selected" : ""}>
-                                    <TableCell>
-                                        <Checkbox 
-                                            checked={selectedRows.includes(lead.id)}
-                                            onCheckedChange={(checked) => handleSelectRow(lead.id, Boolean(checked))}
-                                        />
-                                    </TableCell>
-                                    {columns.filter(c => c.visible).map(column => (
-                                        <TableCell key={column.key} className="whitespace-normal align-top">
-                                            {renderCellContent(lead, column.key as keyof Lead)}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            ))
-                        ) : (
+
+            <ScrollArea className="flex-grow">
+                <div className="rounded-lg border shadow-sm mx-8">
+                    <Table>
+                        <TableHeader>
                             <TableRow>
-                                <TableCell colSpan={columns.filter(c => c.visible).length + 1} className="text-center h-24">
-                                    No leads found.
-                                </TableCell>
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
-            </div>
-            <div className="flex items-center justify-between px-2">
-                <div className="text-sm text-muted-foreground">
-                    {selectedRows.length} of {leads.length} row(s) selected.
-                </div>
-                <div className="flex items-center space-x-6 lg:space-x-8">
-                    <div className="flex items-center space-x-2">
-                        <p className="text-sm font-medium">Rows per page</p>
-                        <Select
-                            value={`${rowsPerPage}`}
-                            onValueChange={(value) => {
-                                setRowsPerPage(Number(value));
-                                setCurrentPage(1);
-                            }}
-                        >
-                            <SelectTrigger className="h-8 w-[70px]">
-                                <SelectValue placeholder={rowsPerPage.toString()} />
-                            </SelectTrigger>
-                            <SelectContent side="top">
-                                {[10, 20, 30, 40, 50].map((pageSize) => (
-                                    <SelectItem key={pageSize} value={`${pageSize}`}>
-                                        {pageSize}
-                                    </SelectItem>
+                                <TableHead className="w-[50px]">
+                                    <Checkbox 
+                                    checked={paginatedLeads.length > 0 && selectedRows.length === paginatedLeads.length}
+                                    onCheckedChange={(checked) => handleSelectAll(Boolean(checked))}
+                                    />
+                                </TableHead>
+                                {columns.filter(c => c.visible).map(column => (
+                                    <TableHead key={column.key}>
+                                        <Button variant="ghost" onClick={() => handleSort(column.key as keyof Lead)}>
+                                            {column.label}
+                                            <ArrowUpDown className="ml-2 h-4 w-4" />
+                                        </Button>
+                                    </TableHead>
                                 ))}
-                            </SelectContent>
-                        </Select>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {paginatedLeads.length > 0 ? (
+                                paginatedLeads.map(lead => (
+                                    <TableRow key={lead.id} data-state={selectedRows.includes(lead.id) ? "selected" : ""}>
+                                        <TableCell>
+                                            <Checkbox 
+                                                checked={selectedRows.includes(lead.id)}
+                                                onCheckedChange={(checked) => handleSelectRow(lead.id, Boolean(checked))}
+                                            />
+                                        </TableCell>
+                                        {columns.filter(c => c.visible).map(column => (
+                                            <TableCell key={column.key} className="whitespace-normal align-top">
+                                                {renderCellContent(lead, column.key as keyof Lead)}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={columns.filter(c => c.visible).length + 1} className="text-center h-24">
+                                        No leads found.
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
+            </ScrollArea>
+            
+            <div className="flex-none p-8 pt-4">
+                <div className="flex items-center justify-between">
+                    <div className="text-sm text-muted-foreground">
+                        {selectedRows.length} of {leads.length} row(s) selected.
                     </div>
-                    <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-                        Page {currentPage} of {totalPages}
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <Button
-                            variant="outline"
-                            className="h-8 w-8 p-0"
-                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                            disabled={currentPage === 1}
-                        >
-                            <span className="sr-only">Go to previous page</span>
-                            <ChevronLeft className="h-4 w-4" />
-                        </Button>
-                        <Button
-                            variant="outline"
-                            className="h-8 w-8 p-0"
-                            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                            disabled={currentPage === totalPages}
-                        >
-                            <span className="sr-only">Go to next page</span>
-                            <ChevronRight className="h-4 w-4" />
-                        </Button>
+                    <div className="flex items-center space-x-6 lg:space-x-8">
+                        <div className="flex items-center space-x-2">
+                            <p className="text-sm font-medium">Rows per page</p>
+                            <Select
+                                value={`${rowsPerPage}`}
+                                onValueChange={(value) => {
+                                    setRowsPerPage(Number(value));
+                                    setCurrentPage(1);
+                                }}
+                            >
+                                <SelectTrigger className="h-8 w-[70px]">
+                                    <SelectValue placeholder={rowsPerPage.toString()} />
+                                </SelectTrigger>
+                                <SelectContent side="top">
+                                    {[10, 20, 30, 40, 50].map((pageSize) => (
+                                        <SelectItem key={pageSize} value={`${pageSize}`}>
+                                            {pageSize}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+                            Page {currentPage} of {totalPages}
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <Button
+                                variant="outline"
+                                className="h-8 w-8 p-0"
+                                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                disabled={currentPage === 1}
+                            >
+                                <span className="sr-only">Go to previous page</span>
+                                <ChevronLeft className="h-4 w-4" />
+                            </Button>
+                            <Button
+                                variant="outline"
+                                className="h-8 w-8 p-0"
+                                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                disabled={currentPage === totalPages}
+                            >
+                                <span className="sr-only">Go to next page</span>
+                                <ChevronRight className="h-4 w-4" />
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
