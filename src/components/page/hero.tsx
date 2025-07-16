@@ -116,15 +116,10 @@ function HeroContent({ onStartFunnel }: HeroProps) {
       />
       <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-center gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-24">
         <div className="flex flex-col items-start justify-center space-y-6">
-            <div className="relative h-40 w-full max-w-sm">
-                <Image
-                    src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FPMS-Final-Logo-2.webp?alt=media&token=486ac4d9-d9dd-4921-ab19-0b4b55b4b2f1"
-                    alt="Price My Solar NZ Logo"
-                    layout="fill"
-                    objectFit="contain"
-                    className="object-left"
-                />
-            </div>
+            <h1 className="text-4xl font-bold tracking-tighter text-secondary sm:text-5xl md:text-6xl">
+              PRICE MY SOLAR
+              <span className="block text-xl font-normal text-muted-foreground">Save Power & Compare Solar</span>
+            </h1>
             <p className="max-w-md text-lg text-foreground/80 md:text-xl">
                 Quotes from NZ qualified installers for your home or business. <br/>
                 <strong>100% Free, No Obligation, SEANZ Approved.</strong>
