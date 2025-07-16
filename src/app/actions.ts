@@ -70,10 +70,12 @@ export async function getLeads() {
         const querySnapshot = await getDocs(collection(db, "quotes"));
         const leads = querySnapshot.docs.map(doc => {
             const data = doc.data();
+            // Convert Firestore Timestamp to a serializable format (ISO string)
+            const createdAt = data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : null;
             return {
                 id: doc.id,
                 ...data,
-                createdAt: data.createdAt?.toDate()?.toISOString() || null,
+                createdAt: createdAt,
             };
         });
         return { success: true, leads };
@@ -89,11 +91,17 @@ export async function getLeads() {
 export async function getWebhooks() {
     try {
         const querySnapshot = await getDocs(collection(db, "webhooks"));
-        const webhooks = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data(),
-        } as Webhook));
-        return { success: true, webhooks };
+        const webhooks = querySnapshot.docs.map(doc => {
+            const data = doc.data();
+            // Convert timestamp to a serializable format
+            const createdAt = data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : null;
+            return {
+                id: doc.id,
+                ...data,
+                createdAt,
+            } as Webhook & { createdAt: string | null };
+        });
+        return { success: true, webhooks: webhooks as unknown as Webhook[] };
     } catch (error) {
         console.error("Error fetching webhooks: ", error);
         return { success: false, error: error instanceof Error ? error.message : "An unknown error occurred" };

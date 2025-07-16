@@ -32,6 +32,7 @@ export type Webhook = {
   name: string;
   url: string;
   active: boolean;
+  createdAt: string | null;
 };
 
 const webhookSchema = z.object({
@@ -61,7 +62,7 @@ export default function WebhooksPage() {
 
   useEffect(() => {
     fetchWebhooks();
-  }, []);
+  }, [toast]);
 
   const onSubmit = async (values: z.infer<typeof webhookSchema>) => {
     const result = await addWebhook(values.name, values.url);
