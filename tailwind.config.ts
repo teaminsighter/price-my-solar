@@ -80,13 +80,33 @@ export default {
         },
         'hero-glow': {
           'to': { 'background-position': '-200% center' },
-        }
+        },
+        wobble: {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
+        },
+        bob: {
+          '0%, 100%': { transform: 'translateY(-8%)' },
+          '50%': { transform: 'translateY(0)' },
+        },
+        pulse: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.7' },
+        },
+        sway: {
+          '0%, 100%': { transform: 'translateX(-5px)' },
+          '50%': { transform: 'translateX(5px)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'hero-glow': 'hero-glow 3s linear infinite',
         'spin-slow': 'spin 3s linear infinite',
+        'wobble': 'wobble 2s ease-in-out infinite',
+        'bob': 'bob 3s ease-in-out infinite',
+        'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'sway': 'sway 2.5s ease-in-out infinite',
       },
     },
   },

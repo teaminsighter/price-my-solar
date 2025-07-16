@@ -24,7 +24,7 @@ export function RoiSection() {
           </div>
         </div>
         <div className="relative h-80 w-full rounded-lg bg-muted/50 flex items-center justify-center">
-            <TrendingUp className="h-32 w-32 text-primary" />
+            <TrendingUp className="h-32 w-32 text-primary animate-bob" />
         </div>
       </div>
     </section>

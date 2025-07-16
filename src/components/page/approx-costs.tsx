@@ -39,10 +39,10 @@ export function ApproxCosts() {
         </div>
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
           {costTiers.map((tier) => (
-            <Card key={tier.title} className="flex flex-col overflow-hidden shadow-lg transition-transform hover:scale-105">
+            <Card key={tier.title} className="group flex flex-col overflow-hidden shadow-lg transition-transform hover:scale-105">
               <CardHeader className="p-0">
                 <div className="flex h-48 w-full items-center justify-center bg-muted/50">
-                  <tier.icon className="h-24 w-24 text-primary" />
+                  <tier.icon className="h-24 w-24 text-primary transition-transform group-hover:scale-110" />
                 </div>
                 <CardTitle className="p-6">{tier.title}</CardTitle>
               </CardHeader>
