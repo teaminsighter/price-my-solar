@@ -15,6 +15,19 @@ import { cn } from '@/lib/utils';
 
 const libraries: ('places')[] = ['places'];
 
+// Configuration for all text content in the Hero component
+const heroContentConfig = {
+  headline: "Compare Solar Quotes",
+  subheadline: "Quotes from NZ qualified installers",
+  widgetPreTitle: "Installation Costs & Power Savings",
+  widgetTitle: "Compare & Save",
+  residentialLabel: "Residential",
+  commercialLabel: "Commercial",
+  addressPlaceholder: "Start typing your address...",
+  buttonText: "Get My Free Quote",
+  errorLoadingMaps: "Error loading maps. Please check the API key.",
+};
+
 type HeroProps = {
   onStartFunnel: (data: QuoteData) => void;
 };
@@ -29,7 +42,7 @@ export function Hero({ onStartFunnel }: HeroProps) {
         return (
              <section id="get-quotes" className="relative w-full overflow-hidden bg-background">
              <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-center justify-center">
-                <div>Error loading maps. Please check the API key.</div>
+                <div>{heroContentConfig.errorLoadingMaps}</div>
              </div>
           </section>
         )
@@ -120,32 +133,32 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         className="absolute inset-0 z-0 opacity-20"
         priority
       />
-      <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-start gap-8 px-4 py-24 md:grid-cols-2 md:px-6 lg:py-28">
+      <div className="container relative z-10 mx-auto grid min-h-[500px] grid-cols-1 items-start gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-20">
         <div className="relative h-full w-full hidden md:block">
             <Image
               src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
               alt="Phone showing solar quote comparison"
-              width={400}
-              height={600}
+              width={320}
+              height={480}
               className="absolute left-[-80px] top-0 object-contain h-full w-auto max-w-none"
             />
         </div>
-        <div className="flex flex-col items-center justify-start space-y-8">
+        <div className="flex flex-col items-center justify-start space-y-6">
             <div className="bg-primary p-3 rounded-md text-center text-primary-foreground shadow-lg">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-                    Compare Solar Quotes
+                <h1 className="text-2xl font-bold tracking-tighter whitespace-nowrap">
+                  {heroContentConfig.headline}
                 </h1>
-                <p className="text-base opacity-90">Quotes from NZ qualified installers</p>
+                <p className="text-sm opacity-90">{heroContentConfig.subheadline}</p>
             </div>
 
             <Card className="w-full max-w-sm bg-card/90 p-4 shadow-2xl backdrop-blur-sm">
               <CardContent className="flex flex-col items-center p-4 text-center">
                 <div className="w-full bg-slate-100 p-4 rounded-md">
                    <p className="font-semibold text-accent">
-                    Installation Costs & Power Savings
+                    {heroContentConfig.widgetPreTitle}
                   </p>
                   <h3 className="mb-4 text-xl font-bold text-secondary">
-                    Compare & Save
+                    {heroContentConfig.widgetTitle}
                   </h3>
                   <form className="space-y-4" onSubmit={handleSubmit}>
                     
@@ -160,7 +173,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                           htmlFor="r1"
                           className={cn(buttonBaseClass, propertyType === 'RESIDENTIAL' ? selectedClass : unselectedClass)}
                         >
-                          Residential
+                          {heroContentConfig.residentialLabel}
                         </Label>
                       </div>
                       <div>
@@ -169,7 +182,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                           htmlFor="r2"
                            className={cn(buttonBaseClass, propertyType === 'COMMERCIAL' ? selectedClass : unselectedClass)}
                         >
-                          Commercial
+                          {heroContentConfig.commercialLabel}
                         </Label>
                       </div>
                     </RadioGroup>
@@ -180,7 +193,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                         value={value}
                         onChange={handleInput}
                         disabled={!ready}
-                        placeholder="Start typing your address..."
+                        placeholder={heroContentConfig.addressPlaceholder}
                         className="h-11 w-full text-center text-base"
                         autoComplete="off"
                       />
@@ -188,7 +201,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                     </div>
                      
                     <Button type="submit" size="default" className="w-full h-11" disabled={!value}>
-                        Get My Free Quote
+                        {heroContentConfig.buttonText}
                     </Button>
                   </form>
                 </div>
