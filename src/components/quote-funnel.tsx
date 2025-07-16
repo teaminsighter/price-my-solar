@@ -2,7 +2,6 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, Check, Sun, Zap, Percent } from 'lucide-react';
@@ -397,13 +396,9 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full items-start">
             <div className="hidden md:flex justify-center items-start h-full">
                 <div className="sticky top-24 w-80 h-[500px]">
-                     <Image
-                        src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
-                        alt="Happy homeowner on phone"
-                        layout="fill"
-                        objectFit="cover"
-                        className="rounded-lg"
-                     />
+                     <div className="w-full h-full bg-slate-200 rounded-lg flex items-center justify-center">
+                        <p className="text-muted-foreground">Image Area</p>
+                     </div>
                 </div>
             </div>
             

@@ -132,7 +132,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             </p>
             <div className="relative h-20 w-full max-w-xs">
                  <Image
-                    src="https://storage.googleapis.com/project-spark-341200.appspot.com/users%2F5gD0P2F33vR1rDfaJbpkMrVpM1v1%2Fuploads%2Fimages%2Fss-left-logo.png"
+                    src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
                     alt="Sustainable Energy Association New Zealand Member"
                     layout="fill"
                     objectFit="contain"
