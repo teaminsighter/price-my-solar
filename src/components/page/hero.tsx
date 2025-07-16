@@ -8,7 +8,7 @@ import { useLoadScript } from '@react-google-maps/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { QuoteData } from '@/components/quote-funnel';
-import { Check } from 'lucide-react';
+import { Check, MapPin } from 'lucide-react';
 
 const libraries: ('places')[] = ['places'];
 
@@ -97,7 +97,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
           <div
             key={place_id}
             onClick={handleSelect(suggestion)}
-            className="cursor-pointer p-2 text-left hover:bg-gray-100"
+            className="cursor-pointer p-2 text-left hover:bg-gray-100 text-foreground"
           >
             <strong>{main_text}</strong> <small>{secondary_text}</small>
           </div>
@@ -133,13 +133,14 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             </ul>
             <form className="relative flex max-w-md space-x-2" onSubmit={handleSubmit}>
               <div className="relative flex-grow">
+                 <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground" />
                 <Input
                   id="address"
                   value={value}
                   onChange={handleInput}
                   disabled={!ready}
                   placeholder={heroContentConfig.addressPlaceholder}
-                  className="h-12 w-full text-base bg-primary text-primary-foreground placeholder:text-primary-foreground/80 focus:ring-primary/80"
+                  className="h-12 w-full pl-10 text-base bg-primary text-primary-foreground placeholder:text-primary-foreground/80 focus:ring-primary/80"
                   autoComplete="off"
                 />
                 {status === 'OK' && renderSuggestions()}
