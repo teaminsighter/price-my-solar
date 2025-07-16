@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { AnimatedIconPiggyBank, AnimatedIconPowerCompany } from "../icons";
+import { Banknote, Sun } from "lucide-react";
 
 export function CostsSection() {
   return (
@@ -19,7 +19,7 @@ export function CostsSection() {
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
           <div className="space-y-6">
             <div className="w-full h-[150px] flex items-center justify-center">
-              <AnimatedIconPiggyBank className="w-24 h-24 text-primary animate-float" />
+              <Banknote className="w-24 h-24 text-primary animate-sway" />
             </div>
             <h3 className="text-2xl font-bold tracking-tight md:text-3xl text-center md:text-left">The Costs of Going Solar</h3>
             <p className="text-muted-foreground">
@@ -29,7 +29,7 @@ export function CostsSection() {
           </div>
           <div className="space-y-6">
             <div className="w-full h-[150px] flex items-center justify-center">
-              <AnimatedIconPowerCompany className="w-24 h-24 text-primary animate-float" />
+              <Sun className="w-24 h-24 text-primary animate-spin-slow" />
             </div>
             <h3 className="text-2xl font-bold tracking-tight md:text-3xl text-center md:text-left">Solar and Your NZ Power Company</h3>
             <p className="text-muted-foreground">
