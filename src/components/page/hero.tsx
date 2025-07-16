@@ -176,7 +176,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
           
           <div className="space-y-4 rounded-lg border border-border/50 bg-card p-8 shadow-sm max-w-md">
              <div className="w-full">
-                <div className="w-4/5">
+                <div className="w-full">
                     <div className="grid grid-cols-2 gap-4">
                         <Button 
                             variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
@@ -203,7 +203,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                 )}
               </div>
              <form onSubmit={handleSubmit} className="relative w-full animate-pulse">
-                <div className="relative flex items-center w-4/5">
+                <div className="relative flex items-center w-full">
                     <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary-foreground/80" />
                     <Input
                         id="address"
