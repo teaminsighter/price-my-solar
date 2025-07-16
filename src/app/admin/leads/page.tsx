@@ -9,35 +9,60 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
-import { ChevronLeft, ChevronRight, Download, ArrowUpDown, Columns } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Download, ArrowUpDown, Columns, GripVertical } from 'lucide-react';
 import type { QuoteData } from '@/components/quote-funnel';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { DndContext, closestCenter, type DragEndEvent } from '@dnd-kit/core';
+import { SortableContext, useSortable, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 type Lead = QuoteData & { id: string; createdAt: string | null };
 type SortDirection = 'asc' | 'desc';
+type ColumnConfig = { key: keyof Lead; label: string; visible: boolean };
 
-// Define all possible columns
-const allColumns: { key: keyof Lead; label: string }[] = [
-    { key: 'createdAt', label: 'Created At' },
-    { key: 'firstName', label: 'First Name' },
-    { key: 'lastName', label: 'Last Name' },
-    { key: 'email', label: 'Email' },
-    { key: 'phone', label: 'Phone' },
-    { key: 'address', label: 'Address' },
-    { key: 'propertyType', label: 'Property Type' },
-    { key: 'motivation', label: 'Motivation' },
-    { key: 'roofType', label: 'Roof Type' },
-    { key: 'householdSize', label: 'Household Size' },
-    { key: 'monthlyBill', label: 'Monthly Bill' },
-    { key: 'island', label: 'Island' },
-    { key: 'region', label: 'Region' },
-    { key: 'gridSellBackInterest', label: 'Grid Sell Back' },
-    { key: 'changePowerCompanyInterest', label: 'Change Power Co.' },
-    { key: 'savingsPercent', label: 'Savings %' },
-    { key: 'financeInterest', label: 'Finance Interest' },
+const initialColumns: ColumnConfig[] = [
+    { key: 'createdAt', label: 'Created At', visible: true },
+    { key: 'firstName', label: 'First Name', visible: true },
+    { key: 'lastName', label: 'Last Name', visible: true },
+    { key: 'email', label: 'Email', visible: false },
+    { key: 'phone', label: 'Phone', visible: true },
+    { key: 'address', label: 'Address', visible: true },
+    { key: 'propertyType', label: 'Property Type', visible: true },
+    { key: 'motivation', label: 'Motivation', visible: false },
+    { key: 'roofType', label: 'Roof Type', visible: false },
+    { key: 'householdSize', label: 'Household Size', visible: false },
+    { key: 'monthlyBill', label: 'Monthly Bill', visible: false },
+    { key: 'island', label: 'Island', visible: false },
+    { key: 'region', label: 'Region', visible: false },
+    { key: 'gridSellBackInterest', label: 'Grid Sell Back', visible: false },
+    { key: 'changePowerCompanyInterest', label: 'Change Power Co.', visible: false },
+    { key: 'savingsPercent', label: 'Savings %', visible: false },
+    { key: 'financeInterest', label: 'Finance Interest', visible: false },
 ];
 
-const defaultVisibleColumns: (keyof Lead)[] = ['createdAt', 'firstName', 'lastName', 'propertyType', 'phone', 'address'];
+function SortableColumnItem({ id, label, checked, onCheckedChange }: { id: string, label: string, checked: boolean, onCheckedChange: (value: boolean) => void }) {
+    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    };
+
+    return (
+        <div ref={setNodeRef} style={style} className="flex items-center" >
+             <DropdownMenuCheckboxItem
+                className="w-full"
+                checked={checked}
+                onCheckedChange={onCheckedChange}
+                onSelect={(e) => e.preventDefault()}
+            >
+                <button {...attributes} {...listeners} className="cursor-grab mr-2">
+                    <GripVertical className="h-4 w-4" />
+                </button>
+                {label}
+            </DropdownMenuCheckboxItem>
+        </div>
+    );
+}
 
 export default function LeadsPage() {
     const [leads, setLeads] = useState<Lead[]>([]);
@@ -47,13 +72,7 @@ export default function LeadsPage() {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [sortColumn, setSortColumn] = useState<keyof Lead>('createdAt');
     const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
-    const [visibleColumns, setVisibleColumns] = useState<Record<string, boolean>>(() => {
-        const initialState: Record<string, boolean> = {};
-        allColumns.forEach(col => {
-            initialState[col.key] = defaultVisibleColumns.includes(col.key as keyof Lead);
-        });
-        return initialState;
-    });
+    const [columns, setColumns] = useState<ColumnConfig[]>(initialColumns);
 
     useEffect(() => {
         const fetchLeads = async () => {
@@ -125,7 +144,7 @@ export default function LeadsPage() {
 
     const downloadCSV = (data: Lead[], filename: string) => {
         if (data.length === 0) return;
-        const activeColumns = allColumns.filter(c => visibleColumns[c.key]);
+        const activeColumns = columns.filter(c => c.visible);
         const headers = activeColumns.map(c => c.label).join(',');
         const rows = data.map(row => 
             activeColumns.map(col => {
@@ -167,6 +186,23 @@ export default function LeadsPage() {
         return String(value ?? '');
     };
 
+    const handleDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event;
+        if (active.id !== over?.id) {
+            setColumns((items) => {
+                const oldIndex = items.findIndex((item) => item.key === active.id);
+                const newIndex = items.findIndex((item) => item.key === over?.id);
+                return arrayMove(items, oldIndex, newIndex);
+            });
+        }
+    };
+    
+    const handleColumnVisibilityChange = (key: string, value: boolean) => {
+        setColumns(prev => 
+            prev.map(col => col.key === key ? { ...col, visible: value } : col)
+        );
+    };
+
     if (loading) {
         return (
             <div className="flex h-[calc(100vh-10rem)] items-center justify-center">
@@ -187,26 +223,23 @@ export default function LeadsPage() {
                                 Columns
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-40">
+                        <DropdownMenuContent align="end" className="w-56">
                              <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
                              <DropdownMenuSeparator />
                              <ScrollArea className="h-64">
-                                {allColumns.map(column => (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.key}
-                                        className="capitalize"
-                                        checked={visibleColumns[column.key]}
-                                        onCheckedChange={value =>
-                                            setVisibleColumns(prev => ({
-                                                ...prev,
-                                                [column.key]: !!value,
-                                            }))
-                                        }
-                                        onSelect={(e) => e.preventDefault()}
-                                    >
-                                        {column.label}
-                                    </DropdownMenuCheckboxItem>
-                                ))}
+                                <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                                    <SortableContext items={columns.map(c => c.key)} strategy={verticalListSortingStrategy}>
+                                        {columns.map(column => (
+                                            <SortableColumnItem
+                                                key={column.key}
+                                                id={column.key}
+                                                label={column.label}
+                                                checked={column.visible}
+                                                onCheckedChange={(value) => handleColumnVisibilityChange(column.key, value)}
+                                            />
+                                        ))}
+                                    </SortableContext>
+                                </DndContext>
                              </ScrollArea>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -230,7 +263,7 @@ export default function LeadsPage() {
                                   onCheckedChange={(checked) => handleSelectAll(Boolean(checked))}
                                 />
                             </TableHead>
-                            {allColumns.filter(c => visibleColumns[c.key]).map(column => (
+                            {columns.filter(c => c.visible).map(column => (
                                 <TableHead key={column.key}>
                                     <Button variant="ghost" onClick={() => handleSort(column.key as keyof Lead)}>
                                         {column.label}
@@ -250,7 +283,7 @@ export default function LeadsPage() {
                                             onCheckedChange={(checked) => handleSelectRow(lead.id, Boolean(checked))}
                                         />
                                     </TableCell>
-                                    {allColumns.filter(c => visibleColumns[c.key]).map(column => (
+                                    {columns.filter(c => c.visible).map(column => (
                                         <TableCell key={column.key} className="whitespace-normal align-top">
                                             {renderCellContent(lead, column.key as keyof Lead)}
                                         </TableCell>
@@ -259,7 +292,7 @@ export default function LeadsPage() {
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={Object.values(visibleColumns).filter(Boolean).length + 1} className="text-center h-24">
+                                <TableCell colSpan={columns.filter(c => c.visible).length + 1} className="text-center h-24">
                                     No leads found.
                                 </TableCell>
                             </TableRow>
@@ -282,7 +315,7 @@ export default function LeadsPage() {
                             }}
                         >
                             <SelectTrigger className="h-8 w-[70px]">
-                                <SelectValue placeholder={rowsPerPage} />
+                                <SelectValue placeholder={rowsPerPage.toString()} />
                             </SelectTrigger>
                             <SelectContent side="top">
                                 {[10, 20, 30, 40, 50].map((pageSize) => (
