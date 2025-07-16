@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users } from 'lucide-react';
 import { getLeads } from '@/app/actions';
-import { Skeleton } from '@/components/ui/skeleton';
 
 export default function AdminDashboard() {
     const [leadCount, setLeadCount] = useState<number | null>(null);
@@ -27,6 +26,14 @@ export default function AdminDashboard() {
         fetchLeads();
     }, []);
 
+    if (loading) {
+        return (
+            <div className="flex h-[calc(100vh-10rem)] items-center justify-center">
+                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-8">
             <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
@@ -39,11 +46,7 @@ export default function AdminDashboard() {
                         <Users className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        {loading ? (
-                             <Skeleton className="h-8 w-1/4" />
-                        ) : (
-                            <div className="text-2xl font-bold">{leadCount}</div>
-                        )}
+                        <div className="text-2xl font-bold">{leadCount}</div>
                         <p className="text-xs text-muted-foreground">
                             Total number of submitted quotes
                         </p>

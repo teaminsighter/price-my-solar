@@ -11,7 +11,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
-import { Skeleton } from '@/components/ui/skeleton';
 
 const gtmSchema = z.object({
   snippet: z.string().min(1, 'Snippet cannot be empty.'),
@@ -49,6 +48,14 @@ export default function GtmPage() {
     }
   };
 
+  if (loading) {
+    return (
+        <div className="flex h-[calc(100vh-10rem)] items-center justify-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
+        </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       <h1 className="text-3xl font-bold tracking-tight">Google Tag Manager</h1>
@@ -63,9 +70,6 @@ export default function GtmPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {loading ? (
-                <Skeleton className="w-full h-48" />
-              ) : (
                 <FormField
                   control={form.control}
                   name="snippet"
@@ -83,7 +87,6 @@ export default function GtmPage() {
                     </FormItem>
                   )}
                 />
-              )}
             </CardContent>
             <CardFooter>
               <Button type="submit" disabled={form.formState.isSubmitting}>

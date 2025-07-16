@@ -93,15 +93,16 @@ export async function getWebhooks() {
         const querySnapshot = await getDocs(collection(db, "webhooks"));
         const webhooks = querySnapshot.docs.map(doc => {
             const data = doc.data();
-            // Convert timestamp to a serializable format
             const createdAt = data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : null;
             return {
                 id: doc.id,
-                ...data,
+                name: data.name,
+                url: data.url,
+                active: data.active,
                 createdAt,
-            } as Webhook & { createdAt: string | null };
+            };
         });
-        return { success: true, webhooks: webhooks as unknown as Webhook[] };
+        return { success: true, webhooks: webhooks as Webhook[] };
     } catch (error) {
         console.error("Error fetching webhooks: ", error);
         return { success: false, error: error instanceof Error ? error.message : "An unknown error occurred" };

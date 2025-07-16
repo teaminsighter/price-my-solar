@@ -13,8 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Trash2, AlertCircle } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -51,9 +50,17 @@ export default function WebhooksPage() {
   });
 
   const fetchWebhooks = async () => {
+    setLoading(true);
     const result = await getWebhooks();
     if (result.success && result.webhooks) {
-      setWebhooks(result.webhooks);
+      // Ensure webhooks with null createdAt are handled gracefully
+      const sortedWebhooks = result.webhooks.sort((a, b) => {
+        if (a.createdAt && b.createdAt) {
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        }
+        return 0;
+      });
+      setWebhooks(sortedWebhooks);
     } else {
       toast({ variant: 'destructive', title: 'Error', description: 'Failed to fetch webhooks.' });
     }
@@ -62,14 +69,14 @@ export default function WebhooksPage() {
 
   useEffect(() => {
     fetchWebhooks();
-  }, [toast]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSubmit = async (values: z.infer<typeof webhookSchema>) => {
     const result = await addWebhook(values.name, values.url);
     if (result.success) {
       toast({ title: 'Success', description: 'Webhook added successfully.' });
       form.reset();
-      setLoading(true);
       fetchWebhooks();
     } else {
       toast({ variant: 'destructive', title: 'Error', description: result.error });
@@ -90,12 +97,19 @@ export default function WebhooksPage() {
     const result = await deleteWebhook(id);
     if (result.success) {
       toast({ title: 'Success', description: 'Webhook deleted.' });
-      setLoading(true);
       fetchWebhooks();
     } else {
       toast({ variant: 'destructive', title: 'Error', description: result.error });
     }
   };
+
+  if (loading) {
+    return (
+        <div className="flex h-[calc(100vh-10rem)] items-center justify-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
+        </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -163,16 +177,7 @@ export default function WebhooksPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {loading ? (
-                  Array.from({ length: 2 }).map((_, i) => (
-                    <TableRow key={i}>
-                      <TableCell><Skeleton className="h-5 w-24" /></TableCell>
-                      <TableCell><Skeleton className="h-5 w-64" /></TableCell>
-                      <TableCell><Skeleton className="h-5 w-12" /></TableCell>
-                      <TableCell className="text-right"><Skeleton className="h-8 w-8 inline-block" /></TableCell>
-                    </TableRow>
-                  ))
-                ) : webhooks.length > 0 ? (
+                {webhooks.length > 0 ? (
                   webhooks.map((webhook) => (
                     <TableRow key={webhook.id}>
                       <TableCell className="font-medium">{webhook.name}</TableCell>
