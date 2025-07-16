@@ -78,6 +78,8 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   const [formData, setFormData] = useState<QuoteData>({ ...initialData });
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const [lastCompletedStep, setLastCompletedStep] = useState<string | null>(null);
 
   const visibleSteps = useMemo(() => funnelSteps.filter(step => !step.condition || step.condition(formData)), [formData]);
   
@@ -92,7 +94,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
       }, currentStepInfo.duration || 2000);
       return () => clearTimeout(timer);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stepIndex, currentStepInfo]);
 
   useEffect(() => {
@@ -104,6 +106,15 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
       setFormData(prev => ({ ...prev, savingsPercent: savings }));
     }
   }, [formData.monthlyBill, formData.savingsPercent]);
+  
+  useEffect(() => {
+    if (lastCompletedStep && formData[lastCompletedStep as keyof QuoteData]) {
+      handleNext();
+      setLastCompletedStep(null); 
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastCompletedStep, formData]);
+
 
   const transition = (callback: () => void) => {
     setIsTransitioning(true);
@@ -131,7 +142,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
 
   const handleSelectAndNext = (key: keyof QuoteData, value: any) => {
     setFormData(prev => ({ ...prev, [key]: value }));
-    handleNext();
+    setLastCompletedStep(key);
   };
   
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -447,5 +458,3 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
     </section>
   );
 }
-
-    
