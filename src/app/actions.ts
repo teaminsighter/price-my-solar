@@ -2,7 +2,7 @@
 'use server';
 
 import { db } from '@/lib/firebase';
-import { collection, addDoc, serverTimestamp, getDocs, doc, updateDoc, deleteDoc, where, query } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, getDocs, doc, updateDoc, deleteDoc, where, query, getDoc, setDoc } from 'firebase/firestore';
 import type { QuoteData } from '@/components/quote-funnel';
 import type { Webhook } from '@/app/admin/webhooks/page';
 
@@ -132,6 +132,32 @@ export async function deleteWebhook(id: string) {
         return { success: true };
     } catch (error) {
         console.error("Error deleting webhook: ", error);
+        return { success: false, error: error instanceof Error ? error.message : "An unknown error occurred" };
+    }
+}
+
+// GTM Actions
+export async function getGtmSnippet(): Promise<{ success: boolean, snippet?: string, error?: string }> {
+    try {
+        const docRef = doc(db, "settings", "gtm");
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            return { success: true, snippet: docSnap.data().headSnippet };
+        }
+        return { success: true, snippet: "" };
+    } catch (error) {
+        console.error("Error fetching GTM snippet: ", error);
+        return { success: false, error: error instanceof Error ? error.message : "An unknown error occurred" };
+    }
+}
+
+export async function saveGtmSnippet(snippet: string): Promise<{ success: boolean, error?: string }> {
+    try {
+        const docRef = doc(db, "settings", "gtm");
+        await setDoc(docRef, { headSnippet: snippet });
+        return { success: true };
+    } catch (error) {
+        console.error("Error saving GTM snippet: ", error);
         return { success: false, error: error instanceof Error ? error.message : "An unknown error occurred" };
     }
 }

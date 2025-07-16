@@ -1,17 +1,22 @@
-import type {Metadata} from 'next';
+
+import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
+import { getGtmSnippet } from '@/app/actions';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: 'Compare Solar Quotes – Price My Solar NZ',
   description: 'Quotes from NZ qualified installers for your home or business. 100% Free, No Obligation, SEANZ Approved.',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { snippet: gtmHeadSnippet } = await getGtmSnippet();
+
   return (
     <html lang="en" className="!scroll-smooth">
       <head>
@@ -21,6 +26,11 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap"
           rel="stylesheet"
         />
+        {gtmHeadSnippet && (
+          <Script id="gtm-script" strategy="afterInteractive">
+            {gtmHeadSnippet.replace(/<script>|<\/script>/g, '')}
+          </Script>
+        )}
       </head>
       <body className="font-body antialiased">
         {children}

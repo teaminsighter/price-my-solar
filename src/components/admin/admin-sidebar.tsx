@@ -8,7 +8,7 @@ import { auth } from '@/lib/firebase';
 import { useAuth } from '@/context/auth-context';
 import { SolarSaverLogo } from '@/components/icons';
 import { Button } from '@/components/ui/button';
-import { Sheet, BarChart, Users, LogOut, PanelLeft, Webhook } from 'lucide-react';
+import { Sheet, BarChart, Users, LogOut, PanelLeft, Webhook, Code } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -20,6 +20,7 @@ const navItems = [
   { href: '/admin', label: 'Dashboard', icon: BarChart },
   { href: '/admin/leads', label: 'Leads', icon: Users },
   { href: '/admin/webhooks', label: 'Webhooks', icon: Webhook },
+  { href: '/admin/gtm', label: 'GTM', icon: Code },
 ];
 
 export default function AdminSidebar() {
