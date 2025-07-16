@@ -174,26 +174,29 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             Compare two quotes from New Zealand’s top solar installers side by side and see how much you could save—choose the best deal and maximise your power savings.
           </p>
           
-          <div className="space-y-4 rounded-lg border border-border/50 bg-card p-8 shadow-sm max-w-md">
-             <div className="w-full">
-                <div className="w-full">
-                    <div className="grid grid-cols-2 gap-4">
-                        <Button 
-                            variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
-                            onClick={() => handlePropertyTypeSelect('RESIDENTIAL')}
-                            className="h-10 px-4 text-sm font-bold"
-                        >
-                            Residential
-                        </Button>
-                        <Button
-                            variant={propertyType === 'COMMERCIAL' ? 'default' : 'outline'}
-                            onClick={() => handlePropertyTypeSelect('COMMERCIAL')}
-                            className="h-10 px-4 text-sm font-bold"
-                        >
-                            Commercial
-                        </Button>
-                    </div>
-                </div>
+          <div className="space-y-4 rounded-lg border border-border/50 bg-card p-8 shadow-sm">
+            <div className="w-full">
+              <div className="mb-4">
+                  <p className="text-left font-semibold text-foreground">What type of property are you looking to install solar on?</p>
+              </div>
+              <div className="w-full">
+                  <div className="grid grid-cols-2 gap-4">
+                      <Button 
+                          variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
+                          onClick={() => handlePropertyTypeSelect('RESIDENTIAL')}
+                          className="h-10 px-4 text-sm font-bold"
+                      >
+                          Residential
+                      </Button>
+                      <Button
+                          variant={propertyType === 'COMMERCIAL' ? 'default' : 'outline'}
+                          onClick={() => handlePropertyTypeSelect('COMMERCIAL')}
+                          className="h-10 px-4 text-sm font-bold"
+                      >
+                          Commercial
+                      </Button>
+                  </div>
+              </div>
             </div>
               <div className="min-h-[2.5rem] flex items-center justify-start transition-all duration-300">
                 {propertyType && (
@@ -202,9 +205,9 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                     </p>
                 )}
               </div>
-             <form onSubmit={handleSubmit} className="relative w-full animate-pulse">
+             <form onSubmit={handleSubmit} className="relative w-full">
                 <div className="relative flex items-center w-full">
-                    <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary-foreground/80" />
+                    <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary" />
                     <Input
                         id="address"
                         value={value}
@@ -229,7 +232,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             </ul>
           </div>
         </div>
-        <div className="hidden h-full md:flex flex-col justify-end">
+        <div className="hidden md:flex flex-col justify-end">
           <Image
             src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
             alt="Phone showing solar quotes"
