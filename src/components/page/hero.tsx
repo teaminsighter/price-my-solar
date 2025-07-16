@@ -120,8 +120,8 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         className="absolute inset-0 z-0 opacity-20"
         priority
       />
-      <div className="container relative z-10 mx-auto grid min-h-[700px] grid-cols-1 items-center gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-24">
-        <div className="flex items-center justify-start h-full">
+      <div className="container relative z-10 mx-auto grid min-h-[700px] grid-cols-1 items-start gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-24">
+        <div className="flex items-start justify-start h-full">
             <Image
               src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
               alt="Phone showing solar quote comparison"
@@ -130,7 +130,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
               className="object-contain"
             />
         </div>
-        <div className="flex flex-col items-center justify-center space-y-8">
+        <div className="flex flex-col items-center justify-start space-y-8">
             <div className="bg-primary p-4 rounded-md text-center text-primary-foreground shadow-lg">
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl">
                     Compare Solar Quotes
