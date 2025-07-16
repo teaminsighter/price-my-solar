@@ -18,7 +18,7 @@ export function CostsSection() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
           <div className="space-y-6">
-            <div className="w-full h-[150px] flex items-center justify-center">
+            <div className="w-full h-[150px] flex items-center justify-center md:justify-start">
               <Banknote className="w-24 h-24 text-primary animate-sway" />
             </div>
             <h3 className="text-2xl font-bold tracking-tight md:text-3xl text-center md:text-left">The Costs of Going Solar</h3>
@@ -28,7 +28,7 @@ export function CostsSection() {
             <p className="text-xs text-muted-foreground/80">Learn more – <Link href="#" className="underline">Freedom Forever</Link></p>
           </div>
           <div className="space-y-6">
-            <div className="w-full h-[150px] flex items-center justify-center">
+            <div className="w-full h-[150px] flex items-center justify-center md:justify-start">
               <Sun className="w-24 h-24 text-primary animate-spin-slow" />
             </div>
             <h3 className="text-2xl font-bold tracking-tight md:text-3xl text-center md:text-left">Solar and Your NZ Power Company</h3>
