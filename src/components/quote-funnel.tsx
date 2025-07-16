@@ -9,6 +9,7 @@ import { Progress } from '@/components/ui/progress';
 import { Slider } from '@/components/ui/slider';
 import { Input } from './ui/input';
 import { saveQuoteToFirestore } from '@/app/actions';
+import Image from 'next/image';
 
 // Data structure for the entire funnel
 export type QuoteData = {
@@ -113,23 +114,19 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   };
   
   const handleNext = () => {
-    transition(() => {
-      if (stepIndex < totalSteps - 1) {
-        setStepIndex(s => s + 1);
-      } else {
+    if (stepIndex < totalSteps - 1) {
+        transition(() => setStepIndex(s => s + 1));
+    } else {
         console.log('Funnel complete:', formData);
-      }
-    });
+    }
   };
 
   const handleBack = () => {
-    transition(() => {
-      if (stepIndex > 0) {
-        setStepIndex(s => s - 1);
-      } else {
+    if (stepIndex > 0) {
+        transition(() => setStepIndex(s => s - 1));
+    } else {
         onExit();
-      }
-    });
+    }
   };
 
   const handleSelectAndNext = (key: keyof QuoteData, value: any) => {
@@ -161,17 +158,20 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   }
 
   const renderStepContent = () => {
-    const animationClass = isTransitioning ? 'opacity-0 scale-95' : 'opacity-100 scale-100';
-    const contentClasses = `transition-all duration-300 ease-in-out ${animationClass}`;
+    const contentClasses = `transition-all duration-300 ease-in-out ${isTransitioning ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`;
 
     if (!currentStepInfo) {
         return <div className="min-h-[350px] flex items-center justify-center">Loading step...</div>;
     }
-
-    if (isTransitioning && currentStepInfo.type !== 'animation') {
-        return <div className="min-h-[350px] flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>
+    
+    if (isTransitioning) {
+        return (
+            <div className="min-h-[350px] flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            </div>
+        );
     }
-
+    
     const { id, type, options, min, max, step } = currentStepInfo;
 
     if (type === undefined || id === 'region') {
@@ -288,7 +288,12 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
           </div>
         );
       case 'summary':
-          return <div className="text-center"><p>Redirecting you based on your answers...</p></div>
+          return (
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                <p>Redirecting you based on your answers...</p>
+            </div>
+          );
       case 'calculation':
           return (
             <div className={`text-center space-y-6 ${contentClasses}`}>
@@ -375,7 +380,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                    <Check className="h-16 w-16 rounded-full bg-green-100 p-2 text-green-600" />
                 </div>
                 <h2 className="text-2xl font-bold">Thank you, {formData.firstName}!</h2>
-                <p className="text-muted-foreground">Your quote request has been submitted. We'll be in touch at <strong>{formData.email}</strong> and <strong>{formData.phone}</strong> shortly.</p>
+                <p className="text-muted-foreground max-w-md mx-auto">Your quote request has been submitted. We'll be in touch at <strong>{formData.email}</strong> and <strong>{formData.phone}</strong> shortly with your personalized solar options.</p>
                 <Button size="lg" onClick={onExit} className="mt-4">Return to Homepage</Button>
             </div>
         );
@@ -396,8 +401,15 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full items-start">
             <div className="hidden md:flex justify-center items-start h-full">
                 <div className="sticky top-24 w-80 h-[500px]">
-                     <div className="w-full h-full bg-slate-200 rounded-lg flex items-center justify-center">
-                        <p className="text-muted-foreground">Image Area</p>
+                     <div className="w-full h-full bg-slate-200 rounded-lg flex items-center justify-center overflow-hidden">
+                        <Image
+                          src="https://placehold.co/600x800.png"
+                          alt="Solar panels on a sunny day"
+                          width={600}
+                          height={800}
+                          className="w-full h-full object-cover"
+                          data-ai-hint="solar panels"
+                        />
                      </div>
                 </div>
             </div>
@@ -418,7 +430,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                       </CardContent>
                     </Card>
                     <div className="flex justify-start mt-4">
-                        {(currentStepInfo?.type !== 'finalConfirmation' && currentStepInfo?.type !== 'animation') && (
+                        {(currentStepInfo?.type !== 'finalConfirmation' && currentStepInfo?.type !== 'animation' && !isTransitioning) && (
                              <Button variant="link" onClick={handleBack} className="text-muted-foreground">
                                 <ArrowLeft className="mr-2 h-4 w-4" /> Back
                             </Button>

@@ -19,7 +19,7 @@ const faqItems = [
   },
   {
     question: "What exactly will my solar quotes include?",
-    answer: "Your quotes clearly outline: Total installation costs, Number and brand of solar panels, batteries and inverter, Estimated annual energy production and savings, Warranty details and length, and Financing or payment plan options (if applicable). Everything is explained in simple, straightforward terms.",
+    answer: "Your quotes clearly outline:\n\n- Total installation costs\n- Number and brand of solar panels, batteries and inverter\n- Estimated annual energy production and savings\n- Warranty details and length\n- Financing or payment plan options (if applicable)\n\nEverything is explained in simple, straightforward terms.",
   },
   {
     question: "How much can I actually save by comparing quotes?",
@@ -63,23 +63,8 @@ export function FaqSection() {
                 <AccordionTrigger className="text-left font-semibold text-lg hover:no-underline">
                   {item.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-base text-muted-foreground">
-                  {item.answer.split(', ').map((part, i, arr) => 
-                    i === 0 && (part.includes('Total installation costs') || part.includes('Customers who')) ? (
-                      <div key={i}>
-                        <p>{part.includes('Your quotes') ? part.split(':')[0] + ':' : ''}</p>
-                        <ul className="list-disc pl-5 space-y-2 mt-2">
-                           {part.includes('Your quotes') ? 
-                             part.split(':')[1].split(',').map(subPart => <li key={subPart}>{subPart.trim()}</li>)
-                             : <li>{part}</li>
-                           }
-                        </ul>
-                         {arr[i+1] && <p className="mt-2">{arr[i+1]}</p>}
-                      </div>
-                    ) : i > 0 && (arr[0].includes('Your quotes') || arr[0].includes('Customers who')) ? null : (
-                      <p key={i} className={i > 0 ? 'mt-4' : ''}>{part}</p>
-                    )
-                  )}
+                <AccordionContent className="text-base text-muted-foreground whitespace-pre-line">
+                  {item.answer}
                 </AccordionContent>
               </AccordionItem>
             ))}

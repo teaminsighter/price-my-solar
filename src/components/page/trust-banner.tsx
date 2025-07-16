@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -9,7 +10,7 @@ export function TrustBanner() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center justify-center gap-6 text-center md:flex-row md:gap-10">
           <div className="space-y-2">
-            <div className="flex items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Badge variant="secondary" className="px-4 py-1 text-sm">Top New Zealand Installers</Badge>
               <Badge variant="outline" className="border-accent text-accent px-4 py-1 text-sm">NZ No.1 Solar Comparison Site</Badge>
             </div>
