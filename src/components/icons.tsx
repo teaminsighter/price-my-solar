@@ -166,30 +166,3 @@ export function AnimatedIconHybrid(props: SVGProps<SVGSVGElement>) {
     </svg>
   )
 }
-
-function Person({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div className={`absolute bottom-0 w-8 h-16 ${className}`} {...props}>
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-4 bg-primary rounded-full" />
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 w-2 h-8 bg-primary" />
-      <div className="absolute bottom-0 left-0 w-full h-2">
-        <div className="absolute left-0 bottom-0 w-1 h-4 bg-primary origin-top-left animate-run-leg-1" />
-        <div className="absolute right-0 bottom-0 w-1 h-4 bg-primary origin-top-right animate-run-leg-2" />
-      </div>
-    </div>
-  )
-}
-
-export function AnimatedFamilyRun(props: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div {...props}>
-      <Person className="animate-run-person-1" />
-      <Person className="animate-run-person-2" style={{ animationDelay: '0.1s', transform: 'scale(0.95)' }} />
-      <Person className="animate-run-person-3" style={{ animationDelay: '0.2s', transform: 'scale(0.7)' }} />
-    </div>
-  )
-}
-
-export function AnimatedToy(props: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className="absolute w-4 h-4 bg-accent rounded-full animate-ball-play" {...props} />;
-}

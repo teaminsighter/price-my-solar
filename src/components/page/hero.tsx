@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import usePlacesAutocomplete from 'use-places-autocomplete';
 import { useLoadScript } from '@react-google-maps/api';
 import { Button } from '@/components/ui/button';
@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input';
 import type { QuoteData } from '@/components/quote-funnel';
 import { MapPin } from 'lucide-react';
 import Image from 'next/image';
-import { AnimatedFamilyRun, AnimatedToy } from '../icons';
 
 const libraries: ('places')[] = ['places'];
 
@@ -50,9 +49,15 @@ export function Hero({ onStartFunnel }: HeroProps) {
     return <HeroContent onStartFunnel={onStartFunnel} />;
 }
 
+const demoAddresses = [
+  "123 Queen Street, Auckland",
+  "789 Lambton Quay, Wellington",
+  "45 Colombo Street, Christchurch",
+];
 
 function HeroContent({ onStartFunnel }: HeroProps) {
     const [propertyType, setPropertyType] = useState<'RESIDENTIAL' | 'COMMERCIAL' | null>(null);
+    const [placeholder, setPlaceholder] = useState('Start typing your address');
 
     const {
         ready,
@@ -66,6 +71,38 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         },
         debounce: 300,
     });
+
+    useEffect(() => {
+      let typingTimeout: NodeJS.Timeout;
+      
+      const type = (text: string, index = 0) => {
+        if (index < text.length) {
+          setPlaceholder(text.substring(0, index + 1));
+          typingTimeout = setTimeout(() => type(text, index + 1), 100);
+        } else {
+          typingTimeout = setTimeout(deleteText, 2000); // Wait before deleting
+        }
+      };
+
+      const deleteText = (text = placeholder, index = text.length) => {
+        if (index > 0) {
+          setPlaceholder(text.substring(0, index - 1));
+          typingTimeout = setTimeout(() => deleteText(text, index - 1), 50);
+        } else {
+           const nextAddressIndex = (demoAddresses.indexOf(text) + 1) % demoAddresses.length;
+           typingTimeout = setTimeout(() => type(demoAddresses[nextAddressIndex]), 500);
+        }
+      };
+
+      // Start the animation
+      typingTimeout = setTimeout(() => {
+          deleteText('Start typing your address');
+      }, 3000);
+
+      return () => clearTimeout(typingTimeout);
+    // We only want this to run once on mount, so we disable the exhaustive-deps lint rule.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
@@ -114,10 +151,6 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     >
       <div className="container relative z-10 mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-8 px-4 py-8 pt-12 md:grid-cols-2 lg:px-6">
         <div className="relative space-y-8 text-left">
-           <div className="absolute -top-4 -left-12 right-0 h-48 w-[calc(100%+6rem)] z-0 hidden md:block pointer-events-none">
-            <AnimatedToy className="absolute" />
-            <AnimatedFamilyRun className="absolute" />
-          </div>
           <h1 className="text-4xl font-bold uppercase text-foreground sm:text-6xl">
             Compare Solar<br/>Quotes
           </h1>
@@ -149,14 +182,10 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                         value={value}
                         onChange={handleInput}
                         disabled={!ready || !propertyType}
+                        placeholder={placeholder}
                         className="h-12 w-full bg-primary pl-10 text-base text-primary-foreground placeholder:text-primary-foreground/80 disabled:opacity-70"
                         autoComplete="off"
                     />
-                    {value === '' && (
-                        <label htmlFor="address" className="pointer-events-none absolute left-10 top-1/2 -translate-y-1/2 text-base font-bold text-primary-foreground/80">
-                           Start typing your address
-                        </label>
-                    )}
                     {status === 'OK' && renderSuggestions()}
                 </div>
             </form>

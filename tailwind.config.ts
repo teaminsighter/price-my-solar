@@ -106,39 +106,6 @@ export default {
             '0%, 100%': { opacity: '0.2' },
             '50%': { opacity: '0.8' },
         },
-        'run-person-1': {
-          '0%': { transform: 'translateX(-100%) translateY(0)', opacity: '0' },
-          '10%': { transform: 'translateX(150%) translateY(-10px)', opacity: '1' },
-          '100%': { transform: 'translateX(150%) translateY(-10px)', opacity: '1' },
-        },
-        'run-person-2': {
-          '0%': { transform: 'translateX(-100%) translateY(0) scale(0.95)', opacity: '0' },
-          '12%': { transform: 'translateX(250%) translateY(-5px) scale(0.95)', opacity: '1' },
-          '100%': { transform: 'translateX(250%) translateY(-5px) scale(0.95)', opacity: '1' },
-        },
-        'run-person-3': {
-          '0%': { transform: 'translateX(-100%) translateY(0) scale(0.7)', opacity: '0' },
-          '15%': { transform: 'translateX(350%) translateY(0) scale(0.7)', opacity: '1' },
-          '100%': { transform: 'translateX(350%) translateY(0) scale(0.7)', opacity: '1' },
-        },
-        'run-leg-1': {
-          '0%, 100%': { transform: 'rotate(-25deg)' },
-          '50%': { transform: 'rotate(45deg)' },
-        },
-        'run-leg-2': {
-          '0%, 100%': { transform: 'rotate(45deg)' },
-          '50%': { transform: 'rotate(-25deg)' },
-        },
-        'ball-play': {
-          '0%': { bottom: '0', left: '10%', transform: 'scale(1)', opacity: '1' },
-          '10%': { bottom: '20px', left: '20%', transform: 'scale(1.1) rotate(180deg)' },
-          '20%': { bottom: '0', left: '30%' },
-          '35%': { bottom: '50px', left: '50%', transform: 'scale(1) rotate(720deg)' }, // Kicked by child
-          '50%': { bottom: '130px', left: '25%', transform: 'scale(0.9) rotate(1080deg)' }, // Arc towards input
-          '60%': { bottom: '135px', left: '20%', opacity: '1' },
-          '80%': { bottom: '135px', left: '20%', opacity: '0' }, // Fade out near input
-          '100%': { bottom: '135px', left: '20%', opacity: '0' },
-        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -151,12 +118,6 @@ export default {
         'sway': 'sway 2.5s ease-in-out infinite',
         'float': 'float 6s ease-in-out infinite',
         'fade-in-out': 'fade-in-out 5s ease-in-out infinite',
-        'run-person-1': 'run-person-1 8s ease-in-out infinite',
-        'run-person-2': 'run-person-2 8s ease-in-out infinite',
-        'run-person-3': 'run-person-3 8s ease-in-out infinite',
-        'run-leg-1': 'run-leg-1 0.5s linear infinite',
-        'run-leg-2': 'run-leg-2 0.5s linear infinite',
-        'ball-play': 'ball-play 8s ease-out infinite',
       },
     },
   },
