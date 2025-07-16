@@ -124,14 +124,14 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                 <Button 
                     variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
                     onClick={() => setPropertyType('RESIDENTIAL')}
-                    className="font-bold h-7 px-2.5 text-xs"
+                    className="font-bold h-6 px-2 text-xs"
                 >
                     Residential
                 </Button>
                 <Button
                     variant={propertyType === 'COMMERCIAL' ? 'default' : 'outline'}
                     onClick={() => setPropertyType('COMMERCIAL')}
-                    className="font-bold h-7 px-2.5 text-xs"
+                    className="font-bold h-6 px-2 text-xs"
                 >
                     Commercial
                 </Button>
@@ -144,7 +144,6 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                         value={value}
                         onChange={handleInput}
                         disabled={!ready || !propertyType}
-                        placeholder=""
                         className="h-12 w-full pl-10 text-sm bg-primary text-primary-foreground placeholder:text-primary-foreground/80 disabled:opacity-70"
                         autoComplete="off"
                     />
