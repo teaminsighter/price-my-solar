@@ -175,8 +175,8 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                 </Button>
              </div>
              <form onSubmit={handleSubmit} className="relative mt-4">
-                <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 z-10 h-5 w-5 -translate-y-1/2 animate-pulse text-primary-foreground/80" />
+                <div className="relative flex items-center">
+                    <MapPin className="absolute left-3 z-10 h-5 w-5 animate-pulse text-primary-foreground/80" />
                     <Input
                         id="address"
                         value={value}
