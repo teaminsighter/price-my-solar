@@ -10,8 +10,6 @@ import { Progress } from '@/components/ui/progress';
 import { Slider } from '@/components/ui/slider';
 import { Input } from './ui/input';
 import { saveQuoteToFirestore } from '@/app/actions';
-import { useToast } from "@/hooks/use-toast";
-
 
 // Data structure for the entire funnel
 export type QuoteData = {
@@ -80,7 +78,6 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   const [formData, setFormData] = useState<QuoteData>({ ...initialData });
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
 
   const visibleSteps = useMemo(() => funnelSteps.filter(step => !step.condition || step.condition(formData)), [formData]);
   
@@ -143,19 +140,21 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (currentStepInfo.id === 'contactInfo') {
-        setIsSubmitting(true);
+      setIsSubmitting(true);
+      try {
         const result = await saveQuoteToFirestore(formData);
-        setIsSubmitting(false);
-
         if (result.success) {
-            handleNext();
+          handleNext();
         } else {
-            toast({
-                variant: "destructive",
-                title: "Submission Error",
-                description: "There was a problem saving your quote. Please try again.",
-            });
+          console.error("Submission Error:", result.error);
+          alert("There was a problem saving your quote. Please try again.");
         }
+      } catch (error) {
+        console.error("Failed to submit form:", error);
+        alert("An unexpected error occurred. Please try again.");
+      } finally {
+        setIsSubmitting(false);
+      }
     } else {
         handleNext();
     }
