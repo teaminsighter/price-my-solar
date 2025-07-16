@@ -280,7 +280,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
     switch (type) {
       case 'animation':
         return (
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center min-h-[350px]">
              { id === 'sunCheck' ? 
                 <Sun className="h-16 w-16 animate-spin text-primary" /> : 
                 <Zap className="h-16 w-16 animate-pulse text-primary" /> }
@@ -289,7 +289,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
         );
       case 'summary':
           return (
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center min-h-[350px]">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
                 <p>Redirecting you based on your answers...</p>
             </div>
@@ -403,12 +403,13 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                 <div className="sticky top-24 w-80 h-[500px]">
                      <div className="w-full h-full bg-slate-200 rounded-lg flex items-center justify-center overflow-hidden">
                         <Image
-                          src="https://placehold.co/600x800.png"
+                          src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FTiers%2Fsolar%20(1).jpg?alt=media&token=9687ffcd-c763-4d11-8edf-6b9bf17398ef"
                           alt="Solar panels on a sunny day"
                           width={600}
                           height={800}
                           className="w-full h-full object-cover"
                           data-ai-hint="solar panels"
+                          priority
                         />
                      </div>
                 </div>
@@ -425,9 +426,13 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                     <p className="text-center text-sm text-muted-foreground mb-8">Step {stepIndex + 1} of {totalSteps}</p>
 
                     <Card className="w-full shadow-none border-0 bg-transparent min-h-[400px]">
-                      <CardContent className="flex flex-col justify-center p-2 md:p-6 h-full">
-                         {renderStepContent()}
-                      </CardContent>
+                        <CardContent className="flex flex-col justify-center p-2 md:p-6 h-full">
+                            {isTransitioning ? (
+                                <div className="min-h-[350px] flex items-center justify-center">
+                                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                                </div>
+                            ) : renderStepContent()}
+                        </CardContent>
                     </Card>
                     <div className="flex justify-start mt-4">
                         {(currentStepInfo?.type !== 'finalConfirmation' && currentStepInfo?.type !== 'animation' && !isTransitioning) && (
@@ -442,3 +447,5 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
     </section>
   );
 }
+
+    
