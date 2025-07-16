@@ -10,6 +10,13 @@ export const metadata: Metadata = {
   description: 'Quotes from NZ qualified installers for your home or business. 100% Free, No Obligation, SEANZ Approved.',
 };
 
+// Augment the Window interface
+declare global {
+  interface Window {
+    dataLayer: any[];
+  }
+}
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -26,6 +33,11 @@ export default async function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
+        <Script id="gtm-datalayer" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+          `}
+        </Script>
         {gtmHeadSnippet && (
           <Script id="gtm-script" strategy="afterInteractive">
             {gtmHeadSnippet.replace(/<script>|<\/script>/g, '')}

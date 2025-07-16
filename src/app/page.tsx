@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Hero } from '@/components/page/hero';
@@ -17,13 +17,31 @@ import { QuoteFunnel } from '@/components/quote-funnel';
 import type { QuoteData } from '@/components/quote-funnel';
 import { FaqSection } from '@/components/page/faq-section';
 
+const USER_ID_KEY = 'pms_user_id';
+
+function generateUserId() {
+  return `PMS-${Math.random().toString(36).substring(2, 11)}`;
+}
+
 export default function Home() {
   const [funnelStarted, setFunnelStarted] = useState(false);
   const [initialQuoteData, setInitialQuoteData] = useState<QuoteData | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
-  const handleStartFunnel = (data: QuoteData) => {
-    setInitialQuoteData(data);
-    setFunnelStarted(true);
+  useEffect(() => {
+    let storedUserId = localStorage.getItem(USER_ID_KEY);
+    if (!storedUserId) {
+      storedUserId = generateUserId();
+      localStorage.setItem(USER_ID_KEY, storedUserId);
+    }
+    setUserId(storedUserId);
+  }, []);
+
+  const handleStartFunnel = (data: Omit<QuoteData, 'userId'>) => {
+    if (userId) {
+      setInitialQuoteData({ ...data, userId });
+      setFunnelStarted(true);
+    }
   };
 
   const handleExitFunnel = () => {

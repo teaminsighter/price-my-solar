@@ -13,6 +13,7 @@ import Image from 'next/image';
 
 // Data structure for the entire funnel
 export type QuoteData = {
+  userId: string;
   address: string;
   propertyType: 'RESIDENTIAL' | 'COMMERCIAL';
   motivation?: string;
@@ -32,8 +33,6 @@ export type QuoteData = {
   financeInterest?: 'Why not!' | 'Will sort myself';
   email?: string;
   phone?: string;
-  emailConfirm?: string;
-  phoneConfirm?: string;
 };
 
 // Regions data
@@ -144,7 +143,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLastCompletedStep('contactInfo');
+    
 
     const { fullName } = formData;
     let finalData = { ...formData };
@@ -158,10 +157,23 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
     }
 
     if (currentStepInfo.id === 'contactInfo') {
+      setLastCompletedStep('contactInfo');
       setIsSubmitting(true);
       try {
         const result = await saveQuoteToFirestore(finalData);
         if (result.success) {
+          // Push to dataLayer
+          if (window.dataLayer) {
+            window.dataLayer.push({
+              event: 'new_lead',
+              lead_data: {
+                user_id: finalData.userId,
+                address: finalData.address,
+                property_type: finalData.propertyType,
+                email: finalData.email,
+              }
+            });
+          }
           handleNext();
         } else {
           console.error("Submission Error:", result.error);

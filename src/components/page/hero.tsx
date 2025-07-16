@@ -17,7 +17,7 @@ const heroContentConfig = {
 };
 
 type HeroProps = {
-  onStartFunnel: (data: QuoteData) => void;
+  onStartFunnel: (data: Omit<QuoteData, 'userId'>) => void;
 };
 
 export function Hero({ onStartFunnel }: HeroProps) {

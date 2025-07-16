@@ -23,7 +23,7 @@ export async function saveQuoteToFirestore(quoteData: QuoteData) {
     console.log('Document written with ID: ', docRef.id);
     
     // After saving, trigger active webhooks without awaiting the result
-    triggerActiveWebhooks(sanitizedQuoteData);
+    triggerActiveWebhooks(sanitizedQuoteData as QuoteData);
 
     return { success: true, docId: docRef.id };
   } catch (e) {
