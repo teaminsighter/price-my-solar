@@ -195,9 +195,9 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                     Commercial
                 </Button>
              </div>
-              <div className="min-h-[2.5rem] flex items-center justify-center transition-all duration-300">
+              <div className="min-h-[2.5rem] flex items-center justify-start transition-all duration-300">
                 {propertyType && (
-                    <p className="text-center font-semibold text-foreground animate-in fade-in">
+                    <p className="text-left font-semibold text-foreground animate-in fade-in">
                         {dynamicQuestion}
                     </p>
                 )}
