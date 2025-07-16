@@ -86,6 +86,7 @@ export default {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'hero-glow': 'hero-glow 3s linear infinite',
+        'spin-slow': 'spin 3s linear infinite',
       },
     },
   },

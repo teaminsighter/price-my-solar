@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { ShieldCheck } from "lucide-react";
 
 export function TrustBanner() {
   return (
@@ -14,14 +15,9 @@ export function TrustBanner() {
             </div>
             <p className="text-sm text-muted-foreground">Only vetted, SEANZ-registered solar companies.</p>
           </div>
-          <Link href="#" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-80">
-            <Image
-              src="https://placehold.co/120x60.png"
-              alt="SEANZ Logo"
-              width={120}
-              height={60}
-              data-ai-hint="logo seal"
-            />
+          <Link href="#" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-80 flex items-center gap-2 text-muted-foreground">
+            <ShieldCheck className="h-10 w-10 text-primary" />
+             <span className="font-semibold">SEANZ Member</span>
           </Link>
         </div>
       </div>

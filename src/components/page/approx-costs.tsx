@@ -2,35 +2,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check } from "lucide-react";
+import { Check, Home, Users, Building2 } from "lucide-react";
 
 const costTiers = [
   {
     title: "Couple",
     price: "Less than $12,000",
     features: ["Low solar needs", "Minimal battery/storage", "Best for small homes"],
-    image: {
-      src: "https://placehold.co/400x300.png",
-      hint: "small house",
-    },
+    icon: Home,
   },
   {
     title: "Family",
     price: "$12,000 – $17,000",
     features: ["Can export/store power", "Good ROI, more energy usage"],
-    image: {
-      src: "https://placehold.co/400x300.png",
-      hint: "family house solar",
-    },
+    icon: Users,
   },
   {
     title: "Large Family",
     price: "$17,000 – $22,000",
     features: ["Large property", "Higher consumption & battery"],
-    image: {
-      src: "https://placehold.co/400x300.png",
-      hint: "large house solar",
-    },
+    icon: Building2,
   },
 ];
 
@@ -50,14 +41,9 @@ export function ApproxCosts() {
           {costTiers.map((tier) => (
             <Card key={tier.title} className="flex flex-col overflow-hidden shadow-lg transition-transform hover:scale-105">
               <CardHeader className="p-0">
-                <Image
-                  src={tier.image.src}
-                  alt={tier.title}
-                  width={400}
-                  height={300}
-                  className="h-48 w-full object-cover"
-                  data-ai-hint={tier.image.hint}
-                />
+                <div className="flex h-48 w-full items-center justify-center bg-muted/50">
+                  <tier.icon className="h-24 w-24 text-primary" />
+                </div>
                 <CardTitle className="p-6">{tier.title}</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-1 flex-col justify-between p-6 pt-0">

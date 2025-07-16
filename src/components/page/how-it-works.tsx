@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Settings } from "lucide-react";
 
 const steps = [
   {
@@ -50,14 +51,8 @@ export function HowItWorks() {
             <Link href="#get-quotes">Compare Now</Link>
           </Button>
         </div>
-        <div className="relative h-96 w-full">
-            <Image
-                src="https://placehold.co/600x600.png"
-                alt="Diagram showing how solar power works"
-                fill
-                className="rounded-lg object-contain"
-                data-ai-hint="solar panel diagram"
-            />
+        <div className="relative h-96 w-full rounded-lg bg-muted/50 flex items-center justify-center">
+            <Settings className="h-32 w-32 text-primary animate-spin-slow" />
         </div>
       </div>
     </section>

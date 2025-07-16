@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { TrendingUp } from "lucide-react";
 
 export function RoiSection() {
   return (
@@ -22,14 +23,8 @@ export function RoiSection() {
             </p>
           </div>
         </div>
-        <div className="relative h-80 w-full">
-            <Image
-                src="https://placehold.co/600x400.png"
-                alt="Hand holding a house with solar panels"
-                fill
-                className="rounded-lg object-contain"
-                data-ai-hint="investment growth"
-            />
+        <div className="relative h-80 w-full rounded-lg bg-muted/50 flex items-center justify-center">
+            <TrendingUp className="h-32 w-32 text-primary" />
         </div>
       </div>
     </section>
