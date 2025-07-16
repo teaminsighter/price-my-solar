@@ -112,8 +112,8 @@ function HeroContent({ onStartFunnel }: HeroProps) {
       id="get-quotes"
       className="relative w-full overflow-hidden bg-background"
     >
-      <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-center gap-12 px-4 py-16 md:grid-cols-2 md:px-8 lg:px-12 lg:py-20">
-        <div className="flex flex-col justify-center space-y-6 pl-8">
+      <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-center gap-12 px-4 py-16 md:grid-cols-2 lg:pl-16 lg:pr-8 lg:py-20">
+        <div className="flex flex-col justify-center space-y-6">
             <div className="space-y-4">
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
                   Compare Solar Quotes
@@ -140,7 +140,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                   onChange={handleInput}
                   disabled={!ready}
                   placeholder={heroContentConfig.addressPlaceholder}
-                  className="h-12 w-full text-base"
+                  className="h-12 w-full text-base border-accent focus:ring-accent focus:border-accent"
                   autoComplete="off"
                 />
                 {status === 'OK' && renderSuggestions()}
