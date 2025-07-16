@@ -204,14 +204,14 @@ function HeroContent({ onStartFunnel }: HeroProps) {
               </div>
              <form onSubmit={handleSubmit} className="relative">
                 <div className="relative flex items-center">
-                    <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary/80" />
+                    <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-accent-foreground/80" />
                     <Input
                         id="address"
                         value={value}
                         onChange={handleInput}
                         disabled={!ready}
                         placeholder={placeholder}
-                        className="h-12 w-full bg-background pl-10 text-base text-foreground placeholder:text-muted-foreground disabled:opacity-70"
+                        className="h-12 w-full bg-accent pl-10 text-base text-accent-foreground placeholder:text-accent-foreground/70 disabled:opacity-70"
                         autoComplete="off"
                     />
                     {status === 'OK' && renderSuggestions()}
@@ -243,3 +243,5 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     </section>
   );
 }
+
+    
