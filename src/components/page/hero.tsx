@@ -17,8 +17,8 @@ const libraries: ('places')[] = ['places'];
 
 // Configuration for all text content in the Hero component
 const heroContentConfig = {
-  headline: "Compare Solar Quotes",
-  subheadline: "Quotes from NZ qualified installers",
+  headline: "COMPARE SOLAR QUOTES",
+  subheadline: "QUOTES FROM NZ QUALIFIED INSTALLERS",
   widgetPreTitle: "Installation Costs & Power Savings",
   widgetTitle: "Compare & Save",
   residentialLabel: "Residential",
@@ -133,7 +133,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         className="absolute inset-0 z-0 opacity-20"
         priority
       />
-      <div className="container relative z-10 mx-auto grid min-h-[500px] grid-cols-1 items-center gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-20">
+      <div className="container relative z-10 mx-auto grid min-h-[500px] grid-cols-1 items-start gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-20">
         <div className="relative h-full w-full hidden md:block">
             <Image
               src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
@@ -143,7 +143,15 @@ function HeroContent({ onStartFunnel }: HeroProps) {
               className="absolute left-[-80px] top-0 object-contain h-full w-auto max-w-none"
             />
         </div>
-        <div className="flex flex-col items-center justify-center space-y-6">
+        <div className="flex flex-col items-center justify-start space-y-6">
+            <div className="text-center">
+                <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl text-secondary">
+                    {heroContentConfig.headline}
+                </h1>
+                <p className="mt-4 text-lg font-medium text-muted-foreground">
+                    {heroContentConfig.subheadline}
+                </p>
+            </div>
             <Card className="w-full max-w-sm bg-card/90 p-4 shadow-2xl backdrop-blur-sm">
               <CardContent className="flex flex-col items-center p-4 text-center">
                 <div className="w-full bg-slate-100 p-4 rounded-md">
