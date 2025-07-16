@@ -39,7 +39,7 @@ export function Hero({ onStartFunnel }: HeroProps) {
         return (
           <section id="get-quotes" className="relative w-full overflow-hidden bg-background">
              <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-center justify-center">
-                <div>Loading...</div>
+                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
              </div>
           </section>
         );
@@ -121,13 +121,13 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         priority
       />
       <div className="container relative z-10 mx-auto grid min-h-[700px] grid-cols-1 items-start gap-8 px-4 py-16 md:grid-cols-2 md:px-6 lg:py-24">
-        <div className="flex items-start justify-start h-full">
+        <div className="relative h-full w-full hidden md:block">
             <Image
               src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
               alt="Phone showing solar quote comparison"
-              width={400}
-              height={600}
-              className="object-contain"
+              width={500}
+              height={750}
+              className="absolute left-[-100px] top-0 object-contain h-full w-auto max-w-none"
             />
         </div>
         <div className="flex flex-col items-center justify-start space-y-8">
