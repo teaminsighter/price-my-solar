@@ -139,7 +139,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                   onChange={handleInput}
                   disabled={!ready}
                   placeholder={heroContentConfig.addressPlaceholder}
-                  className="h-12 w-full text-base border-primary focus:ring-primary focus:border-primary"
+                  className="h-12 w-full text-base bg-primary text-primary-foreground placeholder:text-primary-foreground/80 focus:ring-primary/80"
                   autoComplete="off"
                 />
                 {status === 'OK' && renderSuggestions()}
