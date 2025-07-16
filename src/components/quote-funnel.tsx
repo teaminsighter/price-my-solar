@@ -401,13 +401,13 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full items-start">
             <div className="hidden md:flex justify-center items-start h-full">
                 <div className="sticky top-24 w-80 h-[500px]">
-                     <div className="w-full h-full bg-slate-200 rounded-lg flex items-center justify-center overflow-hidden">
+                     <div className="w-full h-full bg-transparent rounded-lg flex items-center justify-center overflow-hidden">
                         <Image
                           src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FTiers%2Fsolar%20(1).jpg?alt=media&token=9687ffcd-c763-4d11-8edf-6b9bf17398ef"
                           alt="Solar panels on a sunny day"
                           width={600}
                           height={800}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-contain"
                           data-ai-hint="solar panels"
                           priority
                         />
