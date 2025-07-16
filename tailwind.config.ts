@@ -112,7 +112,7 @@ export default {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'hero-gradient': 'hero-gradient 15s ease infinite',
+        'hero-gradient': 'hero-gradient 30s linear infinite',
         'spin-slow': 'spin 5s linear infinite',
         'wobble': 'wobble 2s ease-in-out infinite',
         'bob': 'bob 3s ease-in-out infinite',

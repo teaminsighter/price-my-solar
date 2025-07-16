@@ -167,7 +167,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
   return (
     <section
       id="get-quotes"
-      className="relative w-full overflow-hidden bg-[linear-gradient(-45deg,_hsl(var(--primary)),_hsl(var(--accent)),_hsl(var(--primary)),_hsl(var(--accent)))] bg-[length:400%_400%] animate-hero-gradient"
+      className="relative w-full overflow-hidden bg-gradient-to-br from-primary to-orange-400 bg-[length:200%_200%] animate-hero-gradient"
     >
       <div className="container relative z-10 mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-8 px-4 py-8 pt-12 md:grid-cols-2 lg:px-6">
         <div className="relative space-y-6 text-left">
