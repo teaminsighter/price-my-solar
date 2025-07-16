@@ -1,21 +1,18 @@
 
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
 import usePlacesAutocomplete from 'use-places-autocomplete';
 import { useLoadScript } from '@react-google-maps/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Card, CardContent } from '@/components/ui/card';
 import type { QuoteData } from '@/components/quote-funnel';
-import { Check, MapPin } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 
 const libraries: ('places')[] = ['places'];
 
 const heroContentConfig = {
-  bullet1: "SEANZ-member installers",
-  bullet2: "100% Free with no obligation",
-  addressPlaceholder: "Start typing your address...",
   errorLoadingMaps: "Error loading maps. Please check the API key.",
 };
 
@@ -54,6 +51,7 @@ export function Hero({ onStartFunnel }: HeroProps) {
 
 
 function HeroContent({ onStartFunnel }: HeroProps) {
+    const [propertyType, setPropertyType] = useState<'RESIDENTIAL' | 'COMMERCIAL'>('RESIDENTIAL');
     const {
         ready,
         value,
@@ -71,16 +69,16 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         setValue(e.target.value);
     };
 
-    const handleSelect = ({ description }: { description: string }) => () => {
+    const handleSelect = (description: string) => {
         setValue(description, false);
         clearSuggestions();
-        onStartFunnel({ address: description, propertyType: 'RESIDENTIAL' });
+        onStartFunnel({ address: description, propertyType });
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (value) {
-            onStartFunnel({ address: value, propertyType: 'RESIDENTIAL' });
+            onStartFunnel({ address: value, propertyType });
         }
     };
 
@@ -95,7 +93,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         return (
           <div
             key={place_id}
-            onClick={handleSelect(suggestion)}
+            onClick={() => handleSelect(suggestion.description)}
             className="cursor-pointer p-2 text-left hover:bg-gray-100 text-foreground"
           >
             <strong>{main_text}</strong> <small>{secondary_text}</small>
@@ -110,51 +108,66 @@ function HeroContent({ onStartFunnel }: HeroProps) {
       id="get-quotes"
       className="relative w-full overflow-hidden bg-background"
     >
-      <div className="container relative z-10 mx-auto grid min-h-[600px] grid-cols-1 items-center gap-12 px-4 py-16 md:grid-cols-2 lg:pl-16 lg:pr-8 lg:py-20">
-        <div className="flex flex-col justify-center space-y-6">
-            <div className="space-y-4">
-                <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                  Compare Solar Quotes
-                </h1>
-                <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                  Quotes from NZ qualified installers
-                </p>
-            </div>
-            <ul className="space-y-2">
-                <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span>{heroContentConfig.bullet1}</span>
-                </li>
-                <li className="flex items-center gap-2">
-                    <Check className="h-5 w-5 text-green-500" />
-                    <span>{heroContentConfig.bullet2}</span>
-                </li>
-            </ul>
-            <form className="relative flex max-w-md space-x-2" onSubmit={handleSubmit}>
-              <div className="relative flex-grow rounded-md bg-[linear-gradient(110deg,hsl(var(--primary)),45%,hsl(var(--accent)),55%,hsl(var(--primary)))] bg-[length:200%_100%] animate-hero-glow">
-                 <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground" />
-                <Input
-                  id="address"
-                  value={value}
-                  onChange={handleInput}
-                  disabled={!ready}
-                  placeholder={heroContentConfig.addressPlaceholder}
-                  className="h-12 w-full pl-10 text-base bg-transparent text-primary-foreground placeholder:text-primary-foreground/80 focus:ring-primary/80"
-                  autoComplete="off"
-                />
-                {status === 'OK' && renderSuggestions()}
-              </div>
-            </form>
+      <div className="w-full bg-secondary py-4 text-secondary-foreground">
+        <div className="container mx-auto text-center">
+          <h1 className="text-xl font-bold tracking-wider">COMPARE SOLAR QUOTES</h1>
+          <p className="text-sm">QUOTES FROM NZ QUALIFIED INSTALLERS</p>
         </div>
-        <div className="flex justify-end items-end h-[500px]">
-            <div className="relative h-full w-[250px]">
-                <Image
-                  src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
-                  alt="Phone showing solar quote interface"
-                  fill
-                  className="object-contain"
-                />
-            </div>
+      </div>
+      
+      <div className="container mx-auto grid grid-cols-1 items-center gap-8 px-4 py-12 md:grid-cols-2 md:py-20">
+        <div className="space-y-6">
+          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
+            <span className="uppercase">COMPARE</span> Solar Quotes
+          </h2>
+          <p className="text-lg text-muted-foreground">
+            Installation Costs & Power Savings
+          </p>
+          <div className="inline-block rounded-md bg-accent px-6 py-3 text-lg font-bold text-accent-foreground">
+            COMPARE & SAVE
+          </div>
+        </div>
+
+        <div>
+          <Card className="shadow-lg">
+            <CardContent className="p-6">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    type="button"
+                    variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
+                    onClick={() => setPropertyType('RESIDENTIAL')}
+                  >
+                    RESIDENTIAL SOLAR
+                  </Button>
+                  <Button
+                    type="button"
+                    variant={propertyType === 'COMMERCIAL' ? 'default' : 'outline'}
+                    onClick={() => setPropertyType('COMMERCIAL')}
+                  >
+                    COMMERCIAL SOLAR
+                  </Button>
+                </div>
+
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary-foreground/80" />
+                  <Input
+                    id="address"
+                    value={value}
+                    onChange={handleInput}
+                    disabled={!ready}
+                    placeholder="Start typing your address"
+                    className="h-12 w-full bg-primary pl-10 text-base text-primary-foreground placeholder:text-primary-foreground/80 focus-visible:ring-primary/80"
+                    autoComplete="off"
+                  />
+                  {status === 'OK' && renderSuggestions()}
+                </div>
+                <p className="text-center text-sm text-muted-foreground">
+                  Once your address shows; SELECT your installation type
+                </p>
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>
