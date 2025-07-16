@@ -78,8 +78,10 @@ export default {
             height: '0',
           },
         },
-        'hero-glow': {
-          'to': { 'background-position': '-200% center' },
+        'hero-gradient': {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
         },
         wobble: {
           '0%, 100%': { transform: 'rotate(-3deg)' },
@@ -110,7 +112,7 @@ export default {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'hero-glow': 'hero-glow 3s linear infinite',
+        'hero-gradient': 'hero-gradient 15s ease infinite',
         'spin-slow': 'spin 5s linear infinite',
         'wobble': 'wobble 2s ease-in-out infinite',
         'bob': 'bob 3s ease-in-out infinite',

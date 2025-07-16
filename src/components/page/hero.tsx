@@ -167,14 +167,14 @@ function HeroContent({ onStartFunnel }: HeroProps) {
   return (
     <section
       id="get-quotes"
-      className="relative w-full overflow-hidden bg-background"
+      className="relative w-full overflow-hidden bg-[linear-gradient(-45deg,_hsl(var(--primary)),_hsl(var(--accent)),_hsl(var(--primary)),_hsl(var(--accent)))] bg-[length:400%_400%] animate-hero-gradient"
     >
       <div className="container relative z-10 mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-8 px-4 py-8 pt-12 md:grid-cols-2 lg:px-6">
         <div className="relative space-y-6 text-left">
-          <h1 className="text-4xl font-bold uppercase text-foreground sm:text-6xl">
+          <h1 className="text-4xl font-bold uppercase text-primary-foreground sm:text-6xl">
             Compare Solar<br/>Quotes
           </h1>
-          <p className="text-lg text-muted-foreground max-w-xl">
+          <p className="text-lg text-primary-foreground/90 max-w-xl">
             Compare two quotes from New Zealand’s top solar installers side by side and see how much you could save—choose the best deal and maximise your power savings.
           </p>
           
@@ -204,14 +204,14 @@ function HeroContent({ onStartFunnel }: HeroProps) {
               </div>
              <form onSubmit={handleSubmit} className="relative">
                 <div className="relative flex items-center">
-                    <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary-foreground/80" />
+                    <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary/80" />
                     <Input
                         id="address"
                         value={value}
                         onChange={handleInput}
                         disabled={!ready}
                         placeholder={placeholder}
-                        className="h-12 w-full bg-primary pl-10 text-base text-primary-foreground placeholder:text-primary-foreground/80 disabled:opacity-70"
+                        className="h-12 w-full bg-background pl-10 text-base text-foreground placeholder:text-muted-foreground disabled:opacity-70"
                         autoComplete="off"
                     />
                     {status === 'OK' && renderSuggestions()}
