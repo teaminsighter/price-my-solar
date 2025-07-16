@@ -26,6 +26,7 @@ export type QuoteData = {
   gridSellBackInterest?: 'Yes' | 'Like to know more' | 'No';
   changePowerCompanyInterest?: 'Yes' | 'Like to know more' | 'No';
   savingsPercent?: number;
+  fullName?: string;
   firstName?: string;
   lastName?: string;
   financeInterest?: 'Why not!' | 'Will sort myself';
@@ -59,12 +60,11 @@ const funnelSteps = [
   { id: 'summary', title: 'Just a moment...', type: 'summary', condition: (data: QuoteData) => data.gridSellBackInterest === 'No' || data.changePowerCompanyInterest === 'No' },
   { id: 'savingsCalculation', title: 'Potential Bill Reduction', type: 'calculation' },
   { id: 'costCalculation', title: "Let's work out the costs for solar at your address", type: 'transition' },
-  { id: 'firstName', title: 'What is your first name?', type: 'text', required: true },
-  { id: 'lastName', title: 'And your last name?', type: 'text', required: true },
+  { id: 'fullName', title: 'What is your full name?', type: 'text', required: true, autocomplete: 'name' },
   { id: 'financeInterest', title: 'Do you want us to show you finance options?', options: ['Why not!', 'Will sort myself'], required: true },
   { id: 'contactInfo', title: 'Where should we send your quote?', type: 'contact' },
-  { id: 'emailConfirm', title: 'Confirm your email (optional)', type: 'email' },
-  { id: 'phoneConfirm', title: 'Confirm your phone (optional)', type: 'tel' },
+  { id: 'emailConfirm', title: 'Confirm your email (optional)', type: 'email', autocomplete: 'email' },
+  { id: 'phoneConfirm', title: 'Confirm your phone (optional)', type: 'tel', autocomplete: 'tel' },
   { id: 'confirmation', title: 'Thank you!', type: 'finalConfirmation' }
 ];
 
@@ -147,6 +147,16 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (currentStepInfo.id === 'fullName' && formData.fullName) {
+        const nameParts = formData.fullName.split(' ');
+        const firstName = nameParts[0];
+        const lastName = nameParts.slice(1).join(' ');
+        setFormData(prev => ({ ...prev, firstName, lastName: lastName || firstName }));
+        handleNext();
+        return;
+    }
+
     if (currentStepInfo.id === 'contactInfo') {
       setIsSubmitting(true);
       try {
@@ -175,15 +185,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
         return <div className="min-h-[350px] flex items-center justify-center">Loading step...</div>;
     }
     
-    if (isTransitioning) {
-        return (
-            <div className="min-h-[350px] flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-            </div>
-        );
-    }
-    
-    const { id, type, options, min, max, step } = currentStepInfo;
+    const { id, type, options, min, max, step, autocomplete } = currentStepInfo;
 
     if (type === undefined || id === 'region') {
       if (options) { // Buttons for options
@@ -347,6 +349,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                   value={formData[id as keyof QuoteData] as string || ''}
                   onChange={(e) => setFormData({...formData, [id]: e.target.value})}
                   required={currentStepInfo.required}
+                  autoComplete={autocomplete}
                   className="h-12 text-center"
                 />
                 <div className="mt-6 flex items-center justify-center">
@@ -368,6 +371,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                 value={formData.email || ''}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
+                autoComplete="email"
               />
               <Input
                 type="tel"
@@ -375,6 +379,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
                 value={formData.phone || ''}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 required
+                autoComplete="tel"
               />
               <div className="mt-6 flex items-center justify-center">
                   <Button size="lg" type="submit" disabled={isSubmitting}>
