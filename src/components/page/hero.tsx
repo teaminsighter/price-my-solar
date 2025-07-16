@@ -17,7 +17,6 @@ const heroContentConfig = {
   bullet1: "SEANZ-member installers",
   bullet2: "100% Free with no obligation",
   addressPlaceholder: "Start typing your address...",
-  buttonText: "Get My Free Quote",
   errorLoadingMaps: "Error loading maps. Please check the API key.",
 };
 
@@ -140,14 +139,11 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                   onChange={handleInput}
                   disabled={!ready}
                   placeholder={heroContentConfig.addressPlaceholder}
-                  className="h-12 w-full text-base border-accent focus:ring-accent focus:border-accent"
+                  className="h-12 w-full text-base border-primary focus:ring-primary focus:border-primary"
                   autoComplete="off"
                 />
                 {status === 'OK' && renderSuggestions()}
               </div>
-              <Button type="submit" size="lg" className="h-12" disabled={!value}>
-                  {heroContentConfig.buttonText}
-              </Button>
             </form>
         </div>
         <div className="flex justify-end items-end h-[500px]">
