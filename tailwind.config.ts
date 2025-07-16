@@ -90,8 +90,8 @@ export default {
           '50%': { transform: 'translateY(0)' },
         },
         pulse: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.7' },
+          '0%, 100%': { opacity: '1', transform: 'scale(1)' },
+          '50%': { opacity: '0.7', transform: 'scale(1.05)' },
         },
         sway: {
           '0%, 100%': { transform: 'translateX(-5px)' },
@@ -111,7 +111,7 @@ export default {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'hero-glow': 'hero-glow 3s linear infinite',
-        'spin-slow': 'spin 3s linear infinite',
+        'spin-slow': 'spin 5s linear infinite',
         'wobble': 'wobble 2s ease-in-out infinite',
         'bob': 'bob 3s ease-in-out infinite',
         'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',

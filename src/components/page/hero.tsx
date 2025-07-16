@@ -39,7 +39,7 @@ export function Hero({ onStartFunnel }: HeroProps) {
     if (!isLoaded) {
         return (
           <section id="get-quotes" className="relative w-full overflow-hidden bg-background">
-             <div className="container relative z-10 mx-auto grid min-h-[600px] items-center justify-center text-center">
+             <div className="container relative z-10 mx-auto grid min-h-[60vh] items-center justify-center text-center">
                 <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
              </div>
           </section>
@@ -113,7 +113,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     >
       <div className="container mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-8 px-4 py-8 pt-12 md:grid-cols-2 lg:px-6">
         <div className="space-y-8 text-left">
-          <h1 className="text-4xl sm:text-6xl font-bold uppercase text-foreground">
+          <h1 className="text-4xl font-bold uppercase text-foreground sm:text-6xl">
             Compare Solar<br/>Quotes
           </h1>
           
@@ -124,31 +124,31 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                 <Button 
                     variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
                     onClick={() => setPropertyType('RESIDENTIAL')}
-                    className="font-bold h-10 px-4 text-sm"
+                    className="h-10 px-4 text-sm font-bold"
                 >
                     Residential
                 </Button>
                 <Button
                     variant={propertyType === 'COMMERCIAL' ? 'default' : 'outline'}
                     onClick={() => setPropertyType('COMMERCIAL')}
-                    className="font-bold h-10 px-4 text-sm"
+                    className="h-10 px-4 text-sm font-bold"
                 >
                     Commercial
                 </Button>
              </div>
              <form onSubmit={handleSubmit} className="relative mt-4">
                 <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary-foreground/80 z-10" />
+                    <MapPin className="absolute left-3 top-1/2 z-10 h-5 w-5 -translate-y-1/2 animate-pulse text-primary-foreground/80" />
                     <Input
                         id="address"
                         value={value}
                         onChange={handleInput}
                         disabled={!ready || !propertyType}
-                        className="h-12 w-full pl-10 text-base bg-primary text-primary-foreground placeholder:text-primary-foreground/80 disabled:opacity-70"
+                        className="h-12 w-full bg-primary pl-10 text-base text-primary-foreground placeholder:text-primary-foreground/80 disabled:opacity-70"
                         autoComplete="off"
                     />
                     {value === '' && (
-                        <label htmlFor="address" className="absolute left-10 top-1/2 -translate-y-1/2 pointer-events-none text-base font-bold text-primary-foreground/80">
+                        <label htmlFor="address" className="pointer-events-none absolute left-10 top-1/2 -translate-y-1/2 text-base font-bold text-primary-foreground/80">
                            Start typing your address
                         </label>
                     )}

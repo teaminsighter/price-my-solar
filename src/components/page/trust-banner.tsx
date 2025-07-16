@@ -19,14 +19,14 @@ export function TrustBanner() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center justify-center gap-6 text-center md:flex-row md:gap-10">
           <div className="space-y-2">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Badge variant="secondary" className="px-4 py-1 text-sm">Top New Zealand Installers</Badge>
-              <Badge variant="outline" className="border-accent text-accent px-4 py-1 text-sm">NZ No.1 Solar Comparison Site</Badge>
+              <Badge variant="outline" className="border-accent px-4 py-1 text-sm text-accent">NZ No.1 Solar Comparison Site</Badge>
             </div>
             <p className="text-sm text-muted-foreground">Only vetted, SEANZ-registered solar companies.</p>
           </div>
-          <Link href="#" target="_blank" rel="noopener noreferrer" className="transition-opacity hover:opacity-80 flex items-center gap-2 text-muted-foreground">
-            <ShieldCheck className="h-10 w-10 text-primary" />
+          <Link href="#" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-muted-foreground transition-opacity hover:opacity-80">
+            <ShieldCheck className="h-10 w-10 animate-pulse text-primary" />
              <span className="font-semibold">SEANZ Member</span>
           </Link>
         </div>
