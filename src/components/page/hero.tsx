@@ -150,14 +150,15 @@ function HeroContent({ onStartFunnel }: HeroProps) {
       className="relative w-full overflow-hidden bg-background"
     >
       <div className="container relative z-10 mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-8 px-4 py-8 pt-12 md:grid-cols-2 lg:px-6">
-        <div className="relative space-y-8 text-left">
+        <div className="relative space-y-6 text-left">
           <h1 className="text-4xl font-bold uppercase text-foreground sm:text-6xl">
             Compare Solar<br/>Quotes
           </h1>
+          <p className="text-lg text-muted-foreground max-w-xl">
+            Compare two quotes from New Zealand’s top solar installers side by side and see how much you could save—choose the best deal and maximize your power savings.
+          </p>
           
           <div className="space-y-6 rounded-lg border border-border/50 bg-card p-8 shadow-sm">
-             <p className="text-xl text-muted-foreground">Installation costs &amp; power savings</p>
-             <p className="text-2xl font-bold text-foreground">Compare &amp; save</p>
              <div className="grid grid-cols-2 gap-4">
                 <Button 
                     variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
@@ -176,7 +177,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
              </div>
              <form onSubmit={handleSubmit} className="relative mt-4">
                 <div className="relative flex items-center">
-                    <MapPin className="absolute left-3 z-10 h-5 w-5 animate-pulse text-primary-foreground/80" />
+                    <MapPin className="absolute left-3 z-10 h-5 w-5 text-primary-foreground/80" />
                     <Input
                         id="address"
                         value={value}
