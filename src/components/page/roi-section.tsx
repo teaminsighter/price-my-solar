@@ -2,7 +2,6 @@
 "use client"
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { AnimatedIconROI } from "../icons";
 

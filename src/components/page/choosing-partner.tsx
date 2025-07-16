@@ -1,9 +1,9 @@
 
 "use client"
 import { Button } from "@/components/ui/button";
-import { Wrench } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { AnimatedIconWrench } from "../icons";
 
 export function ChoosingPartner() {
   return (
@@ -19,7 +19,7 @@ export function ChoosingPartner() {
         <div className="relative h-80 w-full flex items-center justify-center">
             <div className="absolute top-10 left-20 h-16 w-16 bg-primary/20 rounded-full animate-float"></div>
             <div className="absolute bottom-10 right-20 h-24 w-24 bg-accent/20 rounded-full animate-float animation-delay-1000"></div>
-            <Wrench className="h-32 w-32 text-primary animate-wobble" />
+            <AnimatedIconWrench className="h-48 w-48 text-primary" />
         </div>
         <div className="space-y-6">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
