@@ -113,7 +113,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     >
       <div className="container mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-12 px-4 py-8 pt-20 md:grid-cols-2 lg:px-6">
         <div className="space-y-8 text-left">
-          <h1 className="text-4xl font-bold text-foreground sm:text-5xl">
+          <h1 className="text-5xl font-bold text-foreground">
             COMPARE SOLAR QUOTES
           </h1>
           
@@ -149,8 +149,8 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                         autoComplete="off"
                     />
                     {value === '' && (
-                        <label htmlFor="address" className="absolute left-10 top-1/2 -translate-y-1/2 pointer-events-none text-sm text-primary-foreground/80">
-                            <span className="font-bold">Start typing</span> your address
+                        <label htmlFor="address" className="absolute left-10 top-1/2 -translate-y-1/2 pointer-events-none text-sm text-primary-foreground/80 font-bold">
+                           Start typing your address
                         </label>
                     )}
                     {status === 'OK' && renderSuggestions()}
