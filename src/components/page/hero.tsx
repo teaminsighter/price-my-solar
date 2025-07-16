@@ -6,9 +6,9 @@ import usePlacesAutocomplete from 'use-places-autocomplete';
 import { useLoadScript } from '@react-google-maps/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent } from '@/components/ui/card';
 import type { QuoteData } from '@/components/quote-funnel';
-import { MapPin } from 'lucide-react';
+import { Check, MapPin } from 'lucide-react';
+import Image from 'next/image';
 
 const libraries: ('places')[] = ['places'];
 
@@ -51,7 +51,6 @@ export function Hero({ onStartFunnel }: HeroProps) {
 
 
 function HeroContent({ onStartFunnel }: HeroProps) {
-    const [propertyType, setPropertyType] = useState<'RESIDENTIAL' | 'COMMERCIAL'>('RESIDENTIAL');
     const {
         ready,
         value,
@@ -72,13 +71,13 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     const handleSelect = (description: string) => {
         setValue(description, false);
         clearSuggestions();
-        onStartFunnel({ address: description, propertyType });
+        onStartFunnel({ address: description, propertyType: 'RESIDENTIAL' });
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (value) {
-            onStartFunnel({ address: value, propertyType });
+            onStartFunnel({ address: value, propertyType: 'RESIDENTIAL' });
         }
     };
 
@@ -108,66 +107,49 @@ function HeroContent({ onStartFunnel }: HeroProps) {
       id="get-quotes"
       className="relative w-full overflow-hidden bg-background"
     >
-      <div className="w-full bg-secondary py-4 text-secondary-foreground">
-        <div className="container mx-auto text-center">
-          <h1 className="text-xl font-bold tracking-wider">COMPARE SOLAR QUOTES</h1>
-          <p className="text-sm">QUOTES FROM NZ QUALIFIED INSTALLERS</p>
-        </div>
-      </div>
-      
-      <div className="container mx-auto grid grid-cols-1 items-center gap-8 px-4 py-12 md:grid-cols-2 md:py-20">
-        <div className="space-y-6">
-          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl">
-            <span className="uppercase">COMPARE</span> Solar Quotes
-          </h2>
-          <p className="text-lg text-muted-foreground">
-            Installation Costs & Power Savings
+      <div className="container mx-auto grid min-h-[70vh] grid-cols-1 items-center gap-12 px-4 py-12 md:grid-cols-2 lg:min-h-[80vh] lg:px-6">
+        <div className="space-y-6 text-left">
+          <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+            Compare Solar Quotes
+          </h1>
+          <p className="text-lg text-muted-foreground md:text-xl">
+            Quotes from NZ qualified installers
           </p>
-          <div className="inline-block rounded-md bg-accent px-6 py-3 text-lg font-bold text-accent-foreground">
-            COMPARE & SAVE
-          </div>
+          <ul className="space-y-2">
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>SEANZ-member installers</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-green-500" />
+              <span>100% Free with no obligation</span>
+            </li>
+          </ul>
+          <form onSubmit={handleSubmit} className="relative mt-8 max-w-lg">
+            <div className="relative">
+              <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary-foreground/80" />
+              <Input
+                id="address"
+                value={value}
+                onChange={handleInput}
+                disabled={!ready}
+                placeholder="Start typing your address..."
+                className="h-14 w-full rounded-lg bg-primary pl-10 text-base text-primary-foreground placeholder:text-primary-foreground/80 focus-visible:ring-primary/80"
+                autoComplete="off"
+              />
+              {status === 'OK' && renderSuggestions()}
+            </div>
+          </form>
         </div>
-
-        <div>
-          <Card className="shadow-lg">
-            <CardContent className="p-6">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-2">
-                  <Button
-                    type="button"
-                    variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
-                    onClick={() => setPropertyType('RESIDENTIAL')}
-                  >
-                    RESIDENTIAL SOLAR
-                  </Button>
-                  <Button
-                    type="button"
-                    variant={propertyType === 'COMMERCIAL' ? 'default' : 'outline'}
-                    onClick={() => setPropertyType('COMMERCIAL')}
-                  >
-                    COMMERCIAL SOLAR
-                  </Button>
-                </div>
-
-                <div className="relative">
-                  <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary-foreground/80" />
-                  <Input
-                    id="address"
-                    value={value}
-                    onChange={handleInput}
-                    disabled={!ready}
-                    placeholder="Start typing your address"
-                    className="h-12 w-full bg-primary pl-10 text-base text-primary-foreground placeholder:text-primary-foreground/80 focus-visible:ring-primary/80"
-                    autoComplete="off"
-                  />
-                  {status === 'OK' && renderSuggestions()}
-                </div>
-                <p className="text-center text-sm text-muted-foreground">
-                  Once your address shows; SELECT your installation type
-                </p>
-              </form>
-            </CardContent>
-          </Card>
+        <div className="hidden h-full items-center justify-center md:flex">
+          <Image
+            src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
+            alt="Phone showing solar quotes"
+            width={400}
+            height={800}
+            className="h-auto w-full max-w-sm object-contain"
+            priority
+          />
         </div>
       </div>
     </section>
