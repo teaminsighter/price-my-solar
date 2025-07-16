@@ -7,7 +7,7 @@ import { useLoadScript } from '@react-google-maps/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { QuoteData } from '@/components/quote-funnel';
-import { Home, Search, Check } from 'lucide-react';
+import { Home, Search, Check, MapPin } from 'lucide-react';
 import Image from 'next/image';
 
 const libraries: ('places')[] = ['places'];
@@ -201,13 +201,14 @@ function HeroContent({ onStartFunnel }: HeroProps) {
               </div>
              <form onSubmit={handleSubmit} className="relative w-full">
                 <div className="relative flex items-center w-full">
+                    <MapPin className="absolute left-3 h-5 w-5 text-primary-foreground" />
                     <Input
                         id="address"
                         value={value}
                         onChange={handleInput}
                         disabled={!ready}
                         placeholder={placeholder}
-                        className="h-12 w-full text-center bg-primary text-base font-bold text-primary-foreground placeholder:text-primary-foreground/70 disabled:opacity-70"
+                        className="h-12 w-full bg-primary pl-10 text-base font-bold text-primary-foreground placeholder:text-primary-foreground/70 disabled:opacity-70"
                         autoComplete="off"
                     />
                     {status === 'OK' && renderSuggestions()}
