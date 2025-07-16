@@ -174,8 +174,8 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             Compare two quotes from New Zealand’s top solar installers side by side and see how much you could save—choose the best deal and maximise your power savings.
           </p>
           
-          <div className="space-y-4 rounded-lg border border-border/50 bg-card p-8 shadow-sm">
-             <div className="w-4/5">
+          <div className="space-y-4 rounded-lg border border-border/50 bg-card p-8 shadow-sm max-w-md">
+             <div className="w-full">
                 <div className="grid grid-cols-2 gap-4">
                     <Button 
                         variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
@@ -200,7 +200,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                     </p>
                 )}
               </div>
-             <form onSubmit={handleSubmit} className="relative w-4/5">
+             <form onSubmit={handleSubmit} className="relative w-full">
                 <div className="relative flex items-center">
                     <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-accent-foreground/80" />
                     <Input
