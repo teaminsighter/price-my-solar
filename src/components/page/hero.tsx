@@ -57,6 +57,7 @@ const demoAddresses = [
 
 function HeroContent({ onStartFunnel }: HeroProps) {
     const [propertyType, setPropertyType] = useState<'RESIDENTIAL' | 'COMMERCIAL' | null>(null);
+    const [address, setAddress] = useState<string>('');
     const [placeholder, setPlaceholder] = useState('Start typing your address');
 
     const {
@@ -70,8 +71,17 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             componentRestrictions: { country: 'nz' },
         },
         debounce: 300,
+        cache: 86400, // Cache suggestions for a day
+        defaultValue: address
     });
 
+    useEffect(() => {
+        if (address && propertyType) {
+            onStartFunnel({ address, propertyType });
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [address, propertyType]);
+    
     useEffect(() => {
       let typingTimeout: NodeJS.Timeout;
       
@@ -111,15 +121,21 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     const handleSelect = (description: string) => {
         setValue(description, false);
         clearSuggestions();
-        if (propertyType) {
-            onStartFunnel({ address: description, propertyType });
-        }
+        setAddress(description);
     };
+    
+    const handlePropertyTypeSelect = (type: 'RESIDENTIAL' | 'COMMERCIAL') => {
+        setPropertyType(type);
+    }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (value && propertyType) {
-            onStartFunnel({ address: value, propertyType });
+            setAddress(value);
+        } else if (value && !propertyType) {
+            // Highlight the property type buttons if address is entered but type isn't selected
+            // This is a simple alert for now, could be a UI highlight
+            alert("Please select a property type (Residential or Commercial).");
         }
     };
 
@@ -162,14 +178,14 @@ function HeroContent({ onStartFunnel }: HeroProps) {
              <div className="grid grid-cols-2 gap-4">
                 <Button 
                     variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
-                    onClick={() => setPropertyType('RESIDENTIAL')}
+                    onClick={() => handlePropertyTypeSelect('RESIDENTIAL')}
                     className="h-10 px-4 text-sm font-bold"
                 >
                     Residential
                 </Button>
                 <Button
                     variant={propertyType === 'COMMERCIAL' ? 'default' : 'outline'}
-                    onClick={() => setPropertyType('COMMERCIAL')}
+                    onClick={() => handlePropertyTypeSelect('COMMERCIAL')}
                     className="h-10 px-4 text-sm font-bold"
                 >
                     Commercial
@@ -177,12 +193,12 @@ function HeroContent({ onStartFunnel }: HeroProps) {
              </div>
              <form onSubmit={handleSubmit} className="relative mt-4">
                 <div className="relative flex items-center">
-                    <MapPin className="absolute left-3 z-10 h-5 w-5 text-primary-foreground/80" />
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/80" />
                     <Input
                         id="address"
                         value={value}
                         onChange={handleInput}
-                        disabled={!ready || !propertyType}
+                        disabled={!ready}
                         placeholder={placeholder}
                         className="h-12 w-full bg-primary pl-10 text-base text-primary-foreground placeholder:text-primary-foreground/80 disabled:opacity-70"
                         autoComplete="off"
