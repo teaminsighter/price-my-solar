@@ -111,27 +111,27 @@ function HeroContent({ onStartFunnel }: HeroProps) {
       id="get-quotes"
       className="relative w-full overflow-hidden bg-background"
     >
-      <div className="container mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-8 px-2 py-8 pt-12 md:grid-cols-2 lg:px-6">
+      <div className="container mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-8 px-4 py-8 pt-12 md:grid-cols-2 lg:px-6">
         <div className="space-y-8 text-left">
-          <h1 className="text-5xl font-bold uppercase text-foreground">
-            Compare Solar Quotes
+          <h1 className="text-6xl font-bold uppercase text-foreground">
+            Compare Solar<br/>Quotes
           </h1>
           
-          <div className="space-y-4 rounded-lg border border-border/50 bg-card p-6 shadow-sm">
-             <p className="text-lg text-muted-foreground">Installation costs &amp; power savings</p>
-             <p className="text-xl font-bold text-foreground">Compare &amp; save</p>
-             <div className="grid grid-cols-2 gap-2">
+          <div className="space-y-6 rounded-lg border border-border/50 bg-card p-8 shadow-sm">
+             <p className="text-xl text-muted-foreground">Installation costs &amp; power savings</p>
+             <p className="text-2xl font-bold text-foreground">Compare &amp; save</p>
+             <div className="grid grid-cols-2 gap-4">
                 <Button 
                     variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
                     onClick={() => setPropertyType('RESIDENTIAL')}
-                    className="font-bold h-7 px-1.5 text-xs"
+                    className="font-bold h-10 px-4 text-sm"
                 >
                     Residential
                 </Button>
                 <Button
                     variant={propertyType === 'COMMERCIAL' ? 'default' : 'outline'}
                     onClick={() => setPropertyType('COMMERCIAL')}
-                    className="font-bold h-7 px-1.5 text-xs"
+                    className="font-bold h-10 px-4 text-sm"
                 >
                     Commercial
                 </Button>
@@ -144,11 +144,11 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                         value={value}
                         onChange={handleInput}
                         disabled={!ready || !propertyType}
-                        className="h-12 w-full pl-10 text-sm bg-primary text-primary-foreground placeholder:text-primary-foreground/80 disabled:opacity-70"
+                        className="h-12 w-full pl-10 text-base bg-primary text-primary-foreground placeholder:text-primary-foreground/80 disabled:opacity-70"
                         autoComplete="off"
                     />
                     {value === '' && (
-                        <label htmlFor="address" className="absolute left-10 top-1/2 -translate-y-1/2 pointer-events-none text-sm text-primary-foreground/80 font-bold">
+                        <label htmlFor="address" className="absolute left-10 top-1/2 -translate-y-1/2 pointer-events-none text-base font-bold text-primary-foreground/80">
                            Start typing your address
                         </label>
                     )}
