@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import type { QuoteData } from '@/components/quote-funnel';
+import { cn } from '@/lib/utils';
 
 const libraries: ('places')[] = ['places'];
 
@@ -103,6 +104,10 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     </div>
   );
 
+  const buttonBaseClass = "flex w-full cursor-pointer items-center justify-center rounded-md border p-3 font-medium transition-colors";
+  const unselectedClass = "text-muted-foreground bg-background hover:bg-muted/50";
+  const selectedClass = "border-primary bg-primary text-primary-foreground hover:bg-primary/90";
+
   return (
     <section
       id="get-quotes"
@@ -148,20 +153,25 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                   <form className="space-y-4" onSubmit={handleSubmit}>
                     
                     <RadioGroup 
-                      defaultValue="RESIDENTIAL" 
                       className="grid grid-cols-2 gap-4"
                       onValueChange={(value: 'RESIDENTIAL' | 'COMMERCIAL') => setPropertyType(value)}
                       value={propertyType}
                     >
                       <div>
                         <RadioGroupItem value="RESIDENTIAL" id="r1" className="sr-only" />
-                        <Label htmlFor="r1" className="flex w-full cursor-pointer items-center justify-center rounded-md border p-3 font-medium text-muted-foreground transition-colors hover:bg-muted/50 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:hover:bg-primary/90">
+                        <Label
+                          htmlFor="r1"
+                          className={cn(buttonBaseClass, propertyType === 'RESIDENTIAL' ? selectedClass : unselectedClass)}
+                        >
                           Residential
                         </Label>
                       </div>
                       <div>
                         <RadioGroupItem value="COMMERCIAL" id="r2" className="sr-only" />
-                        <Label htmlFor="r2" className="flex w-full cursor-pointer items-center justify-center rounded-md border p-3 font-medium text-muted-foreground transition-colors hover:bg-muted/50 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:hover:bg-primary/90">
+                        <Label
+                          htmlFor="r2"
+                           className={cn(buttonBaseClass, propertyType === 'COMMERCIAL' ? selectedClass : unselectedClass)}
+                        >
                           Commercial
                         </Label>
                       </div>
