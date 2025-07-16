@@ -171,7 +171,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             Compare Solar<br/>Quotes
           </h1>
           <p className="text-lg text-muted-foreground max-w-xl">
-            Compare two quotes from New Zealand’s top solar installers side by side and see how much you could save—choose the best deal and maximize your power savings.
+            Compare two quotes from New Zealand’s top solar installers side by side and see how much you could save—choose the best deal and maximise your power savings.
           </p>
           
           <div className="space-y-6 rounded-lg border border-border/50 bg-card p-8 shadow-sm">
