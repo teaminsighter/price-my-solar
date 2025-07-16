@@ -235,7 +235,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             alt="Phone showing solar quotes"
             width={450}
             height={600}
-            className="w-full max-w-sm object-contain translate-y-12"
+            className="w-full max-w-sm object-contain translate-y-12 translate-x-12"
             priority
           />
         </div>
