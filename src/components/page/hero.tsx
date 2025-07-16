@@ -14,8 +14,6 @@ const libraries: ('places')[] = ['places'];
 
 // Configuration for all text content in the Hero component
 const heroContentConfig = {
-  headline: "Get Your Custom Solar Quote in Seconds",
-  subheadline: "Enter your address to see what you can save. Get free, no-obligation quotes from qualified NZ installers.",
   bullet1: "SEANZ-member installers",
   bullet2: "100% Free with no obligation",
   addressPlaceholder: "Start typing your address...",
@@ -118,10 +116,10 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         <div className="flex flex-col justify-center space-y-6">
             <div className="space-y-4">
                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                  {heroContentConfig.headline}
+                  Compare Solar Quotes
                 </h1>
                 <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                  {heroContentConfig.subheadline}
+                  Quotes from NZ qualified installers
                 </p>
             </div>
             <ul className="space-y-2">
