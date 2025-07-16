@@ -10,7 +10,6 @@ import type { QuoteData } from '@/components/quote-funnel';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
-const TrustBanner = lazy(() => import('@/components/page/trust-banner').then(m => ({ default: m.TrustBanner })));
 const CostsSection = lazy(() => import('@/components/page/costs-section').then(m => ({ default: m.CostsSection })));
 const ApproxCosts = lazy(() => import('@/components/page/approx-costs').then(m => ({ default: m.ApproxCosts })));
 const HowItWorks = lazy(() => import('@/components/page/how-it-works').then(m => ({ default: m.HowItWorks })));
@@ -66,9 +65,6 @@ export default function Home() {
         ) : (
           <>
             <Hero onStartFunnel={handleStartFunnel} />
-            <Suspense fallback={<SectionSkeleton className="h-48" />}>
-              <TrustBanner />
-            </Suspense>
             <Suspense fallback={<SectionSkeleton />}>
               <CostsSection />
             </Suspense>

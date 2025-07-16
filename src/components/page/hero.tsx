@@ -7,7 +7,7 @@ import { useLoadScript } from '@react-google-maps/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { QuoteData } from '@/components/quote-funnel';
-import { MapPin } from 'lucide-react';
+import { MapPin, Check } from 'lucide-react';
 import Image from 'next/image';
 
 const libraries: ('places')[] = ['places'];
@@ -190,6 +190,16 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                     {status === 'OK' && renderSuggestions()}
                 </div>
             </form>
+            <ul className="space-y-2 pt-4">
+                <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Check className="h-4 w-4 text-green-500" />
+                    <span>NZ No.1 Solar Comparison Site</span>
+                </li>
+                <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Check className="h-4 w-4 text-green-500" />
+                    <span>Only vetted, SEANZ-registered solar companies.</span>
+                </li>
+            </ul>
           </div>
         </div>
         <div className="hidden h-full items-end justify-center md:flex">
