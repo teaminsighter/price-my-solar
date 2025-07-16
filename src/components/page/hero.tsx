@@ -146,6 +146,8 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                 <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl text-secondary">
                     COMPARE SOLAR QUOTES
                 </h1>
+            </div>
+            <div className="text-center">
                 <p className="mt-4 text-lg font-medium text-muted-foreground">
                     QUOTES FROM NZ QUALIFIED INSTALLERS
                 </p>
