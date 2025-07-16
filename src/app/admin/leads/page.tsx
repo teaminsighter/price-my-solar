@@ -8,10 +8,35 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ChevronLeft, ChevronRight, Download } from 'lucide-react';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { ChevronLeft, ChevronRight, Download, ArrowUpDown, Columns } from 'lucide-react';
 import type { QuoteData } from '@/components/quote-funnel';
 
 type Lead = QuoteData & { id: string; createdAt: string | null };
+type SortDirection = 'asc' | 'desc';
+
+// Define all possible columns
+const allColumns: { key: keyof Lead; label: string }[] = [
+    { key: 'createdAt', label: 'Created At' },
+    { key: 'firstName', label: 'First Name' },
+    { key: 'lastName', label: 'Last Name' },
+    { key: 'email', label: 'Email' },
+    { key: 'phone', label: 'Phone' },
+    { key: 'address', label: 'Address' },
+    { key: 'propertyType', label: 'Property Type' },
+    { key: 'motivation', label: 'Motivation' },
+    { key: 'roofType', label: 'Roof Type' },
+    { key: 'householdSize', label: 'Household Size' },
+    { key: 'monthlyBill', label: 'Monthly Bill' },
+    { key: 'island', label: 'Island' },
+    { key: 'region', label: 'Region' },
+    { key: 'gridSellBackInterest', label: 'Grid Sell Back' },
+    { key: 'changePowerCompanyInterest', label: 'Change Power Co.' },
+    { key: 'savingsPercent', label: 'Savings %' },
+    { key: 'financeInterest', label: 'Finance Interest' },
+];
+
+const defaultVisibleColumns: (keyof Lead)[] = ['createdAt', 'firstName', 'lastName', 'propertyType', 'phone', 'address'];
 
 export default function LeadsPage() {
     const [leads, setLeads] = useState<Lead[]>([]);
@@ -19,20 +44,22 @@ export default function LeadsPage() {
     const [selectedRows, setSelectedRows] = useState<string[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [sortColumn, setSortColumn] = useState<keyof Lead>('createdAt');
+    const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
+    const [visibleColumns, setVisibleColumns] = useState<Record<keyof Lead, boolean>>(() => {
+        const initialState: Record<string, boolean> = {};
+        allColumns.forEach(col => {
+            initialState[col.key] = defaultVisibleColumns.includes(col.key);
+        });
+        return initialState;
+    });
 
     useEffect(() => {
         const fetchLeads = async () => {
             setLoading(true);
             const result = await getLeads();
             if (result.success && result.leads) {
-                // Sort leads by creation date, newest first
-                const sortedLeads = (result.leads as Lead[]).sort((a, b) => {
-                    if (a.createdAt && b.createdAt) {
-                        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-                    }
-                    return 0;
-                });
-                setLeads(sortedLeads);
+                setLeads(result.leads as Lead[]);
             } else {
                 console.error("Failed to fetch leads:", result.error);
             }
@@ -42,11 +69,42 @@ export default function LeadsPage() {
         fetchLeads();
     }, []);
 
-    const totalPages = Math.ceil(leads.length / rowsPerPage);
+    const sortedLeads = useMemo(() => {
+        return [...leads].sort((a, b) => {
+            const aValue = a[sortColumn];
+            const bValue = b[sortColumn];
+
+            if (aValue === null || aValue === undefined) return 1;
+            if (bValue === null || bValue === undefined) return -1;
+            
+            let comparison = 0;
+            if (sortColumn === 'createdAt') {
+                comparison = new Date(aValue).getTime() - new Date(bValue).getTime();
+            } else if (typeof aValue === 'number' && typeof bValue === 'number') {
+                comparison = aValue - bValue;
+            } else {
+                comparison = String(aValue).localeCompare(String(bValue));
+            }
+
+            return sortDirection === 'asc' ? comparison : -comparison;
+        });
+    }, [leads, sortColumn, sortDirection]);
+
     const paginatedLeads = useMemo(() => {
         const startIndex = (currentPage - 1) * rowsPerPage;
-        return leads.slice(startIndex, startIndex + rowsPerPage);
-    }, [leads, currentPage, rowsPerPage]);
+        return sortedLeads.slice(startIndex, startIndex + rowsPerPage);
+    }, [sortedLeads, currentPage, rowsPerPage]);
+
+    const totalPages = Math.ceil(leads.length / rowsPerPage);
+
+    const handleSort = (column: keyof Lead) => {
+        if (sortColumn === column) {
+            setSortDirection(prev => (prev === 'asc' ? 'desc' : 'asc'));
+        } else {
+            setSortColumn(column);
+            setSortDirection('asc');
+        }
+    };
 
     const handleSelectAll = (checked: boolean) => {
         if (checked) {
@@ -63,21 +121,20 @@ export default function LeadsPage() {
             setSelectedRows(prev => prev.filter(rowId => rowId !== id));
         }
     };
-    
+
     const downloadCSV = (data: Lead[], filename: string) => {
         if (data.length === 0) return;
-        const headers = Object.keys(data[0]).join(',');
+        const activeColumns = allColumns.filter(c => visibleColumns[c.key]);
+        const headers = activeColumns.map(c => c.label).join(',');
         const rows = data.map(row => 
-            Object.values(row).map(value => 
-                `"${String(value ?? '').replace(/"/g, '""')}"`
-            ).join(',')
+            activeColumns.map(col => {
+                const value = row[col.key];
+                return `"${String(value ?? '').replace(/"/g, '""')}"`;
+            }).join(',')
         );
         const csvContent = [headers, ...rows].join('\n');
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
-        if (link.href) {
-            URL.revokeObjectURL(link.href);
-        }
         link.href = URL.createObjectURL(blob);
         link.download = filename;
         document.body.appendChild(link);
@@ -94,6 +151,20 @@ export default function LeadsPage() {
         downloadCSV(selectedLeads, 'selected_leads.csv');
     };
 
+    const renderCellContent = (lead: Lead, columnKey: keyof Lead) => {
+        const value = lead[columnKey];
+        if (columnKey === 'propertyType') {
+            return (
+                <Badge variant={value === 'RESIDENTIAL' ? 'default' : 'secondary'}>
+                    {value}
+                </Badge>
+            );
+        }
+        if (columnKey === 'createdAt' && typeof value === 'string') {
+            return new Date(value).toLocaleString('en-NZ');
+        }
+        return String(value ?? '');
+    };
 
     if (loading) {
         return (
@@ -108,6 +179,33 @@ export default function LeadsPage() {
             <div className="flex items-center justify-between">
                 <h1 className="text-3xl font-bold tracking-tight">Leads</h1>
                 <div className="flex items-center gap-2">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" size="sm">
+                                <Columns className="mr-2 h-4 w-4" />
+                                Columns
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-40">
+                             <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
+                             <DropdownMenuSeparator />
+                            {allColumns.map(column => (
+                                <DropdownMenuCheckboxItem
+                                    key={column.key}
+                                    className="capitalize"
+                                    checked={visibleColumns[column.key]}
+                                    onCheckedChange={value =>
+                                        setVisibleColumns(prev => ({
+                                            ...prev,
+                                            [column.key]: !!value,
+                                        }))
+                                    }
+                                >
+                                    {column.label}
+                                </DropdownMenuCheckboxItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                     <Button onClick={handleExportAll} variant="outline" size="sm">
                         <Download className="mr-2 h-4 w-4" />
                         Export All
@@ -124,47 +222,44 @@ export default function LeadsPage() {
                         <TableRow>
                             <TableHead className="w-[50px]">
                                 <Checkbox 
-                                  checked={selectedRows.length === paginatedLeads.length && paginatedLeads.length > 0}
+                                  checked={paginatedLeads.length > 0 && selectedRows.length === paginatedLeads.length}
                                   onCheckedChange={(checked) => handleSelectAll(Boolean(checked))}
                                 />
                             </TableHead>
-                            <TableHead>Created At</TableHead>
-                            <TableHead>Name</TableHead>
-                            <TableHead>Property Type</TableHead>
-                            <TableHead>Phone</TableHead>
-                            <TableHead>Address</TableHead>
+                            {allColumns.filter(c => visibleColumns[c.key]).map(column => (
+                                <TableHead key={column.key}>
+                                    <Button variant="ghost" onClick={() => handleSort(column.key)}>
+                                        {column.label}
+                                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                                    </Button>
+                                </TableHead>
+                            ))}
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {
-                            paginatedLeads.length > 0 ? paginatedLeads.map(lead => (
+                        {paginatedLeads.length > 0 ? (
+                            paginatedLeads.map(lead => (
                                 <TableRow key={lead.id} data-state={selectedRows.includes(lead.id) ? "selected" : ""}>
                                     <TableCell>
-                                      <Checkbox 
-                                        checked={selectedRows.includes(lead.id)}
-                                        onCheckedChange={(checked) => handleSelectRow(lead.id, Boolean(checked))}
-                                      />
+                                        <Checkbox 
+                                            checked={selectedRows.includes(lead.id)}
+                                            onCheckedChange={(checked) => handleSelectRow(lead.id, Boolean(checked))}
+                                        />
                                     </TableCell>
-                                    <TableCell>
-                                        {lead.createdAt ? new Date(lead.createdAt).toLocaleDateString('en-NZ') : 'N/A'}
-                                    </TableCell>
-                                    <TableCell>{lead.firstName} {lead.lastName}</TableCell>
-                                    <TableCell>
-                                        <Badge variant={lead.propertyType === 'RESIDENTIAL' ? 'default' : 'secondary'}>
-                                            {lead.propertyType}
-                                        </Badge>
-                                    </TableCell>
-                                    <TableCell>{lead.phone}</TableCell>
-                                    <TableCell className="max-w-xs truncate">{lead.address}</TableCell>
+                                    {allColumns.filter(c => visibleColumns[c.key]).map(column => (
+                                        <TableCell key={column.key} className="whitespace-normal align-top">
+                                            {renderCellContent(lead, column.key)}
+                                        </TableCell>
+                                    ))}
                                 </TableRow>
-                            )) : (
-                                <TableRow>
-                                    <TableCell colSpan={6} className="text-center h-24">
-                                        No leads found.
-                                    </TableCell>
-                                </TableRow>
-                            )
-                        }
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={Object.values(visibleColumns).filter(Boolean).length + 1} className="text-center h-24">
+                                    No leads found.
+                                </TableCell>
+                            </TableRow>
+                        )}
                     </TableBody>
                 </Table>
             </div>

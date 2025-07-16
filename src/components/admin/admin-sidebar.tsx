@@ -8,7 +8,7 @@ import { auth } from '@/lib/firebase';
 import { useAuth } from '@/context/auth-context';
 import { SolarSaverLogo } from '@/components/icons';
 import { Button } from '@/components/ui/button';
-import { Sheet, BarChart, Users, LogOut, PanelLeft, Webhook, Code } from 'lucide-react';
+import { Sheet, BarChart, Users, LogOut, PanelLeft, Webhook, Code, Settings } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
