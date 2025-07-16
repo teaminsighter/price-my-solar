@@ -28,7 +28,7 @@ export function ChoosingPartner() {
           <p className="text-muted-foreground md:text-lg">
             Look for SEANZ-member installers with strong track records, clear case studies, and compliance with NZ standards. The cheapest quote isn’t always the best. Ask for evidence of previous installs and check Google reviews.
           </p>
-          <Button size="lg" className="rounded-full" asChild>
+          <Button size="lg" asChild>
             <Link href="#get-quotes">Compare Now</Link>
           </Button>
         </div>

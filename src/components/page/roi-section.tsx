@@ -25,7 +25,7 @@ export function RoiSection() {
             A typical NZ solar system pays for itself in around 7–8 years, while the panels and inverters often last 25 years or more. Solar is a long-term investment in free power, not just a one-time cost.
           </p>
           <div className="space-y-4">
-            <Button size="lg" className="rounded-full" asChild>
+            <Button size="lg" asChild>
                 <Link href="#get-quotes">Compare Now</Link>
             </Button>
             <p className="text-sm text-muted-foreground">

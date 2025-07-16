@@ -44,7 +44,7 @@ export function Header() {
               </Link>
             ))}
           </nav>
-          <Button className="rounded-full" asChild>
+          <Button asChild>
             <Link href="#get-quotes">Compare Now</Link>
           </Button>
         </div>
@@ -86,7 +86,7 @@ export function Header() {
                     </Link>
                   ))}
                 </nav>
-                <Button className="mt-6 rounded-full" asChild>
+                <Button className="mt-6" asChild>
                   <Link href="#get-quotes" onClick={() => setIsOpen(false)}>Compare Now</Link>
                 </Button>
               </div>

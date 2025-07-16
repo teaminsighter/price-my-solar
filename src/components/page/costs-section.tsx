@@ -25,7 +25,7 @@ export function CostsSection() {
             In the last eight years, solar prices have plummeted from around $40,000 to under $9,000 for a standard 3 kW system. For New Zealand homes and businesses, going solar is more affordable than ever.
           </p>
           <p className="text-xs text-muted-foreground/80">Learn more – <Link href="#" className="underline">Freedom Forever</Link></p>
-          <Button variant="outline" className="rounded-full border-primary text-primary hover:bg-primary hover:text-primary-foreground" asChild>
+          <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground" asChild>
             <Link href="#get-quotes">Compare Now</Link>
           </Button>
         </div>
@@ -38,7 +38,7 @@ export function CostsSection() {
             NZ power prices have risen by an average of 5% annually. Exporting solar to the grid only earns you 7-12c/kWh, while grid rates continue to climb. Solar empowers you to control your energy costs.
           </p>
           <p className="text-xs text-muted-foreground/80">Source – <Link href="#" className="underline">CanstarBlue</Link></p>
-          <Button className="rounded-full" asChild>
+          <Button asChild>
             <Link href="#get-quotes">Compare Now</Link>
           </Button>
         </div>

@@ -27,7 +27,7 @@ export function HybridSystem() {
           <p className="text-primary-foreground/80 md:text-lg">
             Hybrid solar systems combine solar panels, battery storage, and grid backup for maximum flexibility. They protect you from rising grid prices and blackouts, offering the best of both worlds for ultimate energy independence.
           </p>
-          <Button variant="secondary" size="lg" className="rounded-full" asChild>
+          <Button variant="secondary" size="lg" asChild>
             <Link href="#get-quotes">Compare Now</Link>
           </Button>
         </div>
