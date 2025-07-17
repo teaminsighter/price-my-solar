@@ -83,6 +83,14 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   const progress = Math.round(((stepIndex + 1) / totalSteps) * 100);
 
   useEffect(() => {
+    const monthlyBillStep = funnelSteps.find(step => step.id === 'monthlyBill');
+    if (monthlyBillStep && formData.monthlyBill === undefined) {
+      setFormData(prev => ({ ...prev, monthlyBill: monthlyBillStep.min }));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (currentStepInfo?.type === 'animation' || currentStepInfo?.type === 'summary') {
       const timer = setTimeout(() => {
         handleNext();
@@ -93,7 +101,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   }, [stepIndex, currentStepInfo]);
 
   useEffect(() => {
-    if (formData.monthlyBill) {
+    if (formData.monthlyBill !== undefined) {
       let savings = 0;
       if (formData.monthlyBill < 201) {
         savings = 62;
@@ -489,5 +497,3 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
     </section>
   );
 }
-
-    
