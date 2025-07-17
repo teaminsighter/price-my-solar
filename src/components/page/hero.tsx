@@ -56,7 +56,6 @@ const demoAddresses = [
 ];
 
 function HeroContent({ onStartFunnel }: HeroProps) {
-    const [propertyType, setPropertyType] = useState<'RESIDENTIAL' | 'COMMERCIAL' | null>(null);
     const [address, setAddress] = useState<string>('');
     const [placeholder, setPlaceholder] = useState('Start typing your address');
 
@@ -76,11 +75,11 @@ function HeroContent({ onStartFunnel }: HeroProps) {
     });
 
     useEffect(() => {
-        if (address && propertyType) {
-            onStartFunnel({ address, propertyType });
+        if (address) {
+            onStartFunnel({ address, propertyType: 'RESIDENTIAL' });
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [address, propertyType]);
+    }, [address]);
     
     useEffect(() => {
       let typingTimeout: NodeJS.Timeout;
@@ -124,10 +123,6 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         setAddress(description);
     };
     
-    const handlePropertyTypeSelect = (type: 'RESIDENTIAL' | 'COMMERCIAL') => {
-        setPropertyType(type);
-    }
-
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (value) {
@@ -171,32 +166,9 @@ function HeroContent({ onStartFunnel }: HeroProps) {
           </p>
           
           <div className="space-y-4 rounded-lg border border-border/50 bg-card p-6 shadow-sm">
-            <div className="w-full">
-              <div className="mb-4">
-                  <p className="text-left font-semibold text-foreground">What type of property?</p>
-              </div>
-              <div className="w-full">
-                  <div className="grid grid-cols-2 gap-4">
-                      <Button 
-                          variant={propertyType === 'RESIDENTIAL' ? 'default' : 'outline'}
-                          onClick={() => handlePropertyTypeSelect('RESIDENTIAL')}
-                          className="h-10 px-4 text-sm font-bold"
-                      >
-                          Residential
-                      </Button>
-                      <Button
-                          variant={propertyType === 'COMMERCIAL' ? 'default' : 'outline'}
-                          onClick={() => handlePropertyTypeSelect('COMMERCIAL')}
-                          className="h-10 px-4 text-sm font-bold"
-                      >
-                          Commercial
-                      </Button>
-                  </div>
-              </div>
-            </div>
               <div className="min-h-[2.5rem] flex items-center justify-start transition-all duration-300">
                 <p className="text-left font-semibold text-foreground">
-                    Where is your property located?
+                    Where do you want to install solar?
                 </p>
               </div>
              <form onSubmit={handleSubmit} className="relative w-full">
