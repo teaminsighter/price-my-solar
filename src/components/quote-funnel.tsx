@@ -72,7 +72,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   const [stepIndex, setStepIndex] = useState(0);
   const [formData, setFormData] = useState<QuoteData>({ ...initialData });
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(isSubmitting);
   
   const [lastCompletedStep, setLastCompletedStep] = useState<string | null>(null);
 
@@ -93,22 +93,34 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   }, [stepIndex, currentStepInfo]);
 
   useEffect(() => {
-    if (formData.monthlyBill && !formData.savingsPercent) {
+    if (formData.monthlyBill) {
       let savings = 0;
-      if (formData.monthlyBill < 201) savings = 62;
-      else if (formData.monthlyBill >= 201 && formData.monthlyBill <= 350) savings = 54;
-      else savings = 47;
-      setFormData(prev => ({ ...prev, savingsPercent: savings }));
+      if (formData.monthlyBill < 201) {
+        savings = 62;
+      } else if (formData.monthlyBill >= 201 && formData.monthlyBill <= 350) {
+        savings = 54;
+      } else if (formData.monthlyBill > 350) {
+        savings = 47;
+      }
+      
+      if (savings > 0 && formData.savingsPercent !== savings) {
+        setFormData(prev => ({ ...prev, savingsPercent: savings }));
+      }
     }
   }, [formData.monthlyBill, formData.savingsPercent]);
   
   useEffect(() => {
     if (lastCompletedStep && lastCompletedStep !== 'contactInfo' && formData[lastCompletedStep as keyof QuoteData]) {
-      handleNext();
-      setLastCompletedStep(null); 
+        // Find the index of the step that was just completed
+        const completedStepConfig = funnelSteps.find(s => s.id === lastCompletedStep);
+        // Only auto-advance if the step is not a slider
+        if (completedStepConfig && completedStepConfig.type !== 'slider') {
+            handleNext();
+        }
+        setLastCompletedStep(null); 
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData, lastCompletedStep]);
+}, [formData, lastCompletedStep]);
 
 
   const transition = (callback: () => void) => {
@@ -480,3 +492,5 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
     </section>
   );
 }
+
+    
