@@ -83,9 +83,12 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   const progress = Math.round(((stepIndex + 1) / totalSteps) * 100);
 
   useEffect(() => {
-    const monthlyBillStep = funnelSteps.find(step => step.id === 'monthlyBill');
-    if (monthlyBillStep && formData.monthlyBill === undefined) {
-      setFormData(prev => ({ ...prev, monthlyBill: monthlyBillStep.min }));
+    // Set default monthly bill on mount if it's not set
+    if (formData.monthlyBill === undefined) {
+      const monthlyBillStep = funnelSteps.find(step => step.id === 'monthlyBill');
+      if (monthlyBillStep) {
+        setFormData(prev => ({ ...prev, monthlyBill: monthlyBillStep.min }));
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -145,6 +148,24 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   };
 
   const handleBack = () => {
+    const currentStepId = currentStepInfo?.id;
+
+    if (currentStepId === 'monthlyBill') {
+      const householdStepIndex = visibleSteps.findIndex(s => s.id === 'householdSize' || s.id === 'commercialPropertyType');
+      if (householdStepIndex !== -1) {
+        transition(() => setStepIndex(householdStepIndex));
+        return;
+      }
+    }
+    
+    if (currentStepId === 'savingsCalculation') {
+       const gridSellBackStepIndex = visibleSteps.findIndex(s => s.id === 'gridSellBackInterest');
+       if (gridSellBackStepIndex !== -1) {
+         transition(() => setStepIndex(gridSellBackStepIndex));
+         return;
+       }
+    }
+
     if (stepIndex > 0) {
         transition(() => setStepIndex(s => s - 1));
     } else {
