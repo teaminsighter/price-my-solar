@@ -208,7 +208,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                         onChange={handleInput}
                         disabled={!ready}
                         placeholder={placeholder}
-                        className="h-12 w-full bg-primary pl-10 text-base font-bold text-primary-foreground placeholder:text-primary-foreground/70 disabled:opacity-70"
+                        className="h-12 w-full bg-primary pl-10 text-base font-bold text-primary-foreground placeholder:text-primary-foreground/90 disabled:opacity-70"
                         autoComplete="off"
                     />
                     {status === 'OK' && renderSuggestions()}
