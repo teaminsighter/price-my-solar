@@ -72,7 +72,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   const [stepIndex, setStepIndex] = useState(0);
   const [formData, setFormData] = useState<QuoteData>({ ...initialData });
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(isSubmitting);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const [lastCompletedStep, setLastCompletedStep] = useState<string | null>(null);
 
@@ -103,11 +103,9 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
         savings = 47;
       }
       
-      if (savings > 0 && formData.savingsPercent !== savings) {
-        setFormData(prev => ({ ...prev, savingsPercent: savings }));
-      }
+      setFormData(prev => ({ ...prev, savingsPercent: savings }));
     }
-  }, [formData.monthlyBill, formData.savingsPercent]);
+  }, [formData.monthlyBill]);
   
   useEffect(() => {
     if (lastCompletedStep && lastCompletedStep !== 'contactInfo' && formData[lastCompletedStep as keyof QuoteData]) {
