@@ -102,7 +102,6 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
       } else if (formData.monthlyBill > 350) {
         savings = 47;
       }
-      
       setFormData(prev => ({ ...prev, savingsPercent: savings }));
     }
   }, [formData.monthlyBill]);
