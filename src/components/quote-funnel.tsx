@@ -86,7 +86,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
     // Set default monthly bill on mount if it's not set
     if (formData.monthlyBill === undefined) {
       const monthlyBillStep = funnelSteps.find(step => step.id === 'monthlyBill');
-      if (monthlyBillStep) {
+      if (monthlyBillStep && typeof monthlyBillStep.min === 'number') {
         setFormData(prev => ({ ...prev, monthlyBill: monthlyBillStep.min }));
       }
     }
