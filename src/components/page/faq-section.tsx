@@ -4,6 +4,9 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { GitCompareArrows, BadgePercent, ClipboardList, PiggyBank, Handshake, FileQuestion, CalendarDays, MailQuestion } from "lucide-react"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+
 
 const faqItems = [
   {
@@ -98,6 +101,8 @@ function FaqCard({ item, index }: { item: typeof faqItems[0], index: number }) {
 
 
 export default function FaqSection() {
+  const isMobile = useIsMobile();
+  
   return (
     <section id="faq" className="w-full bg-card py-12 md:py-20 lg:py-24 overflow-hidden">
       <div className="container mx-auto max-w-7xl px-4 md:px-6">
@@ -106,14 +111,36 @@ export default function FaqSection() {
             Frequently Asked Questions
           </h2>
           <p className="mt-4 text-muted-foreground md:text-xl">
-            Hover over a card to find answers to common questions.
+            {isMobile ? "Tap a question to see the answer." : "Hover over a card to find answers to common questions."}
           </p>
         </div>
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {faqItems.map((item, index) => (
-            <FaqCard key={index} item={item} index={index} />
-          ))}
-        </div>
+        
+        {isMobile ? (
+          <div className="mt-12 max-w-3xl mx-auto">
+            <Accordion type="single" collapsible className="w-full">
+              {faqItems.map((item, index) => (
+                <AccordionItem key={index} value={`item-${index}`}>
+                  <AccordionTrigger>
+                    <span className="flex items-center text-left">
+                      <item.icon className="mr-4 h-6 w-6 text-primary flex-shrink-0" />
+                      {item.question}
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent className="pl-12">
+                    {item.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        ) : (
+          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {faqItems.map((item, index) => (
+              <FaqCard key={index} item={item} index={index} />
+            ))}
+          </div>
+        )}
+
       </div>
     </section>
   )
