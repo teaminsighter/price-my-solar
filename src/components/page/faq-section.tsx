@@ -13,7 +13,7 @@ const faqItems = [
   },
   {
     question: "Is comparing solar quotes really free?",
-    answer: "Absolutely! Our Compare Solar Quotes service is 100% free, with no hidden charges or obligations. We simply help you compare two customized offers from trusted, qualified installers. You’re free to choose one—or none at all.",
+    answer: "Absolutely! Our Compare Solar Quotes service is 100% free, with no hidden charges or obligations. We simply help you compare two customised offers from trusted, qualified installers. You’re free to choose one—or none at all.",
     icon: BadgePercent,
   },
   {
