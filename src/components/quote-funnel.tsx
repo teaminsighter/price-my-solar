@@ -68,6 +68,16 @@ type QuoteFunnelProps = {
   onExit: () => void;
 };
 
+// Helper function to push to dataLayer
+const pushToDataLayer = (eventData: Record<string, any>) => {
+  if (window.dataLayer) {
+    window.dataLayer.push(eventData);
+  } else {
+    console.warn('GTM dataLayer not found.');
+  }
+};
+
+
 export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   const [stepIndex, setStepIndex] = useState(0);
   const [formData, setFormData] = useState<QuoteData>({ ...initialData });
@@ -83,6 +93,14 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   const progress = Math.round(((stepIndex + 1) / totalSteps) * 100);
 
   useEffect(() => {
+    // Fire funnel_start event on initial load
+    pushToDataLayer({
+      event: 'funnel_start',
+      user_id: initialData.userId,
+      address: initialData.address,
+      property_type: initialData.propertyType,
+    });
+    
     // Set default monthly bill on mount if it's not set
     if (formData.monthlyBill === undefined) {
       const monthlyBillStep = funnelSteps.find(step => step.id === 'monthlyBill');
@@ -121,7 +139,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
     if (lastCompletedStep && lastCompletedStep !== 'contactInfo' && formData[lastCompletedStep as keyof QuoteData]) {
         // Find the index of the step that was just completed
         const completedStepConfig = funnelSteps.find(s => s.id === lastCompletedStep);
-        // Only auto-advance if the step is not a slider
+        // Only auto-advance if the step is not a slider or contact form
         if (completedStepConfig && completedStepConfig.type !== 'slider') {
             handleNext();
         }
@@ -149,7 +167,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
 
   const handleBack = () => {
     const currentStepId = currentStepInfo?.id;
-
+  
     if (currentStepId === 'monthlyBill') {
       const householdStepIndex = visibleSteps.findIndex(s => s.id === 'householdSize' || s.id === 'commercialPropertyType');
       if (householdStepIndex !== -1) {
@@ -174,6 +192,14 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
   };
 
   const handleSelectAndNext = (key: keyof QuoteData, value: any) => {
+    const stepInfo = funnelSteps.find(s => s.id === key);
+    pushToDataLayer({
+        event: 'funnel_step_completion',
+        user_id: formData.userId,
+        step_id: key,
+        step_title: stepInfo?.title.replace('[address]', formData.address) || key,
+        value: value,
+    });
     setFormData(prev => ({ ...prev, [key]: value }));
     setLastCompletedStep(key);
   };
@@ -188,17 +214,11 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
         const result = await saveQuoteToFirestore(formData);
         if (result.success) {
           // Push to dataLayer
-          if (window.dataLayer) {
-            window.dataLayer.push({
-              event: 'new_lead',
-              lead_data: {
-                user_id: formData.userId,
-                address: formData.address,
-                property_type: formData.propertyType,
-                email: formData.email,
-              }
-            });
-          }
+          pushToDataLayer({
+            event: 'generate_quote',
+            user_id: formData.userId,
+            lead_data: { ...formData }
+          });
           handleNext();
         } else {
           console.error("Submission Error:", result.error);
@@ -211,6 +231,15 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
         setIsSubmitting(false);
       }
     } else {
+        // Handle "Next" button on slider steps
+        const stepInfo = funnelSteps.find(s => s.id === currentStepInfo.id);
+        pushToDataLayer({
+            event: 'funnel_step_completion',
+            user_id: formData.userId,
+            step_id: currentStepInfo.id,
+            step_title: stepInfo?.title.replace('[address]', formData.address) || currentStepInfo.id,
+            value: formData[currentStepInfo.id as keyof QuoteData],
+        });
         handleNext();
     }
   }
@@ -287,7 +316,7 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
         const householdLabels = id === 'householdSize' ? Array.from({ length: max! }, (_, i) => i + 1) : null;
 
         return (
-          <div className={`flex flex-col gap-8 text-center pt-4 ${contentClasses}`}>
+          <form onSubmit={handleFormSubmit} className={`flex flex-col gap-8 text-center pt-4 ${contentClasses}`}>
             <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
               {currentStepInfo.title.replace('[address]', formData.address)}
             </CardTitle>
@@ -321,9 +350,9 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
             </div>
 
             <div className="mt-6 flex items-center justify-center">
-              <Button size="lg" onClick={handleNext}>Next</Button>
+              <Button size="lg" type="submit">Next</Button>
             </div>
-          </div>
+          </form>
         );
     }
     

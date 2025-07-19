@@ -10,10 +10,10 @@ export const metadata: Metadata = {
   description: 'Quotes from NZ qualified installers for your home or business. 100% Free, No Obligation, SEANZ Approved.',
 };
 
-// Augment the Window interface
+// Augment the Window interface for GTM dataLayer
 declare global {
   interface Window {
-    dataLayer: any[];
+    dataLayer: Record<string, any>[];
   }
 }
 
