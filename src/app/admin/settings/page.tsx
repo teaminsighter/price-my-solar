@@ -50,6 +50,13 @@ function BrandingCard({
       if (result.success && result.value) {
         setCurrentImageUrl(result.value);
         form.setValue('url', result.value);
+      } else {
+        // Fallback for initial state if nothing is in the DB
+        if (settingKey === 'logoUrl') {
+            const defaultLogo = "https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FPMS-Final-Logo-2.webp?alt=media&token=486ac4d9-d9dd-4921-ab19-0b4b55b4b2f1";
+            setCurrentImageUrl(defaultLogo);
+            form.setValue('url', defaultLogo);
+        }
       }
       setLoading(false);
     }

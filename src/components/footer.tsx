@@ -1,7 +1,15 @@
+
 import Link from "next/link";
 import Image from "next/image";
 
-export function Footer() {
+type FooterProps = {
+  logoUrl?: string | null;
+}
+
+export function Footer({ logoUrl }: FooterProps) {
+  const defaultLogo = "https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FPMS-Final-Logo-2.webp?alt=media&token=486ac4d9-d9dd-4921-ab19-0b4b55b4b2f1";
+  const displayLogo = logoUrl || defaultLogo;
+
   return (
     <footer className="w-full">
       <div className="bg-gradient-to-b from-primary to-orange-400 text-primary-foreground">
@@ -10,7 +18,7 @@ export function Footer() {
             <div className="flex flex-col items-start gap-4">
               <Link href="/" className="flex items-center gap-2 text-xl font-bold">
                  <Image 
-                  src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FPMS-Final-Logo-2.webp?alt=media&token=486ac4d9-d9dd-4921-ab19-0b4b55b4b2f1"
+                  src={displayLogo}
                   alt="Price My Solar Logo"
                   width={200}
                   height={50}

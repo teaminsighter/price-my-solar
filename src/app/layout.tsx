@@ -4,6 +4,8 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { getGtmSnippet, getSetting } from '@/app/actions';
 import Script from 'next/script';
+import { SiteHeader } from '@/components/site-header';
+import { Footer } from '@/components/footer';
 
 const defaultMetadata = {
   title: 'Compare Solar Quotes – Price My Solar NZ',
@@ -38,6 +40,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const { snippet: gtmHeadSnippet } = await getGtmSnippet();
+  const { value: logoUrl } = await getSetting('logoUrl');
 
   return (
     <html lang="en" className="!scroll-smooth">
@@ -59,8 +62,12 @@ export default async function RootLayout({
           </Script>
         )}
       </head>
-      <body className="font-body antialiased">
-        {children}
+      <body className="font-body antialiased flex flex-col min-h-screen">
+        <SiteHeader logoUrl={logoUrl} />
+        <main className="flex-1">
+          {children}
+        </main>
+        <Footer logoUrl={logoUrl} />
         <Toaster />
       </body>
     </html>

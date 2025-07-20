@@ -2,13 +2,11 @@
 'use client';
 
 import { useState, useEffect, lazy, Suspense } from 'react';
-import { Header } from '@/components/header';
-import { Footer } from '@/components/footer';
-import { Hero } from '@/components/page/hero';
 import { QuoteFunnel } from '@/components/quote-funnel';
 import type { QuoteData } from '@/components/quote-funnel';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+import { Hero } from '@/components/page/hero';
 
 const CostsSection = lazy(() => import('@/components/page/costs-section').then(m => ({ default: m.CostsSection })));
 const ApproxCosts = lazy(() => import('@/components/page/approx-costs').then(m => ({ default: m.ApproxCosts })));
@@ -57,56 +55,52 @@ export default function Home() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      <Header />
-      <main className="flex-1">
-        {funnelStarted && initialQuoteData ? (
-          <QuoteFunnel initialData={initialQuoteData} onExit={handleExitFunnel} />
-        ) : (
-          <>
-            <Hero onStartFunnel={handleStartFunnel} />
-            <Suspense fallback={<SectionSkeleton />}>
-              <CostsSection />
-            </Suspense>
-            <Suspense fallback={<SectionSkeleton />}>
-              <ApproxCosts />
-            </Suspense>
-            <Suspense fallback={<SectionSkeleton />}>
-              <HowItWorks />
-            </Suspense>
-            <Suspense fallback={<SectionSkeleton />}>
-              <ChoosingPartner />
-            </Suspense>
-            <Suspense fallback={<SectionSkeleton />}>
-              <SavingsSection />
-            </Suspense>
-            <Suspense fallback={<SectionSkeleton />}>
-              <RoiSection />
-            </Suspense>
-            <Suspense fallback={<SectionSkeleton />}>
-              <HybridSystem />
-            </Suspense>
-            <Suspense fallback={
-              <section className="w-full bg-card py-12 md:py-20 lg:py-24">
-                <div className="container mx-auto max-w-4xl px-4 md:px-6">
-                  <div className="mx-auto max-w-3xl text-center">
-                    <Skeleton className="h-10 w-3/4 mx-auto" />
-                    <Skeleton className="h-6 w-1/2 mx-auto mt-4" />
-                  </div>
-                  <div className="mt-12 space-y-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Skeleton key={i} className="h-16 w-full" />
-                    ))}
-                  </div>
+    <>
+      {funnelStarted && initialQuoteData ? (
+        <QuoteFunnel initialData={initialQuoteData} onExit={handleExitFunnel} />
+      ) : (
+        <>
+          <Hero onStartFunnel={handleStartFunnel} />
+          <Suspense fallback={<SectionSkeleton />}>
+            <CostsSection />
+          </Suspense>
+          <Suspense fallback={<SectionSkeleton />}>
+            <ApproxCosts />
+          </Suspense>
+          <Suspense fallback={<SectionSkeleton />}>
+            <HowItWorks />
+          </Suspense>
+          <Suspense fallback={<SectionSkeleton />}>
+            <ChoosingPartner />
+          </Suspense>
+          <Suspense fallback={<SectionSkeleton />}>
+            <SavingsSection />
+          </Suspense>
+          <Suspense fallback={<SectionSkeleton />}>
+            <RoiSection />
+          </Suspense>
+          <Suspense fallback={<SectionSkeleton />}>
+            <HybridSystem />
+          </Suspense>
+          <Suspense fallback={
+            <section className="w-full bg-card py-12 md:py-20 lg:py-24">
+              <div className="container mx-auto max-w-4xl px-4 md:px-6">
+                <div className="mx-auto max-w-3xl text-center">
+                  <Skeleton className="h-10 w-3/4 mx-auto" />
+                  <Skeleton className="h-6 w-1/2 mx-auto mt-4" />
                 </div>
-              </section>
-            }>
-              <FaqSection />
-            </Suspense>
-          </>
-        )}
-      </main>
-      <Footer />
-    </div>
+                <div className="mt-12 space-y-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Skeleton key={i} className="h-16 w-full" />
+                  ))}
+                </div>
+              </div>
+            </section>
+          }>
+            <FaqSection />
+          </Suspense>
+        </>
+      )}
+    </>
   );
 }

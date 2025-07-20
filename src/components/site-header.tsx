@@ -9,7 +9,7 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
-export function Header({ logoUrl }: { logoUrl?: string | null }) {
+export function SiteHeader({ logoUrl }: { logoUrl?: string | null }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [

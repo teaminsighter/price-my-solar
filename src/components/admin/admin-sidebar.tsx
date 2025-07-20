@@ -15,6 +15,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useEffect, useState } from 'react';
+import { getSetting } from '@/app/actions';
+import { Skeleton } from '../ui/skeleton';
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: BarChart },
@@ -27,7 +30,20 @@ const navItems = [
 export default function AdminSidebar() {
   const pathname = usePathname();
   const { user } = useAuth();
-  const router = usePathname();
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
+  const [logoLoading, setLogoLoading] = useState(true);
+  
+  const defaultLogo = "https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FPMS-Final-Logo-2.webp?alt=media&token=486ac4d9-d9dd-4921-ab19-0b4b55b4b2f1";
+
+  useEffect(() => {
+    async function fetchLogo() {
+      setLogoLoading(true);
+      const { value } = await getSetting('logoUrl');
+      setLogoUrl(value || defaultLogo);
+      setLogoLoading(false);
+    }
+    fetchLogo();
+  }, []);
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -38,13 +54,15 @@ export default function AdminSidebar() {
     <aside className="hidden h-screen w-64 flex-col border-r bg-card text-card-foreground sm:flex">
       <div className="flex h-16 items-center border-b px-6">
         <Link href="/admin" className="flex items-center gap-2 font-semibold">
-          <Image 
-            src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FPMS-Final-Logo-2.webp?alt=media&token=486ac4d9-d9dd-4921-ab19-0b4b55b4b2f1"
-            alt="Price My Solar Logo"
-            width={150}
-            height={40}
-            className="h-8 w-auto"
-          />
+           {logoLoading ? <Skeleton className="h-8 w-36" /> : (
+            logoUrl && <Image 
+                src={logoUrl}
+                alt="Price My Solar Logo"
+                width={150}
+                height={40}
+                className="h-8 w-auto"
+            />
+           )}
         </Link>
       </div>
       <div className="flex-1 overflow-y-auto">
