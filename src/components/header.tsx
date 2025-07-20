@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -59,6 +59,7 @@ export function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right">
+              <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
               <div className="flex flex-col p-6">
                 <div className="mb-6 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2 text-lg font-bold">
