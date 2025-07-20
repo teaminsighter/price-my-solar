@@ -7,25 +7,24 @@ type FooterProps = {
 }
 
 export function Footer({ logoUrl }: FooterProps) {
-  const defaultLogo = "https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FPMS-Final-Logo-2.webp?alt=media&token=486ac4d9-d9dd-4921-ab19-0b4b55b4b2f1";
-  const displayLogo = logoUrl || defaultLogo;
-
   return (
     <footer className="w-full">
       <div className="bg-gradient-to-b from-primary to-orange-400 text-primary-foreground">
         <div className="container mx-auto px-4 py-12 md:px-6">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div className="flex flex-col items-start gap-4">
-              <Link href="/" className="flex items-center gap-2 text-xl font-bold">
-                 <Image 
-                  src={displayLogo}
-                  alt="Price My Solar Logo"
-                  width={200}
-                  height={50}
-                  className="h-10 w-auto"
-                  style={{ filter: 'brightness(0) invert(1)' }}
-                />
-              </Link>
+              {logoUrl && (
+                <Link href="/" className="flex items-center gap-2 text-xl font-bold">
+                   <Image 
+                    src={logoUrl}
+                    alt="Price My Solar Logo"
+                    width={200}
+                    height={50}
+                    className="h-10 w-auto"
+                    style={{ filter: 'brightness(0) invert(1)' }}
+                  />
+                </Link>
+              )}
               <p className="text-sm text-primary-foreground/80">
                 Compare solar quotes from qualified NZ installers.
               </p>

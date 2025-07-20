@@ -17,21 +17,20 @@ export function SiteHeader({ logoUrl }: { logoUrl?: string | null }) {
     { href: "#faq", label: "FAQ" },
   ];
   
-  const defaultLogo = "https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FPMS-Final-Logo-2.webp?alt=media&token=486ac4d9-d9dd-4921-ab19-0b4b55b4b2f1";
-  const displayLogo = logoUrl || defaultLogo;
-
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-card shadow-sm">
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2 font-bold">
-          <Image 
-            src={displayLogo}
-            alt="Price My Solar Logo"
-            width={180}
-            height={45}
-            className="h-10 w-auto"
-            priority
-          />
+          {logoUrl && (
+            <Image 
+              src={logoUrl}
+              alt="Price My Solar Logo"
+              width={180}
+              height={45}
+              className="h-10 w-auto"
+              priority
+            />
+          )}
         </Link>
 
         {/* Desktop Navigation Group */}
@@ -66,13 +65,15 @@ export function SiteHeader({ logoUrl }: { logoUrl?: string | null }) {
               <div className="flex flex-col p-6">
                 <div className="mb-6 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2 text-lg font-bold">
+                      {logoUrl && (
                         <Image 
-                          src={displayLogo}
+                          src={logoUrl}
                           alt="Price My Solar Logo"
                           width={180}
                           height={45}
                           className="h-10 w-auto"
                         />
+                      )}
                     </Link>
                     <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
                         <X className="h-6 w-6" />

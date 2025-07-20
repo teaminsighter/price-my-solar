@@ -23,13 +23,11 @@ export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
 
-  const defaultLogo = "https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FPMS-Final-Logo-2.webp?alt=media&token=486ac4d9-d9dd-4921-ab19-0b4b55b4b2f1";
-
   useEffect(() => {
     async function fetchLogo() {
       setLogoLoading(true);
       const { value } = await getSetting('logoUrl');
-      setLogoUrl(value || defaultLogo);
+      setLogoUrl(value || null);
       setLogoLoading(false);
     }
     fetchLogo();
