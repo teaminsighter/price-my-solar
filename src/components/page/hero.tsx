@@ -206,6 +206,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             height={600}
             className="w-full max-w-sm object-contain translate-y-36 translate-x-24"
             priority
+            data-ai-hint="phone screen"
           />
         </div>
       </div>
