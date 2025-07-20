@@ -1,14 +1,29 @@
 
-import type { Metadata } from 'next';
+import type { Metadata, ResolvingMetadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
-import { getGtmSnippet } from '@/app/actions';
+import { getGtmSnippet, getSetting } from '@/app/actions';
 import Script from 'next/script';
 
-export const metadata: Metadata = {
+const defaultMetadata = {
   title: 'Compare Solar Quotes – Price My Solar NZ',
   description: 'Quotes from NZ qualified installers for your home or business. 100% Free, No Obligation, SEANZ Approved.',
 };
+
+export async function generateMetadata(
+  {},
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { value: faviconUrl } = await getSetting('faviconUrl');
+ 
+  return {
+    ...defaultMetadata,
+    icons: {
+      icon: faviconUrl || '/favicon.ico', // fallback to a default if not set
+    },
+  }
+}
+
 
 // Augment the Window interface for GTM dataLayer
 declare global {

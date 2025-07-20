@@ -21,6 +21,7 @@ const navItems = [
   { href: '/admin/leads', label: 'Leads', icon: Users },
   { href: '/admin/webhooks', label: 'Webhooks', icon: Webhook },
   { href: '/admin/gtm', label: 'GTM', icon: Code },
+  { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
 export default function AdminSidebar() {

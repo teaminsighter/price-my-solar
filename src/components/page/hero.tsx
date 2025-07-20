@@ -173,14 +173,14 @@ function HeroContent({ onStartFunnel }: HeroProps) {
               </div>
              <form onSubmit={handleSubmit} className="relative w-full">
                 <div className="relative flex items-center w-full">
-                    <MapPin className="absolute left-3 h-5 w-5 text-primary-foreground" />
+                    <MapPin className="absolute left-3 h-5 w-5 text-primary" />
                     <Input
                         id="address"
                         value={value}
                         onChange={handleInput}
                         disabled={!ready}
                         placeholder={placeholder}
-                        className="h-12 w-full bg-primary pl-10 text-base font-bold text-primary-foreground placeholder:text-primary-foreground/90 disabled:opacity-70"
+                        className="h-12 w-full bg-background pl-10 text-base font-bold text-foreground placeholder:text-muted-foreground/90 disabled:opacity-70"
                         autoComplete="off"
                     />
                     {status === 'OK' && renderSuggestions()}
