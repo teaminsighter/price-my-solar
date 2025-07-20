@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 import { Upload } from 'lucide-react';
+import { Label } from '@/components/ui/label';
 
 const settingsSchema = z.object({
   logoUrl: z.string().url('Invalid URL').or(z.literal('')),
