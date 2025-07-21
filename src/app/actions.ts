@@ -11,7 +11,10 @@ export async function saveQuoteToFirestore(quoteData: QuoteData) {
   try {
     const sanitizedQuoteData: { [key: string]: any } = {};
     for (const key in quoteData) {
-      if (quoteData[key as keyof QuoteData] !== undefined) {
+      // Ensure urlParams is handled correctly as an object
+      if (key === 'urlParams' && typeof quoteData.urlParams === 'object' && quoteData.urlParams !== null) {
+        sanitizedQuoteData[key] = quoteData.urlParams;
+      } else if (quoteData[key as keyof QuoteData] !== undefined) {
         sanitizedQuoteData[key] = quoteData[key as keyof QuoteData];
       }
     }
