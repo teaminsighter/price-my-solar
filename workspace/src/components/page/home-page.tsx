@@ -29,7 +29,7 @@ const SectionSkeleton = ({ className }: { className?: string }) => (
   <div className={cn("w-full h-96 bg-muted/50", className)}></div>
 );
 
-export default function Home() {
+export function HomePage() {
   const [funnelStarted, setFunnelStarted] = useState(false);
   const [initialQuoteData, setInitialQuoteData] = useState<QuoteData | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
@@ -51,7 +51,7 @@ export default function Home() {
         urlParams[key] = value;
       });
 
-      setInitialQuoteData({ ...data, userId, ...urlParams });
+      setInitialQuoteData({ ...data, userId, urlParams });
       setFunnelStarted(true);
     }
   };
