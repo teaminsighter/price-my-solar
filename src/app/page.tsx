@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useEffect, lazy, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { QuoteFunnel } from '@/components/quote-funnel';
 import type { QuoteData } from '@/components/quote-funnel';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -21,7 +22,7 @@ const FaqSection = lazy(() => import('@/components/page/faq-section'));
 const USER_ID_KEY = 'pms_user_id';
 
 function generateUserId() {
-  return `PMS-${Math.random().toString(36).substring(2, 11)}`;
+  return `PMS-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
 }
 
 const SectionSkeleton = ({ className }: { className?: string }) => (
@@ -32,6 +33,7 @@ export default function Home() {
   const [funnelStarted, setFunnelStarted] = useState(false);
   const [initialQuoteData, setInitialQuoteData] = useState<QuoteData | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     let storedUserId = localStorage.getItem(USER_ID_KEY);
@@ -44,7 +46,12 @@ export default function Home() {
 
   const handleStartFunnel = (data: Omit<QuoteData, 'userId'>) => {
     if (userId) {
-      setInitialQuoteData({ ...data, userId });
+      const urlParams: { [key: string]: string } = {};
+      searchParams.forEach((value, key) => {
+        urlParams[key] = value;
+      });
+
+      setInitialQuoteData({ ...data, userId, urlParams });
       setFunnelStarted(true);
     }
   };

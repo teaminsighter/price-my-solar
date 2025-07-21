@@ -32,6 +32,7 @@ export type QuoteData = {
   financeInterest?: 'Why not!' | 'Will sort myself';
   email?: string;
   phone?: string;
+  urlParams?: { [key: string]: string };
 };
 
 // Regions data
@@ -48,8 +49,8 @@ const funnelSteps = [
   { id: 'householdSize', title: 'How many people live at [address]?', type: 'slider', min: 1, max: 10, step: 1, required: true, condition: (data: QuoteData) => data.propertyType === 'RESIDENTIAL' },
   { id: 'commercialPropertyType', title: 'What type of commercial property?', options: ['Tenant', 'Owner Occupier', 'Landlord Only'], required: true, condition: (data: QuoteData) => data.propertyType === 'COMMERCIAL' },
   { id: 'leaseYears', title: 'How many years remain on your lease?', type: 'slider', min: 1, max: 10, step: 1, required: true, condition: (data: QuoteData) => data.commercialPropertyType === 'Tenant' },
-  { id: 'monthlyBill', title: 'What’s your average monthly power bill?', type: 'slider', min: 75, max: 700, step: 5, required: true },
   { id: 'sunCheck', title: 'Checking solar viability for your address...', type: 'animation', duration: 3000 },
+  { id: 'monthlyBill', title: 'What’s your average monthly power bill?', type: 'slider', min: 75, max: 700, step: 5, required: true },
   { id: 'island', title: 'Where is your property located?', options: ['North Island', 'South Island'], required: true },
   { id: 'region', title: 'What region is your property in?', type: 'select', required: true, condition: (data: QuoteData) => !!data.island },
   { id: 'gridSellBackInterest', title: 'Would you consider selling solar power back to the grid?', options: ['Yes', 'Like to know more', 'No'], required: true },
@@ -102,10 +103,10 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
     });
     
     // Set default monthly bill on mount if it's not set
-    if (formData.monthlyBill === undefined) {
-      const monthlyBillStep = funnelSteps.find(step => step.id === 'monthlyBill');
-      if (monthlyBillStep && typeof monthlyBillStep.min === 'number') {
-        setFormData(prev => ({ ...prev, monthlyBill: monthlyBillStep.min }));
+    const monthlyBillStep = funnelSteps.find(step => step.id === 'monthlyBill');
+    if (monthlyBillStep && typeof monthlyBillStep.min === 'number') {
+      if (formData.monthlyBill === undefined) {
+         setFormData(prev => ({ ...prev, monthlyBill: monthlyBillStep.min }));
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -169,10 +170,23 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
     const currentStepId = currentStepInfo?.id;
   
     if (currentStepId === 'monthlyBill') {
-      const householdStepIndex = visibleSteps.findIndex(s => s.id === 'householdSize' || s.id === 'commercialPropertyType');
-      if (householdStepIndex !== -1) {
-        transition(() => setStepIndex(householdStepIndex));
-        return;
+      const prevStepKey = formData.propertyType === 'RESIDENTIAL' ? 'householdSize' : 'commercialPropertyType';
+      const prevStepIndex = visibleSteps.findIndex(s => s.id === prevStepKey);
+      
+      // We actually need to find the step before that, which is roofType
+      const roofTypeIndex = visibleSteps.findIndex(s => s.id === 'roofType');
+
+      if (roofTypeIndex !== -1) {
+          // Find the step before the animation
+          const stepBeforeAnimation = visibleSteps.findIndex(s => s.id === 'householdSize' || s.id === 'commercialPropertyType');
+          if (stepBeforeAnimation !== -1) {
+             const targetStep = visibleSteps[stepBeforeAnimation - 1]; // This should be 'roofType'
+             const targetIndex = visibleSteps.findIndex(s => s.id === targetStep.id);
+             if(targetIndex !== -1) {
+                transition(() => setStepIndex(targetIndex));
+                return;
+             }
+          }
       }
     }
     
