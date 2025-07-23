@@ -1,5 +1,5 @@
 
-"use client";
+'use client';
 
 import Link from "next/link";
 import Image from "next/image";
@@ -27,7 +27,7 @@ export function SiteHeader({ logoUrl }: { logoUrl?: string | null }) {
               alt="Price My Solar Logo"
               width={180}
               height={45}
-              className="h-10 w-auto"
+              className="h-12 w-auto"
               priority
             />
           )}
@@ -71,7 +71,7 @@ export function SiteHeader({ logoUrl }: { logoUrl?: string | null }) {
                           alt="Price My Solar Logo"
                           width={180}
                           height={45}
-                          className="h-10 w-auto"
+                          className="h-12 w-auto"
                         />
                       )}
                     </Link>
