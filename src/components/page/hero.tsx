@@ -157,8 +157,8 @@ function HeroContent({ onStartFunnel }: HeroProps) {
       id="get-quotes"
       className="relative w-full overflow-hidden bg-gradient-to-r from-primary to-orange-400 bg-[length:200%_200%] animate-hero-gradient"
     >
-      <div className="container relative z-10 mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-8 px-4 py-8 pt-12 md:grid-cols-2 md:items-center lg:px-6">
-        <div className="flex flex-col justify-end md:justify-center">
+      <div className="container relative z-10 mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-8 px-4 py-8 pt-12 md:grid-cols-2 lg:px-6">
+        <div className="flex flex-col justify-center">
           <Image
             src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
             alt="Phone showing solar quotes"
@@ -169,7 +169,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             data-ai-hint="phone screen"
           />
         </div>
-        <div className="relative space-y-6 text-left">
+        <div className="relative space-y-6 text-left md:pt-8">
           <h1 className="text-5xl font-black uppercase text-primary-foreground drop-shadow-md sm:text-6xl md:text-7xl">
             Compare Solar<br/>Quotes
           </h1>
@@ -206,7 +206,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             <ul className="space-y-2 pt-4">
                 <li className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Check className="h-4 w-4 text-green-500" />
-                    <span>NZ No.1 Solar Comparison Site</span>
+                    <span>New Zealand's No.1 Solar Comparison Site</span>
                 </li>
                 <li className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Check className="h-4 w-4 text-green-500" />
