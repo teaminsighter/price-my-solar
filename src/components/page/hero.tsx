@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import type { QuoteData } from '@/components/quote-funnel';
 import { Check, MapPin } from 'lucide-react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 const libraries: ('places')[] = ['places'];
 
@@ -156,20 +157,20 @@ function HeroContent({ onStartFunnel }: HeroProps) {
       id="get-quotes"
       className="relative w-full overflow-hidden bg-gradient-to-r from-primary to-orange-400 bg-[length:200%_200%] animate-hero-gradient"
     >
-      <div className="container relative z-10 mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-8 px-4 py-8 pt-12 md:grid-cols-2 lg:px-6">
-        <div className="hidden md:flex flex-col justify-end">
+      <div className="container relative z-10 mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-8 px-4 py-8 pt-12 md:grid-cols-2 md:items-center lg:px-6">
+        <div className="flex flex-col justify-end md:justify-center">
           <Image
             src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
             alt="Phone showing solar quotes"
             width={450}
             height={600}
-            className="w-full max-w-sm object-contain -translate-y-4"
+            className="w-full max-w-sm object-contain -translate-y-4 md:translate-y-0"
             priority
             data-ai-hint="phone screen"
           />
         </div>
         <div className="relative space-y-6 text-left">
-          <h1 className="text-5xl font-black uppercase text-primary-foreground drop-shadow-md sm:text-7xl">
+          <h1 className="text-5xl font-black uppercase text-primary-foreground drop-shadow-md sm:text-6xl md:text-7xl">
             Compare Solar<br/>Quotes
           </h1>
           <p className="text-lg text-primary-foreground/90 max-w-xl">
@@ -177,11 +178,16 @@ function HeroContent({ onStartFunnel }: HeroProps) {
           </p>
           
           <div className="space-y-4 rounded-lg border border-border/50 bg-card p-6 shadow-sm">
-              <div className="min-h-[2.5rem] flex items-center justify-start transition-all duration-300">
-                <p className="text-left font-semibold text-foreground">
+              <motion.div 
+                className="min-h-[2.5rem] flex items-center justify-start transition-all duration-300"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <p className="text-left text-lg md:text-xl font-bold text-foreground">
                     Where do you want to install solar?
                 </p>
-              </div>
+              </motion.div>
              <form onSubmit={handleSubmit} className="relative w-full">
                 <div className="relative flex items-center w-full">
                     <MapPin className="absolute left-3 h-5 w-5 text-primary" />
