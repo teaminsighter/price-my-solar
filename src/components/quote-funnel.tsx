@@ -168,34 +168,8 @@ export function QuoteFunnel({ initialData, onExit }: QuoteFunnelProps) {
 
   const handleBack = () => {
     const currentStepId = currentStepInfo?.id;
-  
-    if (currentStepId === 'monthlyBill') {
-      const prevStepKey = formData.propertyType === 'RESIDENTIAL' ? 'householdSize' : 'commercialPropertyType';
-      const prevStepIndex = visibleSteps.findIndex(s => s.id === prevStepKey);
-      
-      // We actually need to find the step before that, which is roofType
-      const roofTypeIndex = visibleSteps.findIndex(s => s.id === 'roofType');
-
-      if (roofTypeIndex !== -1) {
-          // Find the step before the animation
-          const stepBeforeAnimation = visibleSteps.findIndex(s => s.id === 'householdSize' || s.id === 'commercialPropertyType');
-          if (stepBeforeAnimation !== -1) {
-             const targetStep = visibleSteps[stepBeforeAnimation - 1]; // This should be 'roofType'
-             const targetIndex = visibleSteps.findIndex(s => s.id === targetStep.id);
-             if(targetIndex !== -1) {
-                transition(() => setStepIndex(targetIndex));
-                return;
-             }
-          }
-      }
-    }
-    
-    if (currentStepId === 'savingsCalculation') {
-       const gridSellBackStepIndex = visibleSteps.findIndex(s => s.id === 'gridSellBackInterest');
-       if (gridSellBackStepIndex !== -1) {
-         transition(() => setStepIndex(gridSellBackStepIndex));
-         return;
-       }
+    if (currentStepId === 'savingsCalculation' || currentStepId === 'monthlyBill') {
+      transition(() => setStepIndex(s => s - 2));
     }
 
     if (stepIndex > 0) {

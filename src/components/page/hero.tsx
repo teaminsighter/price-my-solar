@@ -157,6 +157,17 @@ function HeroContent({ onStartFunnel }: HeroProps) {
       className="relative w-full overflow-hidden bg-gradient-to-r from-primary to-orange-400 bg-[length:200%_200%] animate-hero-gradient"
     >
       <div className="container relative z-10 mx-auto grid min-h-[60vh] grid-cols-1 items-start gap-8 px-4 py-8 pt-12 md:grid-cols-2 lg:px-6">
+        <div className="hidden md:flex flex-col justify-end">
+          <Image
+            src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
+            alt="Phone showing solar quotes"
+            width={450}
+            height={600}
+            className="w-full max-w-sm object-contain -translate-y-4"
+            priority
+            data-ai-hint="phone screen"
+          />
+        </div>
         <div className="relative space-y-6 text-left">
           <h1 className="text-4xl font-bold uppercase text-primary-foreground sm:text-6xl">
             Compare Solar<br/>Quotes
@@ -197,17 +208,6 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                 </li>
             </ul>
           </div>
-        </div>
-        <div className="hidden md:flex flex-col justify-end">
-          <Image
-            src="https://firebasestorage.googleapis.com/v0/b/clariofs-3b19b.firebasestorage.app/o/PMS%20Images%2FResidential-phone-v2.webp?alt=media&token=60ea4ab3-1aa5-4310-bd8a-116e68dd6386"
-            alt="Phone showing solar quotes"
-            width={450}
-            height={600}
-            className="w-full max-w-sm object-contain translate-y-36 translate-x-24"
-            priority
-            data-ai-hint="phone screen"
-          />
         </div>
       </div>
     </section>
