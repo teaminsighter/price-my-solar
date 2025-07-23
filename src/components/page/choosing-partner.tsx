@@ -5,7 +5,27 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { AnimatedIconWrench } from "../icons";
 
-export function ChoosingPartner() {
+type ChoosingPartnerProps = {
+  pageVariant: 'Quote' | 'Cost';
+};
+
+export function ChoosingPartner({ pageVariant }: ChoosingPartnerProps) {
+
+  const content = {
+    Quote: {
+      headline: "Choosing the Right Partner",
+      description: "Look for SEANZ-member installers with strong track records, clear case studies, and compliance with NZ standards. The cheapest quote isn’t always the best. Ask for evidence of previous installs and check Google reviews.",
+      button: "Compare Now"
+    },
+    Cost: {
+      headline: "Getting an Accurate Cost",
+      description: "For an accurate solar panel cost, it’s best to get estimates from SEANZ-member installers. They provide detailed cost breakdowns based on your home’s specific needs. The cheapest option isn’t always the best value.",
+      button: "Calculate Cost"
+    }
+  }
+
+  const currentContent = content[pageVariant];
+
   return (
     <motion.section 
       id="partner" 
@@ -23,13 +43,13 @@ export function ChoosingPartner() {
         </div>
         <div className="space-y-6">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Choosing the Right Partner
+            {currentContent.headline}
           </h2>
           <p className="text-muted-foreground md:text-lg">
-            Look for SEANZ-member installers with strong track records, clear case studies, and compliance with NZ standards. The cheapest quote isn’t always the best. Ask for evidence of previous installs and check Google reviews.
+            {currentContent.description}
           </p>
           <Button size="lg" asChild>
-            <Link href="#get-quotes">Compare Now</Link>
+            <Link href="#get-quotes">{currentContent.button}</Link>
           </Button>
         </div>
       </div>

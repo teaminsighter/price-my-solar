@@ -29,7 +29,23 @@ const steps = [
   },
 ];
 
-export function HowItWorks() {
+type HowItWorksProps = {
+  pageVariant: 'Quote' | 'Cost';
+};
+
+export function HowItWorks({ pageVariant }: HowItWorksProps) {
+
+  const content = {
+    Quote: {
+      button: "Compare Now"
+    },
+    Cost: {
+      button: "Calculate Cost"
+    }
+  }
+
+  const currentContent = content[pageVariant];
+
   return (
     <motion.section 
       id="how-it-works" 
@@ -62,7 +78,7 @@ export function HowItWorks() {
           </div>
            <p className="text-xs text-muted-foreground/80">More info – <Link href="#" className="underline">Vivint Solar</Link></p>
           <Button size="lg" asChild>
-            <Link href="#get-quotes">Compare Now</Link>
+            <Link href="#get-quotes">{currentContent.button}</Link>
           </Button>
         </div>
         <div className="relative flex h-96 w-full items-center justify-center">

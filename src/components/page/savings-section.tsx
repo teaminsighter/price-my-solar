@@ -5,7 +5,27 @@ import { Button } from "@/components/ui/button";
 import { Banknote } from "lucide-react";
 import { motion } from "framer-motion";
 
-export function SavingsSection() {
+type SavingsSectionProps = {
+  pageVariant: 'Quote' | 'Cost';
+};
+
+export function SavingsSection({ pageVariant }: SavingsSectionProps) {
+
+  const content = {
+    Quote: {
+      headline: "How Much Can I Save?",
+      description: "Most NZ households save 40–70% off their power bills with solar. The payback period is usually 7–10 years, depending on your energy usage, available rebates, and system size.",
+      button: "Compare Now"
+    },
+    Cost: {
+      headline: "How Much Can I Save?",
+      description: "Most NZ households save 40–70% off their power bills with solar. Solar panel costs are offset by long-term savings. The payback period is usually 7–10 years.",
+      button: "Calculate Savings"
+    }
+  }
+
+  const currentContent = content[pageVariant];
+
   return (
     <motion.section 
       id="savings" 
@@ -21,13 +41,13 @@ export function SavingsSection() {
         </div>
         <div className="space-y-6">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            How Much Can I Save?
+            {currentContent.headline}
           </h2>
           <p className="md:text-lg text-primary-foreground/90">
-            Most NZ households save 40–70% off their power bills with solar. The payback period is usually 7–10 years, depending on your energy usage, available rebates, and system size.
+            {currentContent.description}
           </p>
           <Button size="lg" asChild className="bg-primary-foreground text-primary hover:bg-primary-foreground/90">
-            <Link href="#get-quotes">Compare Now</Link>
+            <Link href="#get-quotes">{currentContent.button}</Link>
           </Button>
         </div>
       </div>

@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import Image from "next/image";
@@ -36,7 +35,27 @@ const costTiers = [
   },
 ];
 
-export function ApproxCosts() {
+type ApproxCostsProps = {
+  pageVariant: 'Quote' | 'Cost';
+};
+
+export function ApproxCosts({ pageVariant }: ApproxCostsProps) {
+
+  const content = {
+    Quote: {
+      headline: "Approximate Solar Installation Costs",
+      subheadline: "Most NZ solar installs fit within these cost bands. Request a custom quote for your address.",
+      button: "Compare Now"
+    },
+    Cost: {
+      headline: "Approximate Solar Panel Costs",
+      subheadline: "Most NZ solar panel systems fit within these cost bands. Calculate the custom cost for your address.",
+      button: "Calculate Cost"
+    }
+  }
+
+  const currentContent = content[pageVariant];
+
   return (
     <motion.section 
       id="estimates" 
@@ -49,10 +68,10 @@ export function ApproxCosts() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Approximate Solar Installation Costs
+            {currentContent.headline}
           </h2>
           <p className="mt-4 text-muted-foreground md:text-xl">
-            Most NZ solar installs fit within these cost bands. Request a custom quote for your address.
+            {currentContent.subheadline}
           </p>
         </div>
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -95,7 +114,7 @@ export function ApproxCosts() {
         </div>
         <div className="mt-12 text-center">
           <Button size="lg" asChild>
-            <Link href="#get-quotes">Compare Now</Link>
+            <Link href="#get-quotes">{currentContent.button}</Link>
           </Button>
         </div>
       </div>

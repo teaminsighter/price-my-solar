@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect, lazy, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, usePathname } from 'next/navigation';
 import { QuoteFunnel } from '@/components/quote-funnel';
 import type { QuoteData } from '@/components/quote-funnel';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -34,6 +34,9 @@ export function HomePage() {
   const [initialQuoteData, setInitialQuoteData] = useState<QuoteData | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const pageVariant = pathname.includes('cost') ? 'Cost' : 'Quote';
 
   useEffect(() => {
     let storedUserId = localStorage.getItem(USER_ID_KEY);
@@ -67,27 +70,27 @@ export function HomePage() {
         <QuoteFunnel initialData={initialQuoteData} onExit={handleExitFunnel} />
       ) : (
         <>
-          <Hero onStartFunnel={handleStartFunnel} />
+          <Hero onStartFunnel={handleStartFunnel} pageVariant={pageVariant} />
           <Suspense fallback={<SectionSkeleton />}>
-            <CostsSection />
+            <CostsSection pageVariant={pageVariant} />
           </Suspense>
           <Suspense fallback={<SectionSkeleton />}>
-            <ApproxCosts />
+            <ApproxCosts pageVariant={pageVariant} />
           </Suspense>
           <Suspense fallback={<SectionSkeleton />}>
-            <HowItWorks />
+            <HowItWorks pageVariant={pageVariant} />
           </Suspense>
           <Suspense fallback={<SectionSkeleton />}>
-            <ChoosingPartner />
+            <ChoosingPartner pageVariant={pageVariant} />
           </Suspense>
           <Suspense fallback={<SectionSkeleton />}>
-            <SavingsSection />
+            <SavingsSection pageVariant={pageVariant} />
           </Suspense>
           <Suspense fallback={<SectionSkeleton />}>
-            <RoiSection />
+            <RoiSection pageVariant={pageVariant} />
           </Suspense>
           <Suspense fallback={<SectionSkeleton />}>
-            <HybridSystem />
+            <HybridSystem pageVariant={pageVariant} />
           </Suspense>
           <Suspense fallback={
             <section className="w-full bg-card py-12 md:py-20 lg:py-24">
@@ -104,7 +107,7 @@ export function HomePage() {
               </div>
             </section>
           }>
-            <FaqSection />
+            <FaqSection pageVariant={pageVariant} />
           </Suspense>
         </>
       )}

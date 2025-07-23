@@ -19,9 +19,10 @@ const heroContentConfig = {
 
 type HeroProps = {
   onStartFunnel: (data: Omit<QuoteData, 'userId'>) => void;
+  pageVariant: 'Quote' | 'Cost';
 };
 
-export function Hero({ onStartFunnel }: HeroProps) {
+export function Hero({ onStartFunnel, pageVariant }: HeroProps) {
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY || '',
         libraries,
@@ -47,7 +48,7 @@ export function Hero({ onStartFunnel }: HeroProps) {
         );
     }
 
-    return <HeroContent onStartFunnel={onStartFunnel} />;
+    return <HeroContent onStartFunnel={onStartFunnel} pageVariant={pageVariant} />;
 }
 
 const demoAddresses = [
@@ -56,7 +57,7 @@ const demoAddresses = [
   "45 Colombo Street, Christchurch",
 ];
 
-function HeroContent({ onStartFunnel }: HeroProps) {
+function HeroContent({ onStartFunnel, pageVariant }: HeroProps) {
     const [address, setAddress] = useState<string>('');
     const [placeholder, setPlaceholder] = useState('Start typing your address');
 
@@ -151,6 +152,25 @@ function HeroContent({ onStartFunnel }: HeroProps) {
       })}
     </div>
   );
+  
+  const content = {
+    Quote: {
+      headline: <>Compare Solar<br/>Quotes</>,
+      description: "Compare two quotes from New Zealand’s top solar installers side by side and see how much you could save—choose the best deal and maximise your power savings.",
+      cta: "Where do you want to install solar?",
+      check1: "New Zealand's No.1 Solar Comparison Site",
+      check2: "Only vetted, SEANZ-registered solar companies."
+    },
+    Cost: {
+      headline: <>Solar Panel<br/>Cost NZ</>,
+      description: "Find out the cost of solar panels for your home. Get two independent cost estimates from NZ's top solar companies and see how much you could save.",
+      cta: "Where do you want to calculate solar costs?",
+      check1: "New Zealand's No.1 Solar Cost Calculator",
+      check2: "Only vetted, SEANZ-registered solar companies."
+    }
+  }
+
+  const currentContent = content[pageVariant];
 
   return (
     <section
@@ -171,10 +191,10 @@ function HeroContent({ onStartFunnel }: HeroProps) {
         </div>
         <div className="relative space-y-6 text-left md:pt-8">
           <h1 className="text-5xl font-black uppercase text-primary-foreground drop-shadow-md sm:text-6xl md:text-7xl">
-            Compare Solar<br/>Quotes
+            {currentContent.headline}
           </h1>
           <p className="text-lg text-primary-foreground/90 max-w-xl">
-            Compare two quotes from New Zealand’s top solar installers side by side and see how much you could save—choose the best deal and maximise your power savings.
+            {currentContent.description}
           </p>
           
           <div className="space-y-4 rounded-lg border border-border/50 bg-card p-6 shadow-sm">
@@ -185,7 +205,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
                 <p className="text-left text-lg md:text-xl font-bold text-foreground">
-                    Where do you want to install solar?
+                    {currentContent.cta}
                 </p>
               </motion.div>
              <form onSubmit={handleSubmit} className="relative w-full">
@@ -206,11 +226,11 @@ function HeroContent({ onStartFunnel }: HeroProps) {
             <ul className="space-y-2 pt-4">
                 <li className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Check className="h-4 w-4 text-green-500" />
-                    <span>New Zealand's No.1 Solar Comparison Site</span>
+                    <span>{currentContent.check1}</span>
                 </li>
                 <li className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Check className="h-4 w-4 text-green-500" />
-                    <span>Only vetted, SEANZ-registered solar companies.</span>
+                    <span>{currentContent.check2}</span>
                 </li>
             </ul>
           </div>

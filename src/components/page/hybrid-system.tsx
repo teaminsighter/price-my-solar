@@ -6,7 +6,27 @@ import { BatteryCharging } from "lucide-react";
 import { motion } from "framer-motion";
 import { AnimatedIconHybrid } from "../icons";
 
-export function HybridSystem() {
+type HybridSystemProps = {
+  pageVariant: 'Quote' | 'Cost';
+};
+
+export function HybridSystem({ pageVariant }: HybridSystemProps) {
+
+  const content = {
+    Quote: {
+      headline: "What is a Hybrid System?",
+      description: "Hybrid solar systems combine solar panels, battery storage, and grid backup for maximum flexibility. They protect you from rising grid prices and blackouts, offering the best of both worlds for ultimate energy independence.",
+      button: "Compare Now"
+    },
+    Cost: {
+      headline: "What is a Hybrid System?",
+      description: "Hybrid systems include batteries, which adds to the initial solar panel cost but offers energy independence. They protect you from rising grid prices and power outages.",
+      button: "Calculate Cost"
+    }
+  }
+
+  const currentContent = content[pageVariant];
+
   return (
     <motion.section 
       id="hybrid" 
@@ -22,13 +42,13 @@ export function HybridSystem() {
         </div>
         <div className="space-y-6">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            What is a Hybrid System?
+            {currentContent.headline}
           </h2>
           <p className="text-primary-foreground/80 md:text-lg">
-            Hybrid solar systems combine solar panels, battery storage, and grid backup for maximum flexibility. They protect you from rising grid prices and blackouts, offering the best of both worlds for ultimate energy independence.
+            {currentContent.description}
           </p>
           <Button size="lg" asChild className="bg-primary-foreground text-primary hover:bg-primary-foreground/90">
-            <Link href="#get-quotes">Compare Now</Link>
+            <Link href="#get-quotes">{currentContent.button}</Link>
           </Button>
         </div>
       </div>

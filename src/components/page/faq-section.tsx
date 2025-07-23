@@ -8,7 +8,7 @@ import { useIsMobile } from "@/hooks/use-mobile"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
 
-const faqItems = [
+const faqItemsQuote = [
   {
     question: "Why should I compare solar quotes instead of choosing the first one?",
     answer: "Comparing solar quotes helps you get the best deal. Prices, warranties, equipment quality, and installation standards vary widely. By comparing at least two quotes, you ensure you're getting competitive pricing and quality service, potentially saving thousands of dollars.",
@@ -51,6 +51,50 @@ const faqItems = [
   },
 ];
 
+const faqItemsCost = [
+  {
+    question: "How is the cost of solar panels calculated?",
+    answer: "The cost is based on system size (kW), panel quality, inverter type, battery storage, and installation complexity. Our tool gives you two detailed cost estimates based on these factors.",
+    icon: GitCompareArrows,
+  },
+  {
+    question: "Is calculating my solar cost really free?",
+    answer: "Yes, our solar cost calculator is 100% free and without obligation. It provides two independent cost estimates to help you understand your potential investment.",
+    icon: BadgePercent,
+  },
+  {
+    question: "What will my solar cost estimates include?",
+    answer: "Each estimate details the total cost, including panels, inverters, and installation. It also shows potential savings and the expected return on investment.",
+    icon: ClipboardList,
+  },
+  {
+    question: "How accurate are the solar cost estimates?",
+    answer: "Our estimates are highly accurate, based on data from top NZ installers. However, a final, precise cost requires a detailed on-site assessment from an installer.",
+    icon: PiggyBank,
+  },
+  {
+    question: "Does the solar cost include a battery?",
+    answer: "The initial cost estimate is typically for a grid-tied system. You can request options that include the additional cost of a solar battery for energy storage.",
+    icon: Handshake,
+  },
+  {
+    question: "Am I obligated to accept a solar cost estimate?",
+    answer: "No. The cost estimates are for your information only. There is no obligation to proceed with an installation. You are in complete control.",
+    icon: FileQuestion,
+  },
+  {
+    question: "How long is a solar cost estimate valid for?",
+    answer: "Solar panel costs and component availability can change. Estimates are generally valid for 30 days, but your chosen installer will confirm the final price.",
+    icon: CalendarDays,
+  },
+  {
+    question: "What if I have questions about my cost estimate?",
+    answer: "We are here to help. If you have any questions about your solar cost estimate, feel free to contact us for clarification and impartial advice.",
+    icon: MailQuestion,
+  },
+];
+
+
 const cardVariants = {
   hidden: { opacity: 0, y: 50 },
   visible: (i: number) => ({
@@ -64,7 +108,7 @@ const cardVariants = {
   }),
 };
 
-function FaqCard({ item, index }: { item: typeof faqItems[0], index: number }) {
+function FaqCard({ item, index }: { item: typeof faqItemsQuote[0], index: number }) {
   const [isFlipped, setIsFlipped] = useState(false);
 
   return (
@@ -99,9 +143,13 @@ function FaqCard({ item, index }: { item: typeof faqItems[0], index: number }) {
   );
 }
 
+type FaqSectionProps = {
+  pageVariant: 'Quote' | 'Cost';
+};
 
-export default function FaqSection() {
+export default function FaqSection({ pageVariant }: FaqSectionProps) {
   const isMobile = useIsMobile();
+  const faqItems = pageVariant === 'Cost' ? faqItemsCost : faqItemsQuote;
   
   return (
     <section id="faq" className="w-full bg-card py-12 md:py-20 lg:py-24 overflow-hidden">

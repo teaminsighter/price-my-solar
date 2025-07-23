@@ -5,7 +5,23 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Banknote, Sun } from "lucide-react";
 
-export function CostsSection() {
+type CostsSectionProps = {
+  pageVariant: 'Quote' | 'Cost';
+};
+
+export function CostsSection({ pageVariant }: CostsSectionProps) {
+  
+  const content = {
+    Quote: {
+      button: "Compare Now"
+    },
+    Cost: {
+      button: "Calculate Cost"
+    }
+  }
+
+  const currentContent = content[pageVariant];
+
   return (
     <motion.section 
       id="costs" 
@@ -40,7 +56,7 @@ export function CostsSection() {
         </div>
         <div className="mt-12 text-center">
           <Button size="lg" asChild>
-            <Link href="#get-quotes">Compare Now</Link>
+            <Link href="#get-quotes">{currentContent.button}</Link>
           </Button>
         </div>
       </div>
