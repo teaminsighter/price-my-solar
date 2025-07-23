@@ -169,7 +169,7 @@ function HeroContent({ onStartFunnel }: HeroProps) {
           />
         </div>
         <div className="relative space-y-6 text-left">
-          <h1 className="text-4xl font-black uppercase text-primary-foreground drop-shadow-md sm:text-6xl">
+          <h1 className="text-5xl font-black uppercase text-primary-foreground drop-shadow-md sm:text-7xl">
             Compare Solar<br/>Quotes
           </h1>
           <p className="text-lg text-primary-foreground/90 max-w-xl">
