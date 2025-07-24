@@ -5,7 +5,7 @@ import { AuthProvider } from '@/context/auth-context';
 import AuthGuard from '@/components/admin/auth-guard';
 import AdminSidebar from '@/components/admin/admin-sidebar';
 import { useEffect, useState } from 'react';
-import { getSetting } from './actions';
+import { getSetting } from '@/app/actions';
 
 export default function AdminLayout({
   children,
