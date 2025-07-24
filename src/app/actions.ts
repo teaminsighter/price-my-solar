@@ -3,7 +3,7 @@
 
 import { db, storage } from '@/lib/firebase';
 import { collection, addDoc, serverTimestamp, getDocs, doc, updateDoc, deleteDoc, where, query, getDoc, setDoc, writeBatch } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadString, getDownloadURL } from 'firebase/storage';
 import type { QuoteData } from '@/components/quote-funnel';
 import type { Webhook } from '@/app/admin/webhooks/page';
 
@@ -251,27 +251,31 @@ export async function saveSetting(key: string, url: string): Promise<{ success: 
   }
 }
 
-export async function uploadFileAndSaveSetting(key: string, file: File): Promise<{ success: boolean; url?: string; error?: string }> {
-  if (!file) {
+export async function uploadFileAndSaveSetting(
+    key: string,
+    fileData: { base64: string, type: string, name: string }
+): Promise<{ success: boolean; url?: string; error?: string }> {
+  if (!fileData) {
     return { success: false, error: 'No file provided.' };
   }
 
   try {
-    // Create a storage reference
-    const storageRef = ref(storage, `site-settings/${key}-${Date.now()}-${file.name}`);
+    const storageRef = ref(storage, `site-settings/${key}-${Date.now()}-${fileData.name}`);
 
-    // Upload the file
-    const snapshot = await uploadBytes(storageRef, file);
-
-    // Get the download URL
+    const snapshot = await uploadString(storageRef, fileData.base64, 'data_url');
+    
     const downloadURL = await getDownloadURL(snapshot.ref);
-
-    // Save the URL to Firestore
+    
     await saveSetting(key, downloadURL);
 
     return { success: true, url: downloadURL };
   } catch (error) {
     console.error('Error uploading file: ', error);
+    if (error instanceof Error && 'code' in error) {
+        if ((error as any).code === 'storage/unauthorized') {
+             return { success: false, error: 'Firebase Storage: You do not have permission to upload files. Please check your Storage Security Rules.' };
+        }
+    }
     return { success: false, error: error instanceof Error ? error.message : 'An unknown error occurred' };
   }
 }

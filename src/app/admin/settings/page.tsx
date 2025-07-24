@@ -89,16 +89,34 @@ function BrandingCard({
         return;
     }
     setIsSubmitting(true);
-    const result = await uploadFileAndSaveSetting(settingKey, file);
-     if (result.success && result.url) {
-      toast({ title: 'Success', description: `${title} uploaded and saved.` });
-      setCurrentImageUrl(result.url);
-      form.setValue('url', result.url);
-      setFile(null); // Reset file input
-    } else {
-      toast({ variant: 'destructive', title: 'Error', description: result.error });
+
+    try {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = async () => {
+            const base64String = reader.result as string;
+            const fileData = {
+                base64: base64String,
+                type: file.type,
+                name: file.name
+            };
+
+            const result = await uploadFileAndSaveSetting(settingKey, fileData);
+
+            if (result.success && result.url) {
+                toast({ title: 'Success', description: `${title} uploaded and saved.` });
+                setCurrentImageUrl(result.url);
+                form.setValue('url', result.url);
+                setFile(null);
+            } else {
+                toast({ variant: 'destructive', title: 'Error', description: result.error });
+            }
+             setIsSubmitting(false);
+        };
+    } catch(e) {
+         toast({ variant: 'destructive', title: 'Error', description: 'Could not read file.' });
+         setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   };
 
   return (
