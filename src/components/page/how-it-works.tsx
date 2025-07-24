@@ -73,13 +73,13 @@ export function HowItWorks({ pageVariant }: HowItWorksProps) {
           {/* Vertical Lines */}
           <div className="absolute left-1/2 top-0 hidden h-full w-0.5 -translate-x-1/2 bg-border md:block" />
           <motion.div
-            className="absolute left-1/2 top-0 hidden h-full w-0.5 -translate-x-1/2 bg-primary origin-top"
+            className="absolute left-1/2 top-0 hidden h-full w-0.5 origin-top -translate-x-1/2 bg-primary"
             style={{ scaleY }}
             aria-hidden="true"
           />
           <div className="absolute left-4 top-0 h-full w-0.5 -translate-x-1/2 bg-border md:hidden" />
            <motion.div
-            className="absolute left-4 top-0 h-full w-0.5 -translate-x-1/2 bg-primary origin-top md:hidden"
+            className="absolute left-4 top-0 h-full w-0.5 origin-top -translate-x-1/2 bg-primary md:hidden"
             style={{ scaleY }}
             aria-hidden="true"
           />
@@ -119,7 +119,7 @@ export function HowItWorks({ pageVariant }: HowItWorksProps) {
 
               return (
                 <div key={index} className="relative flex flex-col-reverse md:flex-row items-center justify-center">
-                   <div className="absolute left-4 top-4 z-10 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-primary bg-background md:left-1/2 md:top-1/2 md:-translate-y-1/2" />
+                   <div className="absolute left-4 top-11 z-10 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-primary bg-background md:left-1/2 md:top-1/2 md:-translate-y-1/2" />
                   
                   <div className="flex w-full flex-col-reverse md:flex-row items-center justify-center gap-8 md:gap-0">
                     {isEven ? <>{content}{icon}</> : <>{icon}{content}</>}
