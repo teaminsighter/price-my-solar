@@ -28,22 +28,15 @@ const navItems = [
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
-export default function AdminSidebar() {
+type AdminSidebarProps = {
+  logoUrl: string | null;
+  logoLoading: boolean;
+};
+
+export default function AdminSidebar({ logoUrl, logoLoading }: AdminSidebarProps) {
   const pathname = usePathname();
   const { user } = useAuth();
-  const [logoUrl, setLogoUrl] = useState<string | null>(null);
-  const [logoLoading, setLogoLoading] = useState(true);
   
-  useEffect(() => {
-    async function fetchLogo() {
-      setLogoLoading(true);
-      const { value } = await getSetting('logoUrl');
-      setLogoUrl(value || null);
-      setLogoLoading(false);
-    }
-    fetchLogo();
-  }, []);
-
   const handleLogout = async () => {
     await signOut(auth);
     // The AuthGuard will handle the redirect
