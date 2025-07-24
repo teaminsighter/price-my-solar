@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { AnimatedIconROI } from "../icons";
+import { AnimatedIconROI } from "@/components/icons";
 
 type RoiSectionProps = {
   pageVariant: 'Quote' | 'Cost';

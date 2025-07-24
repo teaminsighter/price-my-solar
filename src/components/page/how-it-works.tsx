@@ -1,4 +1,3 @@
-
 "use client"
 import { motion, useScroll, useSpring } from "framer-motion";
 import { AnimatedIconSunlight, AnimatedIconConvert, AnimatedIconPowerHome, AnimatedIconSavings } from "@/components/icons";

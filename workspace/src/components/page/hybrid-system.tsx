@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { BatteryCharging } from "lucide-react";
 import { motion } from "framer-motion";
-import { AnimatedIconHybrid } from "../icons";
+import { AnimatedIconHybrid } from "@/components/icons";
 
 type HybridSystemProps = {
   pageVariant: 'Quote' | 'Cost';

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { AnimatedIconWrench } from "../icons";
+import { AnimatedIconWrench } from "@/components/icons";
 
 type ChoosingPartnerProps = {
   pageVariant: 'Quote' | 'Cost';
