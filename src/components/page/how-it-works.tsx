@@ -1,10 +1,8 @@
 
 "use client"
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Settings } from "lucide-react";
 import { motion } from "framer-motion";
 import { AnimatedIconSunlight, AnimatedIconConvert, AnimatedIconPowerHome, AnimatedIconSavings } from "@/components/icons";
+import { cn } from "@/lib/utils";
 
 const steps = [
   {
@@ -29,64 +27,119 @@ const steps = [
   },
 ];
 
-type HowItWorksProps = {
-  pageVariant: 'Quote' | 'Cost';
-};
+const Step = ({ step, index }: { step: typeof steps[0], index: number }) => {
+  const isEven = index % 2 === 0;
+  
+  const content = (
+    <div className={cn(
+      "w-full md:w-5/12", 
+      isEven ? "md:text-right" : "md:text-left"
+    )}>
+      <h3 className="text-xl font-bold">{step.title}</h3>
+      <p className="mt-2 text-muted-foreground">{step.description}</p>
+    </div>
+  );
 
-export function HowItWorks({ pageVariant }: HowItWorksProps) {
-
-  const content = {
-    Quote: {
-      button: "Compare Now"
-    },
-    Cost: {
-      button: "Calculate Cost"
-    }
-  }
-
-  const currentContent = content[pageVariant];
+  const icon = (
+    <div className="flex w-full items-center justify-center md:w-5/12">
+      <div className="relative flex h-24 w-24 items-center justify-center rounded-full border-2 border-primary bg-background shadow-md">
+        <step.icon className="h-12 w-12 text-primary" />
+      </div>
+    </div>
+  );
 
   return (
-    <motion.section 
-      id="how-it-works" 
-      className="w-full bg-card py-12 md:py-20 lg:py-24"
+    <motion.div
+      className="flex w-full flex-col items-center justify-between gap-8 md:flex-row"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
+      viewport={{ once: true, amount: 0.5 }}
+      transition={{ duration: 0.6 }}
     >
-      <div className="container mx-auto grid grid-cols-1 items-center gap-12 px-4 md:grid-cols-2 md:px-6">
-        <div className="space-y-8">
-          <div className="space-y-4">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">How Solar Works</h2>
-            <p className="text-muted-foreground md:text-lg">
-                Follow the journey of energy from the sun to your home.
-            </p>
-          </div>
-          <div className="space-y-6">
+      {isEven ? <>{content}{icon}</> : <>{icon}{content}</>}
+    </motion.div>
+  );
+};
+
+export function HowItWorks() {
+  return (
+    <section id="how-it-works" className="w-full bg-background py-12 md:py-20 lg:py-24">
+      <div className="container mx-auto max-w-4xl px-4 md:px-6">
+        <div className="mx-auto mb-12 max-w-3xl text-center md:mb-20">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            How Solar Works
+          </h2>
+          <p className="mt-4 text-muted-foreground md:text-xl">
+            A simple, transparent process from sun to socket.
+          </p>
+        </div>
+
+        <div className="relative">
+          {/* Vertical Line */}
+          <div className="absolute left-1/2 top-0 hidden h-full w-0.5 -translate-x-1/2 bg-primary/30 md:block"></div>
+
+          <div className="space-y-16">
             {steps.map((step, index) => (
-              <div key={index} className="flex items-start gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <step.icon className="h-8 w-8" />
-                </div>
-                <div>
-                  <h4 className="font-semibold">{step.title}</h4>
-                  <p className="text-sm text-muted-foreground">{step.description}</p>
+              <div key={index} className="relative flex items-center justify-center">
+                {/* Timeline Point */}
+                <div className="absolute left-1/2 top-1/2 z-10 hidden h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-primary bg-background md:block"></div>
+                
+                {/* Mobile line and point */}
+                <div className="absolute left-4 top-0 h-full w-0.5 -translate-x-1/2 bg-primary/30 md:hidden"></div>
+                <div className="absolute left-4 top-12 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-primary bg-background md:hidden"></div>
+
+                {/* Content */}
+                <div className="flex w-full flex-col items-center gap-8 md:flex-row md:gap-0">
+                   <div className={cn(
+                      "w-full md:w-5/12 flex", 
+                      index % 2 === 0 ? "md:justify-end" : "md:justify-start"
+                   )}>
+                      {index % 2 === 0 ? (
+                        // Text on the left, icon on the right for desktop
+                        <div className="w-full pl-12 md:pl-0 md:pr-12 md:text-right">
+                           <h3 className="text-xl font-bold">{step.title}</h3>
+                           <p className="mt-2 text-muted-foreground">{step.description}</p>
+                        </div>
+                      ) : (
+                        // Icon on the left
+                        <div className="w-full flex justify-center md:justify-start">
+                           <div className="relative flex h-24 w-24 items-center justify-center rounded-full border-2 border-primary bg-background shadow-md">
+                             <step.icon className="h-12 w-12 text-primary" />
+                           </div>
+                        </div>
+                      )}
+                   </div>
+
+                   {/* Middle number circle for desktop */}
+                   <div className="order-first md:order-none z-10 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold shadow-lg md:mx-8">
+                       {index + 1}
+                   </div>
+                   
+                   <div className={cn(
+                      "w-full md:w-5/12 flex",
+                      index % 2 === 0 ? "md:justify-start" : "md:justify-end"
+                   )}>
+                     {index % 2 === 0 ? (
+                        // Icon on the right
+                        <div className="w-full flex justify-center md:justify-start">
+                           <div className="relative flex h-24 w-24 items-center justify-center rounded-full border-2 border-primary bg-background shadow-md">
+                             <step.icon className="h-12 w-12 text-primary" />
+                           </div>
+                        </div>
+                      ) : (
+                         // Text on the right
+                         <div className="w-full pl-12 md:pl-12 md:text-left">
+                            <h3 className="text-xl font-bold">{step.title}</h3>
+                            <p className="mt-2 text-muted-foreground">{step.description}</p>
+                         </div>
+                      )}
+                   </div>
                 </div>
               </div>
             ))}
           </div>
-           <p className="text-xs text-muted-foreground/80">More info – <Link href="#" className="underline">Vivint Solar</Link></p>
-          <Button size="lg" asChild>
-            <Link href="#get-quotes">{currentContent.button}</Link>
-          </Button>
-        </div>
-        <div className="relative flex h-96 w-full items-center justify-center">
-            <div className="absolute left-20 top-10 h-12 w-12 animate-float rounded-full bg-accent/20 animation-delay-500"></div>
-            <div className="absolute bottom-16 right-16 h-20 w-20 animate-float rounded-full bg-primary/20 animation-delay-1500"></div>
-            <Settings className="h-32 w-32 animate-spin-slow text-primary" />
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }
