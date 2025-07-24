@@ -58,6 +58,12 @@ function BrandingCard({
             setCurrentImageUrl(defaultLogo);
             form.setValue('url', defaultLogo);
         }
+        if (settingKey === 'faviconUrl') {
+            const defaultFavicon = "/favicon.ico";
+            await saveSetting(settingKey, defaultFavicon);
+            setCurrentImageUrl(defaultFavicon);
+            form.setValue('url', defaultFavicon);
+        }
       }
       setLoading(false);
     }
@@ -132,7 +138,7 @@ function BrandingCard({
             {loading ? (
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
             ) : currentImageUrl ? (
-              <Image src={currentImageUrl} alt={`Current ${title}`} width={128} height={128} className="object-contain max-h-full max-w-full" />
+              <Image src={currentImageUrl} alt={`Current ${title}`} width={128} height={128} className="object-contain max-h-full max-w-full" unoptimized={settingKey === 'faviconUrl'} />
             ) : (
               <p className="text-sm text-muted-foreground">No Image Set</p>
             )}
@@ -148,7 +154,7 @@ function BrandingCard({
                 <div className="space-y-4 mt-4">
                    <div className="space-y-2">
                      <Label htmlFor={`${settingKey}-file`}>Upload from computer</Label>
-                     <Input id={`${settingKey}-file`} type="file" onChange={handleFileChange} accept="image/*" />
+                     <Input id={`${settingKey}-file`} type="file" onChange={handleFileChange} accept="image/*,.ico" />
                    </div>
                    <Button onClick={handleFileUpload} disabled={isSubmitting || !file}>
                      {isSubmitting ? 'Uploading...' : 'Upload and Save'}
