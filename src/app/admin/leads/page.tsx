@@ -1,20 +1,32 @@
 
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
-import { getLeads } from '@/app/actions';
+import { useEffect, useState, useMemo, useCallback } from 'react';
+import { getLeads, moveToTrash } from '@/app/actions';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
-import { ChevronLeft, ChevronRight, Download, ArrowUpDown, Columns, GripVertical } from 'lucide-react';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { ChevronLeft, ChevronRight, Download, ArrowUpDown, Columns, GripVertical, MoreHorizontal, Trash2 } from 'lucide-react';
 import type { QuoteData } from '@/components/quote-funnel';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { DndContext, closestCenter, type DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, useSortable, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { useToast } from '@/hooks/use-toast';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 type Lead = QuoteData & { id: string; createdAt: string | null };
 type SortDirection = 'asc' | 'desc';
@@ -73,21 +85,23 @@ export default function LeadsPage() {
     const [sortColumn, setSortColumn] = useState<keyof Lead>('createdAt');
     const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
     const [columns, setColumns] = useState<ColumnConfig[]>(initialColumns);
+    const { toast } = useToast();
+
+    const fetchLeads = useCallback(async () => {
+        setLoading(true);
+        const result = await getLeads(false); // Fetch non-deleted leads
+        if (result.success && result.leads) {
+            setLeads(result.leads as Lead[]);
+        } else {
+            console.error("Failed to fetch leads:", result.error);
+             toast({ variant: 'destructive', title: 'Error', description: 'Failed to fetch leads.' });
+        }
+        setLoading(false);
+    }, [toast]);
 
     useEffect(() => {
-        const fetchLeads = async () => {
-            setLoading(true);
-            const result = await getLeads();
-            if (result.success && result.leads) {
-                setLeads(result.leads as Lead[]);
-            } else {
-                console.error("Failed to fetch leads:", result.error);
-            }
-            setLoading(false);
-        };
-
         fetchLeads();
-    }, []);
+    }, [fetchLeads]);
 
     const sortedLeads = useMemo(() => {
         return [...leads].sort((a, b) => {
@@ -169,6 +183,16 @@ export default function LeadsPage() {
     const handleExportSelected = () => {
         const selectedLeads = leads.filter(lead => selectedRows.includes(lead.id));
         downloadCSV(selectedLeads, 'selected_leads.csv');
+    };
+
+    const handleMoveToTrash = async (id: string) => {
+        const result = await moveToTrash(id);
+        if (result.success) {
+            toast({ title: 'Success', description: 'Lead moved to trash.' });
+            fetchLeads(); // Refresh the list
+        } else {
+            toast({ variant: 'destructive', title: 'Error', description: result.error });
+        }
     };
 
     const renderCellContent = (lead: Lead, columnKey: keyof Lead) => {
@@ -276,6 +300,7 @@ export default function LeadsPage() {
                                             </Button>
                                         </TableHead>
                                     ))}
+                                    <TableHead className="w-[50px] text-right">Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -293,11 +318,34 @@ export default function LeadsPage() {
                                                     {renderCellContent(lead, column.key as keyof Lead)}
                                                 </TableCell>
                                             ))}
+                                            <TableCell className="text-right">
+                                                <AlertDialog>
+                                                    <AlertDialogTrigger asChild>
+                                                        <Button variant="ghost" size="icon">
+                                                            <Trash2 className="h-4 w-4 text-destructive" />
+                                                        </Button>
+                                                    </AlertDialogTrigger>
+                                                    <AlertDialogContent>
+                                                        <AlertDialogHeader>
+                                                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                                            <AlertDialogDescription>
+                                                                This will move the lead to the trash. You can restore it later.
+                                                            </AlertDialogDescription>
+                                                        </AlertDialogHeader>
+                                                        <AlertDialogFooter>
+                                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                            <AlertDialogAction onClick={() => handleMoveToTrash(lead.id)}>
+                                                                Move to Trash
+                                                            </AlertDialogAction>
+                                                        </AlertDialogFooter>
+                                                    </AlertDialogContent>
+                                                </AlertDialog>
+                                            </TableCell>
                                         </TableRow>
                                     ))
                                 ) : (
                                     <TableRow>
-                                        <TableCell colSpan={columns.filter(c => c.visible).length + 1} className="text-center h-24">
+                                        <TableCell colSpan={columns.filter(c => c.visible).length + 2} className="text-center h-24">
                                             No leads found.
                                         </TableCell>
                                     </TableRow>

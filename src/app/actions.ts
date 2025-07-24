@@ -2,7 +2,7 @@
 'use server';
 
 import { db, storage } from '@/lib/firebase';
-import { collection, addDoc, serverTimestamp, getDocs, doc, updateDoc, deleteDoc, where, query, getDoc, setDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, getDocs, doc, updateDoc, deleteDoc, where, query, getDoc, setDoc, writeBatch } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import type { QuoteData } from '@/components/quote-funnel';
 import type { Webhook } from '@/app/admin/webhooks/page';
@@ -23,6 +23,7 @@ export async function saveQuoteToFirestore(quoteData: QuoteData) {
     const docRef = await addDoc(collection(db, 'quotes'), {
       ...sanitizedQuoteData,
       createdAt: serverTimestamp(),
+      deleted: false, // Add deleted flag
     });
 
     console.log('Document written with ID: ', docRef.id);
@@ -69,13 +70,12 @@ async function triggerActiveWebhooks(quoteData: QuoteData) {
     }
 }
 
-
-export async function getLeads() {
+export async function getLeads(includeDeleted = false) {
     try {
-        const querySnapshot = await getDocs(collection(db, "quotes"));
+        const q = query(collection(db, "quotes"), where("deleted", "==", includeDeleted));
+        const querySnapshot = await getDocs(q);
         const leads = querySnapshot.docs.map(doc => {
             const data = doc.data();
-            // Convert Firestore Timestamp to a serializable format (ISO string)
             const createdAt = data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : null;
             return {
                 id: doc.id,
@@ -90,6 +90,55 @@ export async function getLeads() {
         return { success: false, error: errorMessage };
     }
 }
+
+export async function moveToTrash(id: string) {
+    try {
+        const leadRef = doc(db, "quotes", id);
+        await updateDoc(leadRef, { deleted: true });
+        return { success: true };
+    } catch (error) {
+        console.error("Error moving lead to trash: ", error);
+        return { success: false, error: error instanceof Error ? error.message : "An unknown error occurred" };
+    }
+}
+
+export async function restoreFromTrash(id: string) {
+    try {
+        const leadRef = doc(db, "quotes", id);
+        await updateDoc(leadRef, { deleted: false });
+        return { success: true };
+    } catch (error) {
+        console.error("Error restoring lead from trash: ", error);
+        return { success: false, error: error instanceof Error ? error.message : "An unknown error occurred" };
+    }
+}
+
+export async function deleteLeadPermanently(id: string) {
+    try {
+        await deleteDoc(doc(db, "quotes", id));
+        return { success: true };
+    } catch (error) {
+        console.error("Error permanently deleting lead: ", error);
+        return { success: false, error: error instanceof Error ? error.message : "An unknown error occurred" };
+    }
+}
+
+export async function emptyTrash() {
+    try {
+        const q = query(collection(db, "quotes"), where("deleted", "==", true));
+        const querySnapshot = await getDocs(q);
+        const batch = writeBatch(db);
+        querySnapshot.docs.forEach(doc => {
+            batch.delete(doc.ref);
+        });
+        await batch.commit();
+        return { success: true, deletedCount: querySnapshot.size };
+    } catch (error) {
+        console.error("Error emptying trash: ", error);
+        return { success: false, error: error instanceof Error ? error.message : "An unknown error occurred" };
+    }
+}
+
 
 // Webhook Actions
 

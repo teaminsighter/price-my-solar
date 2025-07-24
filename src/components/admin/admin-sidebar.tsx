@@ -8,7 +8,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/context/auth-context';
 import { Button } from '@/components/ui/button';
-import { Sheet, BarChart, Users, LogOut, PanelLeft, Webhook, Code, Settings } from 'lucide-react';
+import { Sheet, BarChart, Users, LogOut, PanelLeft, Webhook, Code, Settings, Trash2 } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -24,6 +24,7 @@ const navItems = [
   { href: '/admin/leads', label: 'Leads', icon: Users },
   { href: '/admin/webhooks', label: 'Webhooks', icon: Webhook },
   { href: '/admin/gtm', label: 'GTM', icon: Code },
+  { href: '/admin/trash', label: 'Trash', icon: Trash2 },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
