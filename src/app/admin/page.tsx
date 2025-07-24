@@ -13,7 +13,7 @@ export default function AdminDashboard() {
     useEffect(() => {
         const fetchLeads = async () => {
             setLoading(true);
-            const result = await getLeads();
+            const result = await getLeads(false); // Fetch non-deleted leads
             if (result.success && result.leads) {
                 setLeadCount(result.leads.length);
             } else {
